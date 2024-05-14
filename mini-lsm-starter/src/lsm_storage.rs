@@ -1,8 +1,7 @@
 #![allow(dead_code)] // REMOVE THIS LINE after fully implementing this functionality
 
 use std::collections::HashMap;
-use std::ops::Bound;
-use std::os::linux::raw::stat;
+use std::ops::{Bound, DerefMut};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
@@ -294,8 +293,11 @@ impl LsmStorageInner {
 
     /// Put a key-value pair into the storage by writing into the current memtable.
     pub fn put(&self, key: &[u8], value: &[u8]) -> Result<()> {
-        let state = self.state.read();
-        state.memtable.put(key, value)
+        {
+            let state = self.state.read();
+            state.memtable.put(key, value);
+        }
+        self.try_freeze_memtable()
     }
 
     /// Remove a key from the storage by writing an empty value.
@@ -325,7 +327,25 @@ impl LsmStorageInner {
 
     /// Force freeze the current memtable to an immutable memtable
     pub fn force_freeze_memtable(&self, _state_lock_observer: &MutexGuard<'_, ()>) -> Result<()> {
-        unimplemented!()
+        let memtable = MemTable::create(self.next_sst_id());
+        {
+            let mut guard = self.state.write();
+            let mut state = guard.as_ref().clone();
+            let old_memtable = std::mem::replace(&mut state.memtable, Arc::new(memtable));
+            state.imm_memtables.insert(0, old_memtable);
+            *guard = Arc::new(state);
+        }
+        Ok(())
+    }
+
+    fn try_freeze_memtable(&self) -> Result<()> {
+        if self.state.read().memtable.approximate_size() > self.options.target_sst_size {
+            let state_lock_guard = self.state_lock.lock();
+            if self.state.read().memtable.approximate_size() > self.options.target_sst_size {
+                return self.force_freeze_memtable(&state_lock_guard);
+            }
+        }
+        return Ok(());
     }
 
     /// Force flush the earliest-created immutable memtable to disk
