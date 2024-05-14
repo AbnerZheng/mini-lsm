@@ -283,7 +283,18 @@ impl LsmStorageInner {
         Ok(state
             .memtable
             .get(key)
-            .and_then(|b| if b.is_empty() { None } else { Some(b) }))
+            .and_then(|b| if b.is_empty() { None } else { Some(b) })
+            .or_else(|| {
+                state
+                    .imm_memtables
+                    .iter()
+                    .find_map(|memtable| {
+                        memtable
+                            .get(key)
+                            .map(|v| if v.is_empty() { None } else { Some(v) })
+                    })
+                    .flatten()
+            }))
     }
 
     /// Write a batch of data into the storage. Implement in week 2 day 7.
@@ -295,7 +306,7 @@ impl LsmStorageInner {
     pub fn put(&self, key: &[u8], value: &[u8]) -> Result<()> {
         {
             let state = self.state.read();
-            state.memtable.put(key, value);
+            let _ = state.memtable.put(key, value);
         }
         self.try_freeze_memtable()
     }
