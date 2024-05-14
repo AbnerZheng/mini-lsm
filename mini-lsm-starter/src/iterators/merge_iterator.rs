@@ -3,8 +3,10 @@
 
 use std::cmp::{self};
 use std::collections::BinaryHeap;
+use std::thread::current;
 
 use anyhow::Result;
+use log::debug;
 
 use crate::key::KeySlice;
 
@@ -47,7 +49,19 @@ pub struct MergeIterator<I: StorageIterator> {
 
 impl<I: StorageIterator> MergeIterator<I> {
     pub fn create(iters: Vec<Box<I>>) -> Self {
-        unimplemented!()
+        let mut binary_heap = iters
+            .into_iter()
+            .filter(|iter| iter.is_valid())
+            .enumerate()
+            .map(|(idx, h)| HeapWrapper(idx, h))
+            .collect::<BinaryHeap<_>>();
+
+        let top = binary_heap.pop();
+
+        Self {
+            iters: binary_heap,
+            current: top,
+        }
     }
 }
 
@@ -57,18 +71,53 @@ impl<I: 'static + for<'a> StorageIterator<KeyType<'a> = KeySlice<'a>>> StorageIt
     type KeyType<'a> = KeySlice<'a>;
 
     fn key(&self) -> KeySlice {
-        unimplemented!()
+        let option = self.current.as_ref();
+        match option {
+            None => KeySlice::default(),
+            Some(x) => *&x.1.key(),
+        }
     }
 
     fn value(&self) -> &[u8] {
-        unimplemented!()
+        match self.current.as_ref() {
+            None => Default::default(),
+            Some(x) => x.1.value(),
+        }
     }
 
     fn is_valid(&self) -> bool {
-        unimplemented!()
+        self.current.is_some()
     }
 
     fn next(&mut self) -> Result<()> {
-        unimplemented!()
+        let current = self.current.as_mut().unwrap();
+        while let Some(mut iter) = self.iters.pop() {
+            assert!(current.1.key() <= iter.1.key(), "heap invariant");
+            if iter.1.key() == current.1.key() {
+                iter.1.next()?;
+
+                // put it back if there is still some valid item inside the iter
+                if iter.1.is_valid() {
+                    self.iters.push(iter)
+                }
+                // keep consuming if the key is the same
+                continue;
+            } else {
+                self.iters.push(iter);
+                // ok, we have deal with all item containing the same key
+                break;
+            }
+        }
+        // start deal with another key
+        current.1.next()?;
+        if !current.1.is_valid() {
+            self.current = self.iters.pop();
+        } else {
+            let current = self.current.take().unwrap();
+            self.iters.push(current);
+            self.current = self.iters.pop();
+        }
+
+        Ok(())
     }
 }

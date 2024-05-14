@@ -1,3 +1,4 @@
+use std::collections::BinaryHeap;
 use std::{ops::Bound, sync::Arc};
 
 use bytes::Bytes;
@@ -132,6 +133,24 @@ fn test_task2_merge_1() {
             (Bytes::from("e"), Bytes::new()),
         ],
     );
+}
+
+#[test]
+fn test_binary_heap() {
+    let mut b = BinaryHeap::new();
+    b.push(1);
+    b.push(2);
+    b.push(3);
+    b.push(4);
+    let mut count = 0;
+    while let Some(bb) = b.pop() {
+        println!("{bb}");
+        b.push(bb - 2);
+        count += 1;
+        if count > 10 {
+            break;
+        }
+    }
 }
 
 #[test]

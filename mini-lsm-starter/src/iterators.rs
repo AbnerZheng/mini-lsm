@@ -1,9 +1,11 @@
+use std::fmt::Debug;
+
 pub mod concat_iterator;
 pub mod merge_iterator;
 pub mod two_merge_iterator;
 
 pub trait StorageIterator {
-    type KeyType<'a>: PartialEq + Eq + PartialOrd + Ord
+    type KeyType<'a>: PartialEq + Eq + PartialOrd + Ord + Debug
     where
         Self: 'a;
 
