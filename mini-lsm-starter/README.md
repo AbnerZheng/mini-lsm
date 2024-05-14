@@ -8,7 +8,7 @@ Starter code for Mini-LSM.
 * Why doesn't the memtable provide a delete API? 
   - Because we need a placeholder to indicate that all previous item related the specified key in immutable memtable is invalid and having been deleted.
 * Is it possible to use other data structures as the memtable in LSM? What are the pros/cons of using the skiplist?
-  - Of course, we can also use concurrent hashmap/btree map/vector.  
+  - Of course, we can also use concurrent hashmap/btree map/vector. Skiplist keep thing in sort, which is needed when merging memtable.  
 * Why do we need a combination of state and state_lock? Can we only use state.read() and state.write()?
   - I think we can only use state.read() and state.write(), the reason why we use `state_lock` is that we want the reduce the time to hold `write lock` of state, for example, 
   - when doing force_freeze_memtable, we have to create memtable which may cost some milliseconds, in this way, we can reduce the critical region.
