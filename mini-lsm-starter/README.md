@@ -22,3 +22,30 @@ Starter code for Mini-LSM.
   - No, freezing the memtable acquire the write lock, which required that there is no thread holding read lock, so readers can not hold old LSM state.
 * There are several places that you might first acquire a read lock on state, then drop it and acquire a write lock (these two operations might be in different functions but they happened sequentially due to one function calls the other). How does it differ from directly upgrading the read lock to a write lock? Is it necessary to upgrade instead of acquiring and dropping and what is the cost of doing the upgrade?
   - The critical section is different, if upgrading directly, the concurrency of system diminished a lot.
+
+### day 2
+#### Test Your Understanding
+* What is the time/space complexity of using your merge iterator?
+* Why do we need a self-referential structure for memtable iterator?
+* If a key is removed (there is a delete tombstone), do you need to return it to the user? Where did you handle this logic?
+* If a key has multiple versions, will the user see all of them? Where did you handle this logic?
+* If we want to get rid of self-referential structure and have a lifetime on the memtable iterator (i.e., MemtableIterator<'a>, where 'a = memtable or LsmStorageInner lifetime), is it still possible to implement the scan functionality?
+* What happens if (1) we create an iterator on the skiplist memtable (2) someone inserts new keys into the memtable (3) will the iterator see the new key?
+* What happens if your key comparator cannot give the binary heap implementation a stable order?
+* Why do we need to ensure the merge iterator returns data in the iterator construction order?
+* Is it possible to implement a Rust-style iterator (i.e., next(&self) -> (Key, Value)) for LSM iterators? What are the pros/cons?
+* The scan interface is like fn scan(&self, lower: Bound<&[u8]>, upper: Bound<&[u8]>). How to make this API compatible with Rust-style range (i.e., key_a..key_b)? If you implement this, try to pass a full range .. to the interface and see what will happen.
+* The starter code provides the merge iterator interface to store Box<I> instead of I. What might be the reason behind that?
+
+
+### day 3
+#### Test Your Understanding
+* What is the time complexity of seeking a key in the block?
+* Where does the cursor stop when you seek a non-existent key in your implementation?
+* So Block is simply a vector of raw data and a vector of offsets. Can we change them to Byte and Arc<[u16]>, and change all the iterator interfaces to return Byte instead of &[u8]? (Assume that we use Byte::slice to return a slice of the block without copying.) What are the pros/cons?
+* What is the endian of the numbers written into the blocks in your implementation?
+* Is your implementation prune to a maliciously-built block? Will there be invalid memory access, or OOMs, if a user deliberately construct an invalid block?
+* Can a block contain duplicated keys?
+* What happens if the user adds a key larger than the target block size?
+* Consider the case that the LSM engine is built on object store services (S3). How would you optimize/change the block format and parameters to make it suitable for such services?
+* Do you love bubble tea? Why or why not?

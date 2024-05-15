@@ -94,11 +94,6 @@ where
     I: for<'a> StorageIterator<KeyType<'a> = KeySlice<'a>>,
 {
     for (k, v) in expected {
-        println!(
-            "expected key: {:?}, actual key: {:?}",
-            k,
-            as_bytes(iter.key().for_testing_key_ref())
-        );
         assert!(iter.is_valid());
         assert_eq!(
             k,
@@ -155,13 +150,6 @@ where
     I: for<'a> StorageIterator<KeyType<'a> = &'a [u8]>,
 {
     for (k, v) in expected {
-        println!(
-            "expected: {:?}/{:?}, actual: {:?}/{:?}",
-            k,
-            v,
-            as_bytes(iter.key()),
-            as_bytes(iter.value()),
-        );
         assert!(iter.is_valid());
         assert_eq!(
             k,
@@ -184,7 +172,6 @@ where
 
 pub fn expect_iter_error(mut iter: impl StorageIterator) {
     loop {
-        println!("{:?}:{:?}", iter.key(), iter.value());
         match iter.next() {
             Ok(_) if iter.is_valid() => continue,
             Ok(_) => panic!("expect an error"),

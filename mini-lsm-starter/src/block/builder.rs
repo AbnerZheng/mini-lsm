@@ -1,6 +1,6 @@
-use bytes::BufMut;
-use crate::key::{KeySlice, KeyVec};
 use super::Block;
+use crate::key::{KeySlice, KeyVec};
+use bytes::BufMut;
 
 /// Builds a block.
 pub struct BlockBuilder {
