@@ -1,12 +1,7 @@
-#![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
-#![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
-
 use std::cmp::{self};
 use std::collections::BinaryHeap;
-use std::thread::current;
 
 use anyhow::Result;
-use log::debug;
 
 use crate::key::KeySlice;
 
@@ -91,7 +86,12 @@ impl<I: 'static + for<'a> StorageIterator<KeyType<'a> = KeySlice<'a>>> StorageIt
 
     fn next(&mut self) -> Result<()> {
         let current = self.current.as_mut().unwrap();
-        println!("current: {}/{:?}:{:?}", current.0, current.1.key(), current.1.value());
+        println!(
+            "current: {}/{:?}:{:?}",
+            current.0,
+            current.1.key(),
+            current.1.value()
+        );
         while let Some(mut iter) = self.iters.pop() {
             assert!(current.1.key() <= iter.1.key(), "heap invariant");
             if iter.1.key() == current.1.key() {

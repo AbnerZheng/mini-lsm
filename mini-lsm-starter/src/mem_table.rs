@@ -1,9 +1,7 @@
-#![allow(dead_code)] // REMOVE THIS LINE after fully implementing this functionality
-
-use std::ops::{Bound, Deref};
+use std::ops::{Bound};
 use std::path::Path;
-use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 use anyhow::Result;
 use bytes::Bytes;
@@ -108,7 +106,7 @@ impl MemTable {
             iter_builder: |map| map.range(bound),
             item: (Default::default(), Default::default()),
         }
-        .build();
+            .build();
         iterator.next().unwrap_or_default();
         iterator
     }
@@ -134,7 +132,7 @@ impl MemTable {
 }
 
 type SkipMapRangeIter<'a> =
-    crossbeam_skiplist::map::Range<'a, Bytes, (Bound<Bytes>, Bound<Bytes>), Bytes, Bytes>;
+crossbeam_skiplist::map::Range<'a, Bytes, (Bound<Bytes>, Bound<Bytes>), Bytes, Bytes>;
 
 /// An iterator over a range of `SkipMap`. This is a self-referential structure and please refer to week 1, day 2
 /// chapter for more information.
