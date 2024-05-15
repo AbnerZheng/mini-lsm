@@ -94,9 +94,11 @@ impl SsTableBuilder {
             last_key: old_last_key.into_key_bytes(),
         });
         self.data.extend_from_slice(&block);
+        let block_meta_offset = self.data.len() as u64;
+        BlockMeta::encode_block_meta(&self.meta, &mut self.data);
 
         Ok(SsTable {
-            block_meta_offset: self.data.len(),
+            block_meta_offset,
             file: FileObject::create(path.as_ref(), self.data)?,
             id,
             block_cache,

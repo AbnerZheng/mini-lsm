@@ -5,6 +5,7 @@ use nom::InputTake;
 use std::sync::Arc;
 
 /// Iterates on a block.
+#[derive(Default)]
 pub struct BlockIterator {
     /// The internal `Block`, wrapped by an `Arc`
     block: Arc<Block>,
@@ -87,7 +88,9 @@ impl BlockIterator {
 
     fn seek_to_index(&mut self, idx: usize) {
         match self.block.offsets.get(idx) {
-            None => {}
+            None => {
+                self.key = KeyVec::default();
+            }
             Some(offset) => {
                 let end_pos = self
                     .block
