@@ -1,7 +1,7 @@
-use std::ops::{Bound};
+use std::ops::Bound;
 use std::path::Path;
-use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
 
 use anyhow::Result;
 use bytes::Bytes;
@@ -10,7 +10,6 @@ use ouroboros::self_referencing;
 
 use crate::iterators::StorageIterator;
 use crate::key::KeySlice;
-use crate::table::bloom::BitSlice;
 use crate::table::SsTableBuilder;
 use crate::wal::Wal;
 
@@ -106,7 +105,7 @@ impl MemTable {
             iter_builder: |map| map.range(bound),
             item: (Default::default(), Default::default()),
         }
-            .build();
+        .build();
         iterator.next().unwrap_or_default();
         iterator
     }
@@ -132,7 +131,7 @@ impl MemTable {
 }
 
 type SkipMapRangeIter<'a> =
-crossbeam_skiplist::map::Range<'a, Bytes, (Bound<Bytes>, Bound<Bytes>), Bytes, Bytes>;
+    crossbeam_skiplist::map::Range<'a, Bytes, (Bound<Bytes>, Bound<Bytes>), Bytes, Bytes>;
 
 /// An iterator over a range of `SkipMap`. This is a self-referential structure and please refer to week 1, day 2
 /// chapter for more information.
@@ -167,7 +166,7 @@ impl StorageIterator for MemTableIterator {
     }
 
     fn next(&mut self) -> Result<()> {
-        self.with_mut(|mut s| match s.iter.next() {
+        self.with_mut(|s| match s.iter.next() {
             None => {
                 *s.item = (Bytes::new(), Bytes::new());
             }

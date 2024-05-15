@@ -1,5 +1,6 @@
-use super::Block;
+use bytes::BufMut;
 use crate::key::{KeySlice, KeyVec};
+use super::Block;
 
 /// Builds a block.
 pub struct BlockBuilder {
@@ -52,13 +53,13 @@ impl BlockBuilder {
             self.first_key = key.to_key_vec();
         }
 
-        let key_len_bytes = key_len.to_be_bytes();
-        let value_len_bytes = value_len.to_be_bytes();
-
-        self.data.extend_from_slice(&key_len_bytes[..]);
+        let old_len = self.data.len() as u16;
+        self.data.put_u16(key_len);
         self.data.extend_from_slice(key.raw_ref());
-        self.data.extend_from_slice(&value_len_bytes[..]);
+        self.data.put_u16(value_len);
         self.data.extend_from_slice(value);
+
+        self.offsets.push(old_len);
         return true;
     }
 
