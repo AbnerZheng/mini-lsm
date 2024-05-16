@@ -83,12 +83,12 @@ impl<I: 'static + for<'a> StorageIterator<KeyType<'a> = KeySlice<'a>>> StorageIt
 
     fn next(&mut self) -> Result<()> {
         let current = self.current.as_mut().unwrap();
-        println!(
-            "current: {}/{:?}:{:?}",
-            current.0,
-            current.1.key(),
-            current.1.value()
-        );
+        // println!(
+        //     "current: {}/{:?}:{:?}",
+        //     current.0,
+        //     current.1.key(),
+        //     current.1.value()
+        // );
         while let Some(mut iter) = self.iters.pop() {
             assert!(current.1.key() <= iter.1.key(), "heap invariant");
             if iter.1.key() == current.1.key() {

@@ -2,26 +2,44 @@
 #![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
 
 use anyhow::{bail, Result};
+use bytes::Bytes;
+use std::collections::Bound;
 
+use crate::iterators::two_merge_iterator::TwoMergeIterator;
+use crate::key::{KeyBytes, KeySlice, KeyVec};
+use crate::table::SsTableIterator;
 use crate::{
     iterators::{merge_iterator::MergeIterator, StorageIterator},
     mem_table::MemTableIterator,
 };
 
 /// Represents the internal type for an LSM iterator. This type will be changed across the tutorial for multiple times.
-type LsmIteratorInner = MergeIterator<MemTableIterator>;
+type LsmIteratorInner =
+    TwoMergeIterator<MergeIterator<MemTableIterator>, MergeIterator<SsTableIterator>>;
 
 pub struct LsmIterator {
     inner: LsmIteratorInner,
+    upper_bound: Bound<Bytes>,
+    is_valid: bool,
 }
 
 impl LsmIterator {
-    pub(crate) fn new(iter: LsmIteratorInner) -> Result<Self> {
-        let mut iter = iter;
-        while iter.is_valid() && iter.value().is_empty() {
-            iter.next()?
+    pub(crate) fn new(iter: LsmIteratorInner, upper_bound: Bound<Bytes>) -> Result<Self> {
+        let mut inner = iter;
+        while inner.is_valid() && inner.value().is_empty() {
+            inner.next()?
         }
-        Ok(Self { inner: iter })
+
+        let is_valid = match upper_bound.as_ref() {
+            Bound::Included(key) => inner.key() <= KeySlice::from_slice(key.as_ref()),
+            Bound::Excluded(key) => inner.key() < KeySlice::from_slice(key.as_ref()),
+            Bound::Unbounded => inner.is_valid(),
+        };
+        Ok(Self {
+            inner,
+            upper_bound,
+            is_valid,
+        })
     }
 }
 
@@ -29,7 +47,7 @@ impl StorageIterator for LsmIterator {
     type KeyType<'a> = &'a [u8];
 
     fn is_valid(&self) -> bool {
-        self.inner.is_valid()
+        self.is_valid
     }
 
     fn key(&self) -> &[u8] {
@@ -41,24 +59,23 @@ impl StorageIterator for LsmIterator {
     }
 
     fn next(&mut self) -> Result<()> {
-        // loop {
-        //
-        //     self.inner.next()?;
-        //
-        //     if !self.is_valid() {
-        //         break;
-        //     }
-        //
-        //     if !self.value().is_empty() {
-        //         break;
-        //     }
-        // }
-        self.inner.next()?;
-        if self.is_valid() && self.value().is_empty() {
-            self.inner.next()
-        } else {
-            Ok(())
+        if !self.is_valid {
+            return Ok(());
         }
+        self.inner.next()?;
+        while self.inner.is_valid() && self.inner.value().is_empty() {
+            self.inner.next()?;
+        }
+        if !self.inner.is_valid() {
+            self.is_valid = false;
+            return Ok(());
+        }
+        self.is_valid = match self.upper_bound.as_ref() {
+            Bound::Included(key) => self.inner.key() <= KeySlice::from_slice(key.as_ref()),
+            Bound::Excluded(key) => self.inner.key() < KeySlice::from_slice(key.as_ref()),
+            Bound::Unbounded => self.inner.is_valid(),
+        };
+        Ok(())
     }
 }
 

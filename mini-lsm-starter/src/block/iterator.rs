@@ -1,6 +1,6 @@
 use super::Block;
 use crate::key::{KeySlice, KeyVec};
-use bytes::Buf;
+use bytes::{Buf, Bytes};
 use nom::InputTake;
 use std::sync::Arc;
 
@@ -125,7 +125,12 @@ impl BlockIterator {
     pub fn seek_to_key(&mut self, key: KeySlice) {
         let key_vec = key.to_key_vec();
 
-        println!("{}, {:?}", self.is_valid(), self.key);
+        println!(
+            "{}, {:?}, seek to {:?}",
+            self.is_valid(),
+            Bytes::copy_from_slice(self.key.raw_ref()),
+            Bytes::copy_from_slice(key.raw_ref())
+        );
         if !self.is_valid() {
             return;
         }
