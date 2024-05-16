@@ -2,6 +2,7 @@
 #![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
 
 use anyhow::Result;
+use log::warn;
 
 use super::StorageIterator;
 
@@ -10,7 +11,7 @@ use super::StorageIterator;
 pub struct TwoMergeIterator<A: StorageIterator, B: StorageIterator> {
     a: A,
     b: B,
-    // Add fields as need
+    flipped: bool,
 }
 
 impl<
@@ -19,7 +20,26 @@ impl<
     > TwoMergeIterator<A, B>
 {
     pub fn create(a: A, b: B) -> Result<Self> {
-        unimplemented!()
+        let mut s = Self {
+            a,
+            b,
+            flipped: false,
+        };
+        s.update_flipped_and_skip_b();
+        Ok(s)
+    }
+
+    fn update_flipped_and_skip_b(&mut self) {
+        self.flipped = if !self.a.is_valid() {
+            true
+        } else if !self.b.is_valid() {
+            false
+        } else if self.b.key() == self.a.key() {
+            let _ = self.b.next();
+            false
+        } else {
+            self.b.key() < self.a.key()
+        }
     }
 }
 
@@ -30,19 +50,41 @@ impl<
 {
     type KeyType<'a> = A::KeyType<'a>;
 
-    fn key(&self) -> Self::KeyType<'_> {
-        unimplemented!()
+    fn value(&self) -> &[u8] {
+        if self.flipped {
+            self.b.value()
+        } else {
+            self.a.value()
+        }
     }
 
-    fn value(&self) -> &[u8] {
-        unimplemented!()
+    fn key(&self) -> Self::KeyType<'_> {
+        if self.flipped {
+            self.b.key()
+        } else {
+            self.a.key()
+        }
     }
 
     fn is_valid(&self) -> bool {
-        unimplemented!()
+        if self.flipped {
+            self.b.is_valid()
+        } else {
+            self.a.is_valid()
+        }
     }
 
     fn next(&mut self) -> Result<()> {
-        unimplemented!()
+        if !self.a.is_valid() && !self.b.is_valid() {
+            return Ok(());
+        }
+        if self.flipped {
+            self.b.next()?;
+        } else {
+            self.a.next()?;
+        }
+        self.update_flipped_and_skip_b();
+
+        Ok(())
     }
 }
