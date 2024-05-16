@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::io::Read;
 use std::ops::Bound;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::AtomicUsize;
@@ -18,6 +19,7 @@ use crate::iterators::two_merge_iterator::TwoMergeIterator;
 use crate::iterators::StorageIterator;
 use crate::key::KeySlice;
 use crate::lsm_iterator::{FusedIterator, LsmIterator};
+use crate::lsm_storage::CompactionFilter::Prefix;
 use crate::manifest::Manifest;
 use crate::mem_table::{map_bound, MemTable, MemTableIterator};
 use crate::mvcc::LsmMvccInner;
@@ -281,24 +283,52 @@ impl LsmStorageInner {
 
     /// Get a key from the storage. In day 7, this can be further optimized by using a bloom filter.
     pub fn get(&self, key: &[u8]) -> Result<Option<Bytes>> {
-        let state = self.state.read();
-        Ok(state
-            .memtable
-            .get(key)
-            .and_then(|b| if b.is_empty() { None } else { Some(b) })
-            .or_else(|| {
-                state
+        let snapshot = {
+            let guard = self.state.read();
+            Arc::clone(&guard)
+        };
+        let res = snapshot.memtable.get(key);
+        // .and_then(|b| if b.is_empty() { None } else { Some(b) });
+        match res {
+            Some(b) => {
+                if b.is_empty() {
+                    Ok(None)
+                } else {
+                    Ok(Some(b))
+                }
+            }
+            None => {
+                let r = snapshot
                     .imm_memtables
                     .iter()
-                    .find_map(|memtable| {
-                        memtable
-                            .get(key)
-                            .map(|v| if v.is_empty() { None } else { Some(v) })
-                    })
-                    .flatten()
-            }))
+                    .find_map(|mem_table| mem_table.get(key));
+                match r {
+                    Some(b) => {
+                        if b.is_empty() {
+                            Ok(None)
+                        } else {
+                            Ok(Some(b))
+                        }
+                    }
+                    None => {
+                        for idx in &snapshot.l0_sstables {
+                            let sstable = snapshot.sstables[idx].clone();
+                            let key = KeySlice::from_slice(key);
+                            let iter = SsTableIterator::create_and_seek_to_key(sstable, key)?;
+                            if iter.is_valid() && iter.key() == key {
+                                if iter.value().is_empty() {
+                                    return Ok(None);
+                                } else {
+                                    return Ok(Some(Bytes::copy_from_slice(iter.value())));
+                                }
+                            }
+                        }
+                        Ok(None)
+                    }
+                }
+            }
+        }
     }
-
     /// Write a batch of data into the storage. Implement in week 2 day 7.
     pub fn write_batch<T: AsRef<[u8]>>(&self, _batch: &[WriteBatchRecord<T>]) -> Result<()> {
         unimplemented!()
