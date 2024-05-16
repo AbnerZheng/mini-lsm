@@ -49,3 +49,13 @@ Starter code for Mini-LSM.
 * What happens if the user adds a key larger than the target block size?
 * Consider the case that the LSM engine is built on object store services (S3). How would you optimize/change the block format and parameters to make it suitable for such services?
 * Do you love bubble tea? Why or why not?
+
+### day 4
+#### Test Your Understanding
+* What is the time complexity of seeking a key in the SST?
+* Where does the cursor stop when you seek a non-existent key in your implementation?
+* Is it possible (or necessary) to do in-place updates of SST files?
+* An SST is usually large (i.e., 256MB). In this case, the cost of copying/expanding the Vec would be significant. Does your implementation allocate enough space for your SST builder in advance? How did you implement it? 
+* Looking at the moka block cache, why does it return Arc<Error> instead of the original Error? Does the usage of a block cache guarantee that there will be at most a fixed number of blocks in memory? For example, if you have a moka block cache of 4GB and block size of 4KB, will there be more than 4GB/4KB number of blocks in memory at the same time?
+* Is it possible to store columnar data (i.e., a table of 100 integer columns) in an LSM engine? Is the current SST format still a good choice?
+* Consider the case that the LSM engine is built on object store services (i.e., S3). How would you optimize/change the SST format/parameters and the block cache to make it suitable for such services?
