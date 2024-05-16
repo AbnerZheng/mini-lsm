@@ -1,11 +1,8 @@
+use super::StorageIterator;
+use crate::key::KeySlice;
+use anyhow::Result;
 use std::cmp::{self};
 use std::collections::BinaryHeap;
-
-use anyhow::Result;
-
-use crate::key::KeySlice;
-
-use super::StorageIterator;
 
 struct HeapWrapper<I: StorageIterator>(pub usize, pub Box<I>);
 
@@ -69,7 +66,7 @@ impl<I: 'static + for<'a> StorageIterator<KeyType<'a> = KeySlice<'a>>> StorageIt
         let option = self.current.as_ref();
         match option {
             None => KeySlice::default(),
-            Some(x) => *&x.1.key(),
+            Some(x) => x.1.key(),
         }
     }
 

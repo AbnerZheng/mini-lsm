@@ -60,7 +60,7 @@ impl BlockBuilder {
         self.data.extend_from_slice(value);
 
         self.offsets.push(old_len);
-        return true;
+        true
     }
 
     /// Check if there is no key-value pair in the block.
@@ -70,9 +70,9 @@ impl BlockBuilder {
 
     /// Finalize the block.
     pub fn build(self) -> Block {
-        return Block {
+        Block {
             data: self.data,
             offsets: self.offsets,
-        };
+        }
     }
 }

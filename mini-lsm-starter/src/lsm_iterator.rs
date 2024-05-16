@@ -84,7 +84,7 @@ impl<I: StorageIterator> StorageIterator for FusedIterator<I> {
 
     fn is_valid(&self) -> bool {
         if self.has_errored {
-            return false;
+            false
         } else {
             self.iter.is_valid()
         }

@@ -355,7 +355,7 @@ impl LsmStorageInner {
                 return self.force_freeze_memtable(&state_lock_guard);
             }
         }
-        return Ok(());
+        Ok(())
     }
 
     /// Force flush the earliest-created immutable memtable to disk

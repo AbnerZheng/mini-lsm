@@ -1,26 +1,20 @@
-#![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
-#![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
-
-pub(crate) mod bloom;
-mod builder;
-mod iterator;
-
+use crate::block::Block;
+use crate::key::{KeyBytes, KeySlice};
+use crate::lsm_storage::BlockCache;
+use anyhow::{anyhow, Error, Result};
+pub use builder::SsTableBuilder;
+use bytes::{Buf, BufMut};
+pub use iterator::SsTableIterator;
 use std::fs::File;
 use std::mem;
 use std::path::Path;
 use std::sync::Arc;
 
-use anyhow::{bail, Result};
-pub use builder::SsTableBuilder;
-use bytes::{Buf, BufMut};
-pub use iterator::SsTableIterator;
-use log::{warn, Metadata};
-
-use crate::block::Block;
-use crate::key::{KeyBytes, KeySlice};
-use crate::lsm_storage::BlockCache;
-
 use self::bloom::Bloom;
+
+pub(crate) mod bloom;
+mod builder;
+mod iterator;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BlockMeta {
@@ -182,19 +176,54 @@ impl SsTable {
 
     /// Read a block from the disk.
     pub fn read_block(&self, block_idx: usize) -> Result<Arc<Block>> {
-        unimplemented!()
+        let start_offset = self
+            .block_meta
+            .get(block_idx)
+            .map(|m| m.offset)
+            .ok_or(Error::msg("index out of bound"))?;
+
+        let end_offset = self
+            .block_meta
+            .get(block_idx + 1)
+            .map(|m| m.offset)
+            .unwrap_or(self.block_meta_offset as usize);
+
+        let block = self
+            .file
+            .read(start_offset as u64, (end_offset - start_offset) as u64)?;
+        Ok(Arc::new(Block::decode(block.as_slice())))
     }
 
     /// Read a block from disk, with block cache. (Day 4)
     pub fn read_block_cached(&self, block_idx: usize) -> Result<Arc<Block>> {
-        unimplemented!()
+        match self.block_cache {
+            None => self.read_block(block_idx),
+            Some(ref cache) => cache
+                .try_get_with((self.id, block_idx), || self.read_block(block_idx))
+                .map_err(|e| anyhow!("{e}")),
+        }
     }
 
     /// Find the block that may contain `key`.
     /// Note: You may want to make use of the `first_key` stored in `BlockMeta`.
     /// You may also assume the key-value pairs stored in each consecutive block are sorted.
     pub fn find_block_idx(&self, key: KeySlice) -> usize {
-        unimplemented!()
+        let result = self
+            .block_meta
+            .binary_search_by_key(&key, |m| m.first_key.as_key_slice());
+        let idx = result.unwrap_or_else(|idx| idx.saturating_sub(1));
+        match self.block_meta.get(idx) {
+            None => {
+                // to indicate Self is invalid
+                idx
+            }
+            Some(block_meta) => {
+                if block_meta.last_key.as_key_slice() < key {
+                    return idx + 1;
+                }
+                idx
+            }
+        }
     }
 
     /// Get number of data blocks.
