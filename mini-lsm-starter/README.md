@@ -69,3 +69,16 @@ Starter code for Mini-LSM.
 #### Test Your Understanding
 * What happens if a user requests to delete a key twice?
 * How much memory (or number of blocks) will be loaded into memory at the same time when the iterator is initialized?
+
+### day 7
+#### Test Your Understanding  
+
+* How does the bloom filter help with the SST filtering process? What kind of information can it tell you about a key? (may not exist/may exist/must exist/must not exist)
+ - The Bloom filter, associated with the SSTable, comes into play when a Get request is received. It provides us with the assurance that the specified Key mut not exist in the SSTable.
+* Consider the case that we need a backward iterator. Does our key compression affect backward iterators?
+ - It doesn't affect backward iterators if we fetch the first key when init BlockIterator.
+* Can you use bloom filters on scan?
+ - No, it doesn't help on scan on range.
+* What might be the pros/cons of doing key-prefix encoding over adjacent keys instead of with the first key in the block?
+ - Pros: it save more storage
+ - Cons: you have to read all entries before the specified key, because all key depending on the precede key.
