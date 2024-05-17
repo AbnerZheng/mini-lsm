@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::fmt::format;
+use std::fs;
 use std::io::Read;
 use std::ops::Bound;
 use std::path::{Path, PathBuf};
@@ -159,7 +160,7 @@ impl Drop for MiniLsm {
 
 impl MiniLsm {
     pub fn close(&self) -> Result<()> {
-        unimplemented!()
+        self.flush_notifier.send(()).map_err(|e| anyhow!("{e}"))
     }
 
     /// Start the storage engine by either loading an existing directory or creating a new one if the directory does
@@ -242,6 +243,11 @@ impl LsmStorageInner {
     /// not exist.
     pub(crate) fn open(path: impl AsRef<Path>, options: LsmStorageOptions) -> Result<Self> {
         let path = path.as_ref();
+
+        if !path.exists() {
+            fs::create_dir(path)?;
+        }
+
         let state = LsmStorageState::create(&options);
 
         let compaction_controller = match &options.compaction_options {
