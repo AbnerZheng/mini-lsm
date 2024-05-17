@@ -4,6 +4,7 @@ use crate::lsm_storage::BlockCache;
 use anyhow::{anyhow, Error, Result};
 pub use builder::SsTableBuilder;
 use bytes::{Buf, BufMut};
+use farmhash::fingerprint32;
 pub use iterator::SsTableIterator;
 use std::fs::File;
 use std::mem;
@@ -125,12 +126,13 @@ impl SsTable {
 
     /// Open SSTable from a file.
     pub fn open(id: usize, block_cache: Option<Arc<BlockCache>>, file: FileObject) -> Result<Self> {
-        let bloom_filter_offset_raw = file.read(file.1 - SIZE_OF_U32 as u64, SIZE_OF_U32 as u64)?;
+        let bloom_filter_offset_raw =
+            file.read(file.size() - SIZE_OF_U32 as u64, SIZE_OF_U32 as u64)?;
         let bloom_filter_offset = bloom_filter_offset_raw.as_slice().get_u32() as u64;
 
         let bloom_filter_raw = file.read(
             bloom_filter_offset,
-            file.1 - SIZE_OF_U32 as u64 - bloom_filter_offset,
+            file.size() - SIZE_OF_U32 as u64 - bloom_filter_offset,
         )?;
 
         let bloom = Bloom::decode(bloom_filter_raw.as_slice())?;
@@ -235,6 +237,13 @@ impl SsTable {
                 idx
             }
         }
+    }
+
+    pub fn may_contain_key(&self, key: KeySlice) -> bool {
+        self.bloom
+            .as_ref()
+            .map(|k| k.may_contain(fingerprint32(key.raw_ref())))
+            .unwrap_or(false)
     }
 
     /// Get number of data blocks.

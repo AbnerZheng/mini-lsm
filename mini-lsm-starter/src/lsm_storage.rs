@@ -331,7 +331,6 @@ impl LsmStorageInner {
             Arc::clone(&guard)
         };
         let res = snapshot.memtable.get(key);
-        // .and_then(|b| if b.is_empty() { None } else { Some(b) });
         match res {
             Some(b) => {
                 if b.is_empty() {
@@ -354,9 +353,13 @@ impl LsmStorageInner {
                         }
                     }
                     None => {
+                        // read from ssttable
                         for idx in &snapshot.l0_sstables {
                             let sstable = snapshot.sstables[idx].clone();
                             let key = KeySlice::from_slice(key);
+                            if !sstable.may_contain_key(key) {
+                                continue;
+                            }
                             let iter = SsTableIterator::create_and_seek_to_key(sstable, key)?;
                             if iter.is_valid() && iter.key() == key {
                                 if iter.value().is_empty() {
