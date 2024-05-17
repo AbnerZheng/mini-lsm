@@ -2,6 +2,7 @@
 
 use anyhow::Result;
 use bytes::{BufMut, Bytes, BytesMut};
+use log::warn;
 
 /// Implements a bloom filter
 pub struct Bloom {
@@ -79,7 +80,14 @@ impl Bloom {
         let mut filter = BytesMut::with_capacity(nbytes);
         filter.resize(nbytes, 0);
 
-        // TODO: build the bloom filter
+        keys.iter().for_each(|h| {
+            let mut h = *h;
+            let delta = (h >> 17) | (h << 15);
+            for _ in 0..k {
+                h = h.wrapping_add(delta);
+                filter.set_bit(h as usize % nbits, true);
+            }
+        });
 
         Self {
             filter: filter.freeze(),
@@ -88,7 +96,7 @@ impl Bloom {
     }
 
     /// Check if a bloom filter may contain some data
-    pub fn may_contain(&self, h: u32) -> bool {
+    pub fn may_contain(&self, mut h: u32) -> bool {
         if self.k > 30 {
             // potential new encoding for short bloom filters
             true
@@ -96,7 +104,13 @@ impl Bloom {
             let nbits = self.filter.bit_len();
             let delta = (h >> 17) | (h << 15);
 
-            // TODO: probe the bloom filter
+            for _ in 0..self.k {
+                h = h.wrapping_add(delta);
+                let x = self.filter.get_bit(h as usize % nbits);
+                if !x {
+                    return false;
+                }
+            }
 
             true
         }
