@@ -19,7 +19,7 @@ use crate::compact::{
 use crate::iterators::merge_iterator::MergeIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
 use crate::iterators::StorageIterator;
-use crate::key::KeySlice;
+use crate::key::{Key, KeyBytes, KeySlice};
 use crate::lsm_iterator::{FusedIterator, LsmIterator};
 use crate::lsm_storage::CompactionFilter::Prefix;
 use crate::manifest::Manifest;
@@ -69,6 +69,42 @@ impl LsmStorageState {
             sstables: Default::default(),
         }
     }
+}
+
+pub fn range_overlap(
+    lower: Bound<&[u8]>,
+    upper: Bound<&[u8]>,
+    first_key: &KeyBytes,
+    last_key: &KeyBytes,
+) -> bool {
+    match map_bound(lower) {
+        Bound::Included(l) => {
+            if KeyBytes::from_bytes(l) > *last_key {
+                return false;
+            }
+        }
+        Bound::Excluded(l) => {
+            if KeyBytes::from_bytes(l) >= *last_key {
+                return false;
+            }
+        }
+        Bound::Unbounded => {}
+    }
+
+    match map_bound(upper) {
+        Bound::Included(u) => {
+            if KeyBytes::from_bytes(u) < *first_key {
+                return false;
+            }
+        }
+        Bound::Excluded(u) => {
+            if KeyBytes::from_bytes(u) <= *first_key {
+                return false;
+            }
+        }
+        Bound::Unbounded => {}
+    }
+    true
 }
 
 #[derive(Debug, Clone)]
@@ -442,19 +478,19 @@ impl LsmStorageInner {
     /// Create an iterator over a range of keys.
     pub fn scan(
         &self,
-        _lower: Bound<&[u8]>,
-        _upper: Bound<&[u8]>,
+        lower: Bound<&[u8]>,
+        upper: Bound<&[u8]>,
     ) -> Result<FusedIterator<LsmIterator>> {
         let snapshot = {
             let guard = self.state.read();
             Arc::clone(&guard)
         };
 
-        let iterator = Box::new(snapshot.memtable.scan(_lower, _upper));
+        let iterator = Box::new(snapshot.memtable.scan(lower, upper));
         let mut vec = snapshot
             .imm_memtables
             .iter()
-            .map(|m| Box::new(m.scan(_lower, _upper)))
+            .map(|m| Box::new(m.scan(lower, upper)))
             .collect::<Vec<_>>();
         vec.insert(0, iterator);
         let mem_iter = MergeIterator::create(vec);
@@ -462,7 +498,12 @@ impl LsmStorageInner {
         let mut iters = Vec::new();
         for idx in &snapshot.l0_sstables {
             let sstable = snapshot.sstables[idx].clone();
-            let iter = match _lower {
+
+            if !range_overlap(lower, upper, sstable.first_key(), sstable.last_key()) {
+                continue;
+            }
+
+            let iter = match lower {
                 Bound::Included(key) => {
                     SsTableIterator::create_and_seek_to_key(sstable, KeySlice::from_slice(key))?
                 }
@@ -484,7 +525,7 @@ impl LsmStorageInner {
         let two_merge_iterator = TwoMergeIterator::create(mem_iter, sst_iter)?;
         Ok(FusedIterator::new(LsmIterator::new(
             two_merge_iterator,
-            map_bound(_upper),
+            map_bound(upper),
         )?))
     }
 }

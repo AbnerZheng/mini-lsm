@@ -87,6 +87,10 @@ impl StorageIterator for TxnLocalIterator {
     fn next(&mut self) -> Result<()> {
         unimplemented!()
     }
+
+    fn num_active_iterators(&self) -> usize {
+        1
+    }
 }
 
 pub struct TxnIterator {

@@ -83,6 +83,10 @@ impl StorageIterator for MockIterator {
         }
         self.index < self.data.len()
     }
+
+    fn num_active_iterators(&self) -> usize {
+        1
+    }
 }
 
 pub fn as_bytes(x: &[u8]) -> Bytes {

@@ -22,7 +22,5 @@ pub trait StorageIterator {
     fn next(&mut self) -> anyhow::Result<()>;
 
     /// Number of underlying active iterators for this iterator.
-    fn num_active_iterators(&self) -> usize {
-        1
-    }
+    fn num_active_iterators(&self) -> usize;
 }

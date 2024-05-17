@@ -77,6 +77,10 @@ impl StorageIterator for LsmIterator {
         };
         Ok(())
     }
+
+    fn num_active_iterators(&self) -> usize {
+        self.inner.num_active_iterators()
+    }
 }
 
 /// A wrapper around existing iterator, will prevent users from calling `next` when the iterator is
@@ -99,20 +103,20 @@ impl<I: StorageIterator> FusedIterator<I> {
 impl<I: StorageIterator> StorageIterator for FusedIterator<I> {
     type KeyType<'a> = I::KeyType<'a> where Self: 'a;
 
-    fn is_valid(&self) -> bool {
-        if self.has_errored {
-            false
-        } else {
-            self.iter.is_valid()
-        }
+    fn value(&self) -> &[u8] {
+        self.iter.value()
     }
 
     fn key(&self) -> Self::KeyType<'_> {
         self.iter.key()
     }
 
-    fn value(&self) -> &[u8] {
-        self.iter.value()
+    fn is_valid(&self) -> bool {
+        if self.has_errored {
+            false
+        } else {
+            self.iter.is_valid()
+        }
     }
 
     fn next(&mut self) -> Result<()> {
@@ -126,5 +130,9 @@ impl<I: StorageIterator> StorageIterator for FusedIterator<I> {
             }
         }
         Ok(())
+    }
+
+    fn num_active_iterators(&self) -> usize {
+        self.iter.num_active_iterators()
     }
 }
