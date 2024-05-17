@@ -64,3 +64,8 @@ Starter code for Mini-LSM.
 ### day 5
 #### Test Your Understanding
 * Consider the case that a user has an iterator that iterates the whole storage engine, and the storage engine is 1TB large, so that it takes ~1 hour to scan all the data. What would be the problems if the user does so? (This is a good question and we will ask it several times at different points of the tutorial...)
+
+### day 6
+#### Test Your Understanding
+* What happens if a user requests to delete a key twice?
+* How much memory (or number of blocks) will be loaded into memory at the same time when the iterator is initialized?
