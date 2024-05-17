@@ -2,6 +2,7 @@ mod builder;
 mod iterator;
 
 pub use builder::BlockBuilder;
+pub use builder::{prefix_decoding, prefix_encoding};
 use bytes::{Buf, BufMut, Bytes};
 pub use iterator::BlockIterator;
 

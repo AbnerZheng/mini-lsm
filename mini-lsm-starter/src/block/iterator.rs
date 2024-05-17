@@ -1,8 +1,11 @@
-use super::Block;
-use crate::key::{KeySlice, KeyVec};
-use bytes::{Buf, Bytes};
-use nom::InputTake;
 use std::sync::Arc;
+
+use bytes::{Buf, Bytes};
+
+use crate::block::builder::prefix_decoding;
+use crate::key::{KeySlice, KeyVec};
+
+use super::Block;
 
 /// Iterates on a block.
 #[derive(Default)]
@@ -21,36 +24,20 @@ pub struct BlockIterator {
 
 impl BlockIterator {
     fn new(block: Arc<Block>) -> Self {
-        if block.offsets.is_empty() {
-            Self {
-                block,
-                key: KeyVec::new(),
-                value_range: (0, 0),
-                idx: 0,
-                first_key: KeyVec::new(),
-            }
-        } else {
-            let first_entry_end = block
-                .offsets
-                .get(1)
-                .map(|u| usize::from(*u))
-                .unwrap_or(block.data.len());
-            let mut entry_raw = &block.data[..first_entry_end];
-            // deserialize
-            let key_len = entry_raw.get_u16();
-            let (mut remaining, key_raw) = entry_raw.take_split(key_len as usize);
-            let key = KeyVec::from_vec(key_raw.to_vec());
-            let value_len = remaining.get_u16();
-            let value_range = (first_entry_end - value_len as usize, first_entry_end);
+        let has_elem = !block.offsets.is_empty();
+        let mut block_iter = Self {
+            block,
+            key: KeyVec::new(),
+            value_range: (0, 0),
+            idx: 0,
+            first_key: KeyVec::new(),
+        };
 
-            Self {
-                block,
-                key: key.clone(),
-                value_range,
-                idx: 0,
-                first_key: key,
-            }
+        if has_elem {
+            block_iter.seek_to_first();
         }
+
+        block_iter
     }
 
     /// Creates a block iterator and seek to the first entry.
@@ -92,6 +79,10 @@ impl BlockIterator {
                 self.key = KeyVec::default();
             }
             Some(offset) => {
+                if idx != 0 {
+                    assert!(!self.first_key.is_empty());
+                }
+
                 let end_pos = self
                     .block
                     .offsets
@@ -99,15 +90,15 @@ impl BlockIterator {
                     .map(|u| *u as usize)
                     .unwrap_or(self.block.data.len());
 
-                let mut entry = &self.block.data[*offset as usize..end_pos];
-                let key_len = entry.get_u16();
-                let (key_raw, mut remaining) = entry.split_at(key_len as usize);
-                let key = KeyVec::from_vec(key_raw.to_vec());
-                let value_len = remaining.get_u16();
+                let entry_raw = &self.block.data[*offset as usize..end_pos];
+                let (key, remaining) = prefix_decoding(&self.first_key, entry_raw);
+                let value_len = remaining.as_slice().get_u16();
                 let value_range = (end_pos - value_len as usize, end_pos);
 
-                self.key = key.clone();
-                self.first_key = key;
+                if idx == 0 {
+                    self.first_key = key.clone();
+                }
+                self.key = key;
                 self.idx = idx;
                 self.value_range = value_range;
             }
@@ -123,7 +114,7 @@ impl BlockIterator {
     /// Note: You should assume the key-value pairs in the block are sorted when being added by
     /// callers.
     pub fn seek_to_key(&mut self, key: KeySlice) {
-        let key_vec = key.to_key_vec();
+        let seek_key_vec = key.to_key_vec();
 
         println!(
             "{}, {:?}, seek to {:?}",
@@ -148,12 +139,15 @@ impl BlockIterator {
         for (idx, (start_pos, end_pos)) in enumerate {
             let start_pos = *start_pos as usize;
             let end_pos = *end_pos as usize;
-            let mut entry_raw = &self.block.data[start_pos..end_pos];
-            let key_len = entry_raw.get_u16();
-            let (key_raw, mut remaining) = entry_raw.split_at(key_len as usize);
-            let key = KeyVec::from_vec(key_raw.to_vec());
-            if key >= key_vec {
-                let value_len = remaining.get_u16();
+            let entry_raw = &self.block.data[start_pos..end_pos];
+            let (key, remaining) = prefix_decoding(&self.first_key, entry_raw);
+
+            if idx == 0 {
+                self.first_key = key.clone();
+            }
+
+            if key >= seek_key_vec {
+                let value_len = remaining.as_slice().get_u16();
                 self.value_range = (end_pos - value_len as usize, end_pos);
                 self.key = key.clone();
                 self.idx = idx;

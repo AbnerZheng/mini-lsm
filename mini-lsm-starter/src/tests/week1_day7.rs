@@ -1,6 +1,10 @@
 use tempfile::tempdir;
 
+use crate::block::{prefix_decoding, prefix_encoding};
+use crate::key::KeyVec;
+use crate::tests::harness::as_bytes;
 use crate::{
+    block,
     key::{KeySlice, TS_ENABLED},
     table::{bloom::Bloom, FileObject, SsTable, SsTableBuilder},
 };
@@ -88,4 +92,18 @@ fn test_task3_block_key_compression() {
             sst.block_meta.len()
         );
     }
+}
+
+#[test]
+fn test_task3_prefix_key() {
+    let first_key = KeyVec::from_vec(key_of(5));
+    let key = KeyVec::from_vec(key_of(10));
+    let raw = prefix_encoding(&first_key, &key);
+    let (key2, _) = prefix_decoding(&first_key, raw.as_slice());
+    println!(
+        "{:?}, {:?}",
+        as_bytes(key.for_testing_key_ref()),
+        as_bytes(key2.for_testing_key_ref())
+    );
+    assert_eq!(key, key2);
 }
