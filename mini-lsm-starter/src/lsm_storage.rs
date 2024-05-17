@@ -1,11 +1,12 @@
 use std::collections::HashMap;
+use std::fmt::format;
 use std::io::Read;
 use std::ops::Bound;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
 
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use bytes::Bytes;
 use parking_lot::{Mutex, MutexGuard, RwLock};
 
@@ -23,7 +24,7 @@ use crate::lsm_storage::CompactionFilter::Prefix;
 use crate::manifest::Manifest;
 use crate::mem_table::{map_bound, MemTable, MemTableIterator};
 use crate::mvcc::LsmMvccInner;
-use crate::table::{SsTable, SsTableIterator};
+use crate::table::{SsTable, SsTableBuilder, SsTableIterator};
 
 pub type BlockCache = moka::sync::Cache<(usize, usize), Arc<Block>>;
 
@@ -393,7 +394,38 @@ impl LsmStorageInner {
 
     /// Force flush the earliest-created immutable memtable to disk
     pub fn force_flush_next_imm_memtable(&self) -> Result<()> {
-        unimplemented!()
+        let memtable_to_flush = {
+            let guard = self.state.read();
+            guard
+                .imm_memtables
+                .last()
+                .ok_or_else(|| anyhow!("No immutable memtable to flush"))?
+                .clone()
+        };
+        let mut builder = SsTableBuilder::new(self.options.block_size);
+        memtable_to_flush.flush(&mut builder);
+        let sst_id = memtable_to_flush.id();
+        let sstable = builder.build(
+            sst_id,
+            Some(self.block_cache.clone()),
+            self.path.join(format!("{}.sst", sst_id)),
+        )?;
+
+        {
+            let mut guard = self.state.write();
+            let mut snapshot = guard.as_ref().clone();
+
+            // remove it from imm_memtable
+            let memtable = snapshot.imm_memtables.pop().unwrap();
+            assert_eq!(memtable.id(), sst_id);
+            //
+            snapshot.l0_sstables.insert(0, sst_id);
+            snapshot.sstables.insert(sst_id, Arc::new(sstable));
+
+            *guard = Arc::new(snapshot);
+        }
+
+        Ok(())
     }
 
     pub fn new_txn(&self) -> Result<()> {

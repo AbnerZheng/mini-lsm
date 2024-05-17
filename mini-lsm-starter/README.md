@@ -26,6 +26,7 @@ Starter code for Mini-LSM.
 ### day 2
 #### Test Your Understanding
 * What is the time/space complexity of using your merge iterator?
+  - It uses a Heap to pop the 
 * Why do we need a self-referential structure for memtable iterator?
 * If a key is removed (there is a delete tombstone), do you need to return it to the user? Where did you handle this logic?
 * If a key has multiple versions, will the user see all of them? Where did you handle this logic?
