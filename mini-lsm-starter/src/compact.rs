@@ -10,7 +10,9 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use crate::compact::CompactionTask::ForceFullCompaction;
+use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::merge_iterator::MergeIterator;
+use crate::iterators::two_merge_iterator::TwoMergeIterator;
 use crate::iterators::StorageIterator;
 use anyhow::Result;
 pub use leveled::{LeveledCompactionController, LeveledCompactionOptions, LeveledCompactionTask};
@@ -128,16 +130,12 @@ impl LsmStorageInner {
                 l0_sstables,
                 l1_sstables,
             } => {
-                let mut sstables_to_compact = vec![];
-                sstables_to_compact.extend_from_slice(l0_sstables);
-                sstables_to_compact.extend_from_slice(l1_sstables);
-
                 let snapshot = {
                     let guard = self.state.read();
                     guard.clone()
                 };
 
-                let sstables = sstables_to_compact
+                let l0_tables = l0_sstables
                     .iter()
                     .map(|i| {
                         let sstable = snapshot.sstables[i].clone();
@@ -145,7 +143,17 @@ impl LsmStorageInner {
                         Ok(Box::new(sstable_iter))
                     })
                     .collect::<Result<Vec<_>>>()?;
-                let mut merge_iterator = MergeIterator::create(sstables);
+
+                let l0_merge_iterator = MergeIterator::create(l0_tables);
+
+                let l1_tables = l1_sstables
+                    .iter()
+                    .map(|i| snapshot.sstables[i].clone())
+                    .collect::<Vec<_>>();
+
+                let concat_iterator = SstConcatIterator::create_and_seek_to_first(l1_tables)?;
+                let mut merge_iterator =
+                    TwoMergeIterator::create(l0_merge_iterator, concat_iterator)?;
                 let mut sst_builder = SsTableBuilder::new(self.options.block_size);
 
                 let mut sstable_to_add = vec![];

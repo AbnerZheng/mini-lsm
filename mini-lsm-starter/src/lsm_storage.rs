@@ -4,11 +4,13 @@ use std::fs;
 use std::io::Read;
 use std::ops::Bound;
 use std::path::{Path, PathBuf};
+use std::process::id;
 use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
 
 use anyhow::{anyhow, Result};
 use bytes::Bytes;
+use nom::combinator::iterator;
 use parking_lot::{Mutex, MutexGuard, RwLock};
 
 use crate::block::Block;
@@ -16,6 +18,7 @@ use crate::compact::{
     CompactionController, CompactionOptions, LeveledCompactionController, LeveledCompactionOptions,
     SimpleLeveledCompactionController, SimpleLeveledCompactionOptions, TieredCompactionController,
 };
+use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::merge_iterator::MergeIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
 use crate::iterators::StorageIterator;
@@ -353,10 +356,10 @@ impl LsmStorageInner {
                         }
                     }
                     None => {
+                        let key = KeySlice::from_slice(key);
                         // read from ssttable
                         for idx in &snapshot.l0_sstables {
                             let sstable = snapshot.sstables[idx].clone();
-                            let key = KeySlice::from_slice(key);
                             if !sstable.may_contain_key(key) {
                                 continue;
                             }
@@ -369,6 +372,23 @@ impl LsmStorageInner {
                                 }
                             }
                         }
+
+                        let l1_tables = snapshot.levels[0]
+                            .1
+                            .iter()
+                            .map(|idx| snapshot.sstables[idx].clone())
+                            .collect::<Vec<_>>();
+                        let l1_sst_iter =
+                            SstConcatIterator::create_and_seek_to_key(l1_tables, key)?;
+
+                        if l1_sst_iter.is_valid() && l1_sst_iter.key() == key {
+                            if l1_sst_iter.value().is_empty() {
+                                return Ok(None);
+                            } else {
+                                return Ok(Some(Bytes::copy_from_slice(l1_sst_iter.value())));
+                            }
+                        }
+
                         Ok(None)
                     }
                 }
@@ -524,10 +544,32 @@ impl LsmStorageInner {
             iters.push(Box::new(iter));
         }
 
-        let sst_iter = MergeIterator::create(iters);
-        let two_merge_iterator = TwoMergeIterator::create(mem_iter, sst_iter)?;
+        let l0_sst_iter = MergeIterator::create(iters);
+        let two_merge_iterator = TwoMergeIterator::create(mem_iter, l0_sst_iter)?;
+
+        let l1_sst = snapshot.levels[0]
+            .1
+            .iter()
+            .map(|idx| snapshot.sstables[idx].clone())
+            .collect::<Vec<_>>();
+
+        let l1_sst_iter = match lower {
+            Bound::Included(key) => {
+                SstConcatIterator::create_and_seek_to_key(l1_sst, KeySlice::from_slice(key))?
+            }
+            Bound::Excluded(key) => {
+                let mut iter =
+                    SstConcatIterator::create_and_seek_to_key(l1_sst, KeySlice::from_slice(key))?;
+                iter.next()?;
+                iter
+            }
+            Bound::Unbounded => SstConcatIterator::create_and_seek_to_first(l1_sst)?,
+        };
+
+        let merge_iterator = TwoMergeIterator::create(two_merge_iterator, l1_sst_iter)?;
+
         Ok(FusedIterator::new(LsmIterator::new(
-            two_merge_iterator,
+            merge_iterator,
             map_bound(upper),
         )?))
     }
