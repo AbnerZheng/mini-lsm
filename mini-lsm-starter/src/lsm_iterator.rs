@@ -40,8 +40,12 @@ impl LsmIterator {
         }
 
         let is_valid = match upper_bound.as_ref() {
-            Bound::Included(key) => inner.key() <= KeySlice::from_slice(key.as_ref()),
-            Bound::Excluded(key) => inner.key() < KeySlice::from_slice(key.as_ref()),
+            Bound::Included(key) => {
+                inner.is_valid() && inner.key() <= KeySlice::from_slice(key.as_ref())
+            }
+            Bound::Excluded(key) => {
+                inner.is_valid() && inner.key() < KeySlice::from_slice(key.as_ref())
+            }
             Bound::Unbounded => inner.is_valid(),
         };
         Ok(Self {
