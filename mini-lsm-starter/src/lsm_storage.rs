@@ -453,7 +453,7 @@ impl LsmStorageInner {
         let sstable = builder.build(
             sst_id,
             Some(self.block_cache.clone()),
-            self.path.join(format!("{}.sst", sst_id)),
+            self.path_of_sst(sst_id),
         )?;
 
         {

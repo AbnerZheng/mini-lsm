@@ -23,6 +23,8 @@ pub struct SsTableBuilder {
     pub(crate) key_hashes: Vec<u32>,
 }
 
+impl SsTableBuilder {}
+
 impl SsTableBuilder {
     /// Create a builder based on target block size.
     pub fn new(block_size: usize) -> Self {
@@ -127,6 +129,9 @@ impl SsTableBuilder {
             bloom: Some(bloom),
             max_ts: 0,
         })
+    }
+    pub(crate) fn is_empty(&self) -> bool {
+        self.builder.is_empty()
     }
 
     #[cfg(test)]
