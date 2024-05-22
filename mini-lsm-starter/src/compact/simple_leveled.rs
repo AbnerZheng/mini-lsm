@@ -1,4 +1,7 @@
+use crate::iterators::merge_iterator::MergeIterator;
 use serde::{Deserialize, Serialize};
+use std::arch::aarch64::vabal_high_s8;
+use std::process::id;
 
 use crate::lsm_storage::LsmStorageState;
 
@@ -33,9 +36,53 @@ impl SimpleLeveledCompactionController {
     /// Returns `None` if no compaction needs to be scheduled. The order of SSTs in the compaction task id vector matters.
     pub fn generate_compaction_task(
         &self,
-        _snapshot: &LsmStorageState,
+        snapshot: &LsmStorageState,
     ) -> Option<SimpleLeveledCompactionTask> {
-        unimplemented!()
+        if self.options.level0_file_num_compaction_trigger <= snapshot.l0_sstables.len() {
+            assert_eq!(snapshot.levels[0].0, 1);
+
+            if snapshot.levels[0].1.len() * 100
+                < self.options.size_ratio_percent * snapshot.l0_sstables.len()
+            {
+                println!(
+                    "compaction triggered at level 0 and 1 with size ratio {}",
+                    snapshot.levels[0].1.len() / snapshot.l0_sstables.len()
+                );
+                return Some(SimpleLeveledCompactionTask {
+                    upper_level: None,
+                    upper_level_sst_ids: snapshot.l0_sstables.clone(),
+                    lower_level: 1,
+                    lower_level_sst_ids: snapshot.levels[0].1.clone(),
+                    is_lower_level_bottom_level: false,
+                });
+            }
+        }
+
+        for upper_level in 1..self.options.max_levels {
+            assert_eq!(snapshot.levels[upper_level - 1].0, upper_level);
+            let lower_level = upper_level + 1;
+            assert_eq!(snapshot.levels[lower_level - 1].0, lower_level);
+
+            let upper_level_sst = &snapshot.levels[upper_level - 1].1;
+            let lower_level_sst = &snapshot.levels[lower_level - 1].1;
+
+            if lower_level_sst.len() * 100 < self.options.size_ratio_percent * upper_level_sst.len()
+            {
+                println!(
+                    "compaction triggered at level {upper_level} and {lower_level} with size ratio {}",
+                    upper_level_sst.len().checked_div(lower_level_sst.len()).unwrap_or_default()
+                );
+                return Some(SimpleLeveledCompactionTask {
+                    upper_level: Some(upper_level),
+                    upper_level_sst_ids: upper_level_sst.clone(),
+                    lower_level,
+                    lower_level_sst_ids: lower_level_sst.clone(),
+                    is_lower_level_bottom_level: lower_level == self.options.max_levels,
+                });
+            }
+        }
+
+        None
     }
 
     /// Apply the compaction result.
@@ -47,10 +94,32 @@ impl SimpleLeveledCompactionController {
     /// in your implementation.
     pub fn apply_compaction_result(
         &self,
-        _snapshot: &LsmStorageState,
-        _task: &SimpleLeveledCompactionTask,
-        _output: &[usize],
+        snapshot: &LsmStorageState,
+        task: &SimpleLeveledCompactionTask,
+        output: &[usize],
     ) -> (LsmStorageState, Vec<usize>) {
-        unimplemented!()
+        assert_eq!(snapshot.levels[task.lower_level - 1].0, task.lower_level);
+        let mut snapshot = snapshot.clone();
+        let mut to_remove_idx = vec![];
+        let lower_level_sst = &mut snapshot.levels[task.lower_level - 1].1;
+        assert_eq!(
+            *lower_level_sst, task.lower_level_sst_ids,
+            "lower level sst ids mismatch"
+        );
+        to_remove_idx.extend_from_slice(lower_level_sst);
+        *lower_level_sst = output.to_vec();
+        if task.upper_level.is_none() || task.upper_level == Some(0) {
+            snapshot
+                .l0_sstables
+                .retain(|idx| !task.upper_level_sst_ids.contains(idx));
+        } else {
+            let upper_level = task.upper_level.unwrap();
+            assert_eq!(snapshot.levels[upper_level - 1].0, upper_level);
+            snapshot.levels[upper_level - 1]
+                .1
+                .retain(|idx| !task.upper_level_sst_ids.contains(idx))
+        }
+        to_remove_idx.extend_from_slice(task.upper_level_sst_ids.as_slice());
+        (snapshot, to_remove_idx)
     }
 }

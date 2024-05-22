@@ -26,30 +26,50 @@ Starter code for Mini-LSM.
 ### day 2
 #### Test Your Understanding
 * What is the time/space complexity of using your merge iterator?
-  - It uses a Heap to pop the 
+  - It uses a Heap to pop the minimum value, the time complexity of each pop operation in heap is O(log(N)), 
+  - and space complexity of heap is O(N), where N is the size of inner iterator for merging.
 * Why do we need a self-referential structure for memtable iterator?
+  -  Because we make to make sure that the lifetime of the memtable iterator is the same as the map, so that whenever the iterator is being used, the underlying skiplist object is not freed.
 * If a key is removed (there is a delete tombstone), do you need to return it to the user? Where did you handle this logic?
+  - We don't need to return it to the user, we handle the logic in cli.
 * If a key has multiple versions, will the user see all of them? Where did you handle this logic?
+  - No, user can use only see the latest version, we handle this logic when merging, the heap pop the latest version, and drop other versions of the same key.
 * If we want to get rid of self-referential structure and have a lifetime on the memtable iterator (i.e., MemtableIterator<'a>, where 'a = memtable or LsmStorageInner lifetime), is it still possible to implement the scan functionality?
+  -  
 * What happens if (1) we create an iterator on the skiplist memtable (2) someone inserts new keys into the memtable (3) will the iterator see the new key?
+  - Iterator may see the new key. Because there is no guarantee when different thread write/read skiplist.
 * What happens if your key comparator cannot give the binary heap implementation a stable order?
+  - Then we may get stale value for the specified key.
 * Why do we need to ensure the merge iterator returns data in the iterator construction order?
+  - Because we use the order to indicate how latest the data it contained is. 
 * Is it possible to implement a Rust-style iterator (i.e., next(&self) -> (Key, Value)) for LSM iterators? What are the pros/cons?
+  - Cons: we have to find a new way to store the entry when next is called.
 * The scan interface is like fn scan(&self, lower: Bound<&[u8]>, upper: Bound<&[u8]>). How to make this API compatible with Rust-style range (i.e., key_a..key_b)? If you implement this, try to pass a full range .. to the interface and see what will happen.
+  - 
 * The starter code provides the merge iterator interface to store Box<I> instead of I. What might be the reason behind that?
-
+  
 
 ### day 3
 #### Test Your Understanding
 * What is the time complexity of seeking a key in the block?
+ - For each block, we have a associated BlockMeta, which tell us the first and last key of the block, if the specified key is in the range of (first_key, last_key),
+ - we have to use O(n/2) in average to seeking a key. 
 * Where does the cursor stop when you seek a non-existent key in your implementation?
+  - Stop at the first key that is `>=` the provided key. 
 * So Block is simply a vector of raw data and a vector of offsets. Can we change them to Byte and Arc<[u16]>, and change all the iterator interfaces to return Byte instead of &[u8]? (Assume that we use Byte::slice to return a slice of the block without copying.) What are the pros/cons?
+  - 
 * What is the endian of the numbers written into the blocks in your implementation?
+  - little endian
 * Is your implementation prune to a maliciously-built block? Will there be invalid memory access, or OOMs, if a user deliberately construct an invalid block?
+  - Yes, if offset is beyond the length of size of the block, OOMs would happen.
 * Can a block contain duplicated keys?
+  - Though it doesn't matter if the block contain duplicated keys, but it will never happen, because when merging, duplicated keys will be removed.
 * What happens if the user adds a key larger than the target block size?
+  - We will keep it in a separated block which contains only this keypair. 
 * Consider the case that the LSM engine is built on object store services (S3). How would you optimize/change the block format and parameters to make it suitable for such services?
+  - 
 * Do you love bubble tea? Why or why not?
+  - Yes, very delicious, but I have to control the frequency to drink it. 
 
 ### day 4
 #### Test Your Understanding

@@ -28,6 +28,11 @@ impl Block {
     }
 
     /// Decode from the data layout, transform the input `data` to a single `Block`
+    /// --------------------------------------------------------------------------------------------------------
+    /// |             Data Section             |              Offset Section                  |      Extra      |
+    /// ---------------------------------------------------------------------------------------------------------
+    /// | Entry #1 | Entry #2 | ... | Entry #N | Offset #1(u16) | Offset #2 | ... | Offset #N | num_of_elements |
+    /// ---------------------------------------------------------------------------------------------------------
     pub fn decode(data: &[u8]) -> Self {
         let num_of_elements = (&data[data.len() - SIZEOF_U16..]).get_u16() as usize;
 
