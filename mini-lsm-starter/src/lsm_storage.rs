@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{BTreeSet, HashMap};
 use std::fmt::format;
 use std::fs;
 use std::fs::File;
@@ -11,6 +11,7 @@ use std::sync::Arc;
 
 use anyhow::{anyhow, Result};
 use bytes::Bytes;
+use log::warn;
 use nom::combinator::iterator;
 use parking_lot::{Mutex, MutexGuard, RwLock};
 
@@ -29,7 +30,7 @@ use crate::lsm_storage::CompactionFilter::Prefix;
 use crate::manifest::{Manifest, ManifestRecord};
 use crate::mem_table::{map_bound, MemTable, MemTableIterator};
 use crate::mvcc::LsmMvccInner;
-use crate::table::{SsTable, SsTableBuilder, SsTableIterator};
+use crate::table::{FileObject, SsTable, SsTableBuilder, SsTableIterator};
 
 pub type BlockCache = moka::sync::Cache<(usize, usize), Arc<Block>>;
 
@@ -230,6 +231,7 @@ impl MiniLsm {
             // flush all memtables to the disk
             self.force_flush()?;
         }
+        self.inner.sync_dir()?;
         Ok(())
     }
 
@@ -241,6 +243,7 @@ impl MiniLsm {
         let compaction_thread = inner.spawn_compaction_thread(rx)?;
         let (tx2, rx) = crossbeam_channel::unbounded();
         let flush_thread = inner.spawn_flush_thread(rx)?;
+
         Ok(Arc::new(Self {
             inner,
             flush_notifier: tx2,
@@ -318,7 +321,7 @@ impl LsmStorageInner {
             fs::create_dir(path)?;
         }
 
-        let state = LsmStorageState::create(&options);
+        let mut state = LsmStorageState::create(&options);
 
         let compaction_controller = match &options.compaction_options {
             CompactionOptions::Leveled(options) => {
@@ -333,14 +336,52 @@ impl LsmStorageInner {
             CompactionOptions::NoCompaction => CompactionController::NoCompaction,
         };
 
+        let block_cache = Arc::new(BlockCache::new(1024));
+
+        let manifest_file_path = path.join("MANIFEST");
+        let manifest = if manifest_file_path.exists() {
+            // recover from file
+            let (manifest, records) = Manifest::recover(manifest_file_path)?;
+            let mut sst_need_load: BTreeSet<usize> = BTreeSet::new();
+            for record in records {
+                match record {
+                    ManifestRecord::Flush(sst_id) => {
+                        state.l0_sstables.insert(0, sst_id);
+                        sst_need_load.insert(sst_id);
+                    }
+                    ManifestRecord::NewMemtable(_) => {}
+                    ManifestRecord::Compaction(task, sst_to_add) => {
+                        sst_need_load.extend(sst_to_add.iter());
+                        let (new_state, sst_to_remove) = compaction_controller
+                            .apply_compaction_result(&state, &task, &sst_to_add);
+                        for sst_id in sst_to_remove {
+                            sst_need_load.remove(&sst_id);
+                        }
+                        state = new_state;
+                    }
+                }
+            }
+            for sst_id in sst_need_load {
+                let ss_table = SsTable::open(
+                    sst_id,
+                    Some(block_cache.clone()),
+                    FileObject::open(Self::path_of_sst_static(&path, sst_id).as_path())?,
+                )?;
+                state.sstables.insert(sst_id, Arc::new(ss_table));
+            }
+            manifest
+        } else {
+            Manifest::create(manifest_file_path)?
+        };
+
         let storage = Self {
             state: Arc::new(RwLock::new(Arc::new(state))),
             state_lock: Mutex::new(()),
             path: path.to_path_buf(),
-            block_cache: Arc::new(BlockCache::new(1024)),
+            block_cache: block_cache,
             next_sst_id: AtomicUsize::new(1),
             compaction_controller,
-            manifest: None,
+            manifest: Some(manifest),
             options: options.into(),
             mvcc: None,
             compaction_filters: Arc::new(Mutex::new(Vec::new())),

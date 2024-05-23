@@ -9,6 +9,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use parking_lot::{Mutex, MutexGuard};
 use serde::{Deserialize, Serialize};
+use serde_json::Deserializer;
 
 use crate::compact::CompactionTask;
 
@@ -35,9 +36,10 @@ impl Manifest {
         let mut file = fs::OpenOptions::new().read(true).append(true).open(path)?;
         let mut buf = vec![];
         file.read_to_end(&mut buf)?;
-        let records = serde_json::from_slice::<ManifestRecord>(&buf)
-            .into_iter()
-            .collect::<Vec<_>>();
+        
+        let records = Deserializer::from_slice(&buf)
+            .into_iter::<ManifestRecord>()
+            .collect::<Result<Vec<_>, _>>()?;
 
         Ok((
             Manifest {
