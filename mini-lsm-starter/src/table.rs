@@ -243,7 +243,7 @@ impl SsTable {
         self.bloom
             .as_ref()
             .map(|k| k.may_contain(fingerprint32(key.raw_ref())))
-            .unwrap_or(false)
+            .unwrap_or(true)
     }
 
     /// Get number of data blocks.

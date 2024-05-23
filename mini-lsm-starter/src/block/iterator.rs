@@ -116,12 +116,12 @@ impl BlockIterator {
     pub fn seek_to_key(&mut self, key: KeySlice) {
         let seek_key_vec = key.to_key_vec();
 
-        println!(
-            "{}, {:?}, seek to {:?}",
-            self.is_valid(),
-            Bytes::copy_from_slice(self.key.raw_ref()),
-            Bytes::copy_from_slice(key.raw_ref())
-        );
+        // println!(
+        //     "{}, {:?}, seek to {:?}",
+        //     self.is_valid(),
+        //     Bytes::copy_from_slice(self.key.raw_ref()),
+        //     Bytes::copy_from_slice(key.raw_ref())
+        // );
         if !self.is_valid() {
             return;
         }
