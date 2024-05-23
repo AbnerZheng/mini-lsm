@@ -36,7 +36,7 @@ impl Manifest {
         let mut file = fs::OpenOptions::new().read(true).append(true).open(path)?;
         let mut buf = vec![];
         file.read_to_end(&mut buf)?;
-        
+
         let records = Deserializer::from_slice(&buf)
             .into_iter::<ManifestRecord>()
             .collect::<Result<Vec<_>, _>>()?;

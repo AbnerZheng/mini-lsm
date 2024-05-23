@@ -1,18 +1,14 @@
 use std::collections::{BTreeSet, HashMap};
-use std::fmt::format;
 use std::fs;
 use std::fs::File;
 use std::io::Read;
 use std::ops::Bound;
 use std::path::{Path, PathBuf};
-use std::process::id;
 use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
 
 use anyhow::{anyhow, Result};
 use bytes::Bytes;
-use log::warn;
-use nom::combinator::iterator;
 use parking_lot::{Mutex, MutexGuard, RwLock};
 
 use crate::block::Block;
@@ -24,11 +20,10 @@ use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::merge_iterator::MergeIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
 use crate::iterators::StorageIterator;
-use crate::key::{Key, KeyBytes, KeySlice};
+use crate::key::{KeyBytes, KeySlice};
 use crate::lsm_iterator::{FusedIterator, LsmIterator};
-use crate::lsm_storage::CompactionFilter::Prefix;
 use crate::manifest::{Manifest, ManifestRecord};
-use crate::mem_table::{map_bound, MemTable, MemTableIterator};
+use crate::mem_table::{map_bound, MemTable};
 use crate::mvcc::LsmMvccInner;
 use crate::table::{FileObject, SsTable, SsTableBuilder, SsTableIterator};
 
@@ -348,19 +343,19 @@ impl LsmStorageInner {
             // recover from file
             let (manifest, records) = Manifest::recover(manifest_file_path)?;
             let mut sst_need_load: BTreeSet<usize> = BTreeSet::new();
+            let mut memtable_to_recover = Vec::new();
             for record in records {
                 match record {
                     ManifestRecord::Flush(sst_id) => {
                         state.l0_sstables.insert(0, sst_id);
+                        let option = memtable_to_recover.pop();
+                        assert_eq!(option, Some(sst_id), "failed to flush memtable");
                         sst_need_load.insert(sst_id);
                         max_sst_id = max_sst_id.max(sst_id);
                     }
                     ManifestRecord::NewMemtable(sst_id) => {
-                        let mem_table = MemTable::recover_from_wal(
-                            sst_id,
-                            Self::path_of_wal_static(path, sst_id),
-                        )?;
-                        state.imm_memtables.insert(0, Arc::new(mem_table));
+                        println!("new memtable {sst_id}");
+                        memtable_to_recover.insert(0, sst_id);
                         max_sst_id = max_sst_id.max(sst_id);
                     }
                     ManifestRecord::Compaction(task, sst_to_add) => {
@@ -378,6 +373,13 @@ impl LsmStorageInner {
                     }
                 }
             }
+            if options.enable_wal {
+                for sst_id in memtable_to_recover {
+                    let mem_table =
+                        MemTable::recover_from_wal(sst_id, Self::path_of_wal_static(path, sst_id))?;
+                    state.imm_memtables.push(Arc::new(mem_table));
+                }
+            }
             for sst_id in sst_need_load {
                 let ss_table = SsTable::open(
                     sst_id,
@@ -386,12 +388,11 @@ impl LsmStorageInner {
                 )?;
                 state.sstables.insert(sst_id, Arc::new(ss_table));
             }
+            max_sst_id += 1;
             manifest
         } else {
             Manifest::create(manifest_file_path)?
         };
-
-        max_sst_id += 1;
 
         state.memtable = if options.enable_wal {
             Arc::new(MemTable::create_with_wal(
@@ -401,6 +402,8 @@ impl LsmStorageInner {
         } else {
             Arc::new(MemTable::create(max_sst_id))
         };
+
+        manifest.add_record_when_init(ManifestRecord::NewMemtable(max_sst_id))?;
 
         let storage = Self {
             state: Arc::new(RwLock::new(Arc::new(state))),
