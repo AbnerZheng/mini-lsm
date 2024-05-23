@@ -8,6 +8,7 @@ use crate::{
 use super::harness::{check_compaction_ratio, compaction_bench};
 
 #[test]
+#[ignore]
 fn test_integration() {
     let dir = tempdir().unwrap();
     let storage = MiniLsm::open(

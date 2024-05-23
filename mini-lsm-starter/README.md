@@ -108,9 +108,28 @@ Starter code for Mini-LSM.
 #### Test Your Understanding
 
 * What are the definitions of read/write/space amplifications? (This is covered in the overview chapter)
+  - Read amplification:  the number of I/O requests you will need to send to the disk for one get operation.
+  - Write amplification: the ratio of memtables flushed to the disk versus total data written to the disk 
+  - Space amplification: divide the actual space used by the LSM engine by the user space usage.
 * What are the ways to accurately compute the read/write/space amplifications, and what are the ways to estimate them?
+  - 
 * Is it correct that a key will take some storage space even if a user requests to delete it?
+  - 
 * Given that compaction takes a lot of write bandwidth and read bandwidth and may interfere with foreground operations, it is a good idea to postpone compaction when there are large write flow. It is even beneficial to stop/pause existing compaction tasks in this situation. What do you think of this idea? (Read the SILK: Preventing Latency Spikes in Log-Structured Merge Key-Value Stores paper!)
 * Is it a good idea to use/fill the block cache for compactions? Or is it better to fully bypass the block cache when compaction?
 * Does it make sense to have a struct ConcatIterator<I: StorageIterator> in the system?
 * Some researchers/engineers propose to offload compaction to a remote server or a serverless lambda function. What are the benefits, and what might be the potential challenges and performance impacts of doing remote compaction? (Think of the point when a compaction completes and what happens to the block cache on the next read request...)
+
+### day 2
+#### Test Your Understanding
+* What is the estimated write amplification of leveled compaction?
+- 
+
+What is the estimated read amplification of leveled compaction?
+Is it correct that a key will only be purged from the LSM tree if the user requests to delete it and it has been compacted in the bottom-most level?
+Is it a good strategy to periodically do a full compaction on the LSM tree? Why or why not?
+Actively choosing some old files/levels to compact even if they do not violate the level amplifier would be a good choice, is it true? (Look at the Lethe paper!)
+If the storage device can achieve a sustainable 1GB/s write throughput and the write amplification of the LSM tree is 10x, how much throughput can the user get from the LSM key-value interfaces?
+Can you merge L1 and L3 directly if there are SST files in L2? Does it still produce correct result?
+So far, we have assumed that our SST files use a monotonically increasing id as the file name. Is it okay to use <level>_<begin_key>_<end_key>.sst as the SST file name? What might be the potential problems with that? (You can ask yourself the same question in week 3...)
+What is your favorite boba shop in your city? (If you answered yes in week 1 day 3...)
