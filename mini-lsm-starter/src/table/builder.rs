@@ -110,9 +110,11 @@ impl SsTableBuilder {
         bloom.encode(&mut self.data);
         self.data.put_u32(bloom_filter_offset);
 
+        let file = FileObject::create(path.as_ref(), self.data)?;
+
         Ok(SsTable {
             block_meta_offset,
-            file: FileObject::create(path.as_ref(), self.data)?,
+            file,
             id,
             block_cache,
             first_key: self

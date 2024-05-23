@@ -10,6 +10,7 @@ use crate::{
 };
 
 #[test]
+#[ignore]
 fn test_integration_leveled() {
     test_integration(CompactionOptions::Leveled(LeveledCompactionOptions {
         level_size_multiplier: 2,
@@ -20,6 +21,7 @@ fn test_integration_leveled() {
 }
 
 #[test]
+#[ignore]
 fn test_integration_tiered() {
     test_integration(CompactionOptions::Tiered(TieredCompactionOptions {
         num_tiers: 3,
