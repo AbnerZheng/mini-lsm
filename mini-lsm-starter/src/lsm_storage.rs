@@ -459,6 +459,7 @@ impl LsmStorageInner {
 
     /// Force flush the earliest-created immutable memtable to disk
     pub fn force_flush_next_imm_memtable(&self) -> Result<()> {
+        let _state_lock = self.state_lock.lock();
         let memtable_to_flush = {
             let guard = self.state.read();
             guard
@@ -468,12 +469,11 @@ impl LsmStorageInner {
                 .clone()
         };
         let mut builder = SsTableBuilder::new(self.options.block_size);
-        memtable_to_flush.flush(&mut builder);
-        let sst_id = memtable_to_flush.id();
+        memtable_to_flush.flush(&mut builder)?;
         let sstable = builder.build(
-            sst_id,
+            memtable_to_flush.id(),
             Some(self.block_cache.clone()),
-            self.path_of_sst(sst_id),
+            self.path_of_sst(memtable_to_flush.id()),
         )?;
 
         {
@@ -482,10 +482,12 @@ impl LsmStorageInner {
 
             // remove it from imm_memtable
             let memtable = snapshot.imm_memtables.pop().unwrap();
-            assert_eq!(memtable.id(), sst_id);
-            //
-            snapshot.l0_sstables.insert(0, sst_id);
-            snapshot.sstables.insert(sst_id, Arc::new(sstable));
+            assert_eq!(memtable.id(), memtable_to_flush.id());
+
+            snapshot.l0_sstables.insert(0, sstable.sst_id());
+            snapshot
+                .sstables
+                .insert(sstable.sst_id(), Arc::new(sstable));
 
             *guard = Arc::new(snapshot);
         }
