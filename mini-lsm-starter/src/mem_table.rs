@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use bytes::Bytes;
-use crossbeam_skiplist::SkipMap;
+use crossbeam_skiplist::{SkipList, SkipMap};
 use ouroboros::self_referencing;
 
 use crate::iterators::StorageIterator;
@@ -45,13 +45,26 @@ impl MemTable {
     }
 
     /// Create a new mem-table with WAL
-    pub fn create_with_wal(_id: usize, _path: impl AsRef<Path>) -> Result<Self> {
-        unimplemented!()
+    pub fn create_with_wal(id: usize, path: impl AsRef<Path>) -> Result<MemTable> {
+        let wal = Wal::create(path)?;
+        Ok(Self {
+            map: Arc::new(Default::default()),
+            wal: Some(wal),
+            id,
+            approximate_size: Arc::new(Default::default()),
+        })
     }
 
     /// Create a memtable from WAL
-    pub fn recover_from_wal(_id: usize, _path: impl AsRef<Path>) -> Result<Self> {
-        unimplemented!()
+    pub fn recover_from_wal(id: usize, path: impl AsRef<Path>) -> Result<Self> {
+        let skip_map = SkipMap::new();
+        let (wal, approximate_size) = Wal::recover(path, &skip_map)?;
+        Ok(Self {
+            map: Arc::new(skip_map),
+            wal: Some(wal),
+            id,
+            approximate_size: Arc::new(AtomicUsize::new(approximate_size)),
+        })
     }
 
     pub fn for_testing_put_slice(&self, key: &[u8], value: &[u8]) -> Result<()> {
@@ -82,6 +95,9 @@ impl MemTable {
     pub fn put(&self, key: &[u8], value: &[u8]) -> Result<()> {
         self.map
             .insert(Bytes::copy_from_slice(key), Bytes::copy_from_slice(value));
+        if let Some(ref wal) = self.wal {
+            wal.put(key, value)?;
+        }
         self.approximate_size
             .fetch_add(key.len() + value.len(), Ordering::Relaxed);
         Ok(())
