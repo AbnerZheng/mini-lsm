@@ -200,7 +200,37 @@ impl Drop for MiniLsm {
 
 impl MiniLsm {
     pub fn close(&self) -> Result<()> {
-        self.flush_notifier.send(()).map_err(|e| anyhow!("{e}"))
+        self.inner.sync_dir()?;
+        self.flush_notifier.send(()).map_err(|e| anyhow!("{e}"))?;
+        self.compaction_notifier
+            .send(())
+            .map_err(|e| anyhow!("{e}"))?;
+
+        self.flush_thread
+            .lock()
+            .take()
+            .map(|thread| {
+                thread
+                    .join()
+                    .map_err(|e| anyhow!("failed to stop flush thread: {:?}", e))
+            })
+            .transpose()?;
+
+        self.compaction_thread
+            .lock()
+            .take()
+            .map(|thread| {
+                thread
+                    .join()
+                    .map_err(|e| anyhow!("failed to stop compaction thread: {:?}", e))
+            })
+            .transpose()?;
+
+        if !self.inner.options.enable_wal {
+            // flush all memtables to the disk
+            self.force_flush()?;
+        }
+        Ok(())
     }
 
     /// Start the storage engine by either loading an existing directory or creating a new one if the directory does
@@ -262,7 +292,7 @@ impl MiniLsm {
             self.inner
                 .force_freeze_memtable(&self.inner.state_lock.lock())?;
         }
-        if !self.inner.state.read().imm_memtables.is_empty() {
+        while !self.inner.state.read().imm_memtables.is_empty() {
             self.inner.force_flush_next_imm_memtable()?;
         }
         Ok(())
