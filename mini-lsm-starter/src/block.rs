@@ -16,39 +16,53 @@ pub struct Block {
     pub(crate) offsets: Vec<u16>,
 }
 
+/// Data layout
+///
+/// --------------------------------------------------------------------------------------------------------------------
+/// |             Data Section             |              Offset Section                  |      Extra      | checksum |
+/// --------------------------------------------------------------------------------------------------------------------
+/// | Entry #1 | Entry #2 | ... | Entry #N | Offset #1(u16) | Offset #2 | ... | Offset #N | num_of_elements |  u32     |
+/// -------------------------------------------------------------------------------------------------------------------
 impl Block {
-    /// Encode the internal data to the data layout illustrated in the tutorial
-    /// Note: You may want to recheck if any of the expected field is missing from your output
     pub fn encode(&self) -> Bytes {
+        // data section
         let mut res = self.data.clone();
-        for x in &self.offsets {
-            res.put_u16(*x);
+
+        // offset section
+        for offset in &self.offsets {
+            res.put_u16(*offset);
         }
+
+        // num of element
         res.put_u16(self.offsets.len() as u16);
+
+        // checksum
         let crc = crc32fast::hash(&res);
         res.put_u32(crc);
-        Bytes::from(res)
+
+        res.into()
     }
 
     /// Decode from the data layout, transform the input `data` to a single `Block`
-    /// --------------------------------------------------------------------------------------------------------------------
-    /// |             Data Section             |              Offset Section                  |      Extra      | checcksum |
-    /// --------------------------------------------------------------------------------------------------------------------
-    /// | Entry #1 | Entry #2 | ... | Entry #N | Offset #1(u16) | Offset #2 | ... | Offset #N | num_of_elements |  u32     |
-    /// -------------------------------------------------------------------------------------------------------------------
     pub fn decode(data: &[u8]) -> Self {
-        let (data, mut crc_raw) = data.split_at(data.len() - SIZE_OF_U32);
-        let crc = crc_raw.get_u32();
-        let crc_actual = crc32fast::hash(data);
-        assert_eq!(crc, crc_actual, "corrupted block");
-        let num_of_elements = (&data[data.len() - SIZE_OF_U16..]).get_u16() as usize;
+        let end_position_num_of_elem = data.len() - SIZE_OF_U32;
+        // verify checksum
+        let crc_expected = (&data[end_position_num_of_elem..]).get_u32();
+        let crc_actual = crc32fast::hash(&data[..end_position_num_of_elem]);
+        assert_eq!(crc_expected, crc_actual, "corrupted block");
 
-        let offset = data[data.len() - SIZE_OF_U16 * (num_of_elements + 1)..data.len() - SIZE_OF_U16]
+        let end_position_offset = end_position_num_of_elem - SIZE_OF_U16;
+        let num_of_elements =
+            (&data[end_position_offset..end_position_num_of_elem]).get_u16() as usize;
+
+        let end_position_data = end_position_offset - num_of_elements * SIZE_OF_U16;
+
+        let offset = data[end_position_data..end_position_offset]
             .chunks(2)
             .map(|mut chunk| chunk.get_u16())
             .collect::<Vec<_>>();
 
-        let data = &data[..data.len() - SIZE_OF_U16 * (num_of_elements + 1)];
+        let data = &data[..end_position_data];
         Self {
             data: data.to_vec(),
             offsets: offset,

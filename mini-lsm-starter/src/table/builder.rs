@@ -6,9 +6,9 @@ use anyhow::Result;
 use bytes::BufMut;
 use farmhash::fingerprint32;
 
-use crate::{block::BlockBuilder, key::KeySlice, lsm_storage::BlockCache};
 use crate::key::KeyVec;
 use crate::table::bloom::Bloom;
+use crate::{block::BlockBuilder, key::KeySlice, lsm_storage::BlockCache};
 
 use super::{BlockMeta, FileObject, SsTable};
 

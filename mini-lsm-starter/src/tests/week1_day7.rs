@@ -1,12 +1,12 @@
 use tempfile::tempdir;
 
+use crate::block::{prefix_decoding, prefix_encoding};
+use crate::key::KeyVec;
+use crate::tests::harness::as_bytes;
 use crate::{
     key::{KeySlice, TS_ENABLED},
     table::{bloom::Bloom, FileObject, SsTable, SsTableBuilder},
 };
-use crate::block::{prefix_decoding, prefix_encoding};
-use crate::key::KeyVec;
-use crate::tests::harness::as_bytes;
 
 fn key_of(idx: usize) -> Vec<u8> {
     format!("key_{:010}", idx * 5).into_bytes()
