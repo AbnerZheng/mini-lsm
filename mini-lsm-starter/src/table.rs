@@ -43,11 +43,17 @@ impl BlockMeta {
             buf.put_u16(meta.last_key.len() as u16);
             buf.put(meta.last_key.raw_ref());
         }
-        buf.put_u32(meta_offset);
+        let crc = crc32fast::hash(&buf[meta_offset as usize..]);
+        buf.put_u32(crc);
     }
 
     /// Decode block meta from a buffer.
-    pub fn decode_block_meta(mut buf: impl Buf) -> Vec<BlockMeta> {
+    pub fn decode_block_meta(mut buf: &[u8]) -> Vec<BlockMeta> {
+        let (mut buf, mut crc_raw) = buf.split_at(buf.len() - SIZE_OF_U32);
+        let crc_expected = crc_raw.get_u32();
+        let crc_calculated = crc32fast::hash(buf);
+        assert_eq!(crc_expected, crc_calculated, "corrupted block meta");
+
         let mut res = vec![];
         while buf.has_remaining() {
             let offset = buf.get_u32() as usize;

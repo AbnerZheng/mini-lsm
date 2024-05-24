@@ -101,6 +101,7 @@ impl SsTableBuilder {
         self.data.extend_from_slice(&block);
         let block_meta_offset = self.data.len() as u64;
         BlockMeta::encode_block_meta(&self.meta, &mut self.data);
+        self.data.put_u32(block_meta_offset as u32);
 
         let bits_per_key = Bloom::bloom_bits_per_key(self.key_hashes.len(), 0.01);
         let bloom = Bloom::build_from_key_hashes(self.key_hashes.as_slice(), bits_per_key);

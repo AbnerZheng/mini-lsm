@@ -1,7 +1,8 @@
 // Copyright 2021 TiKV Project Authors. Licensed under Apache-2.0.
 
+use crate::block::SIZEOF_U32;
 use anyhow::Result;
-use bytes::{BufMut, Bytes, BytesMut};
+use bytes::{Buf, BufMut, Bytes, BytesMut};
 use log::warn;
 
 /// Implements a bloom filter
@@ -48,6 +49,10 @@ impl<T: AsMut<[u8]>> BitSliceMut for T {
 impl Bloom {
     /// Decode a bloom filter
     pub fn decode(buf: &[u8]) -> Result<Self> {
+        let (buf, mut crc_raw) = buf.split_at(buf.len() - SIZEOF_U32);
+        let crc_expected = crc_raw.get_u32();
+        let crc_calculated = crc32fast::hash(buf);
+        assert_eq!(crc_expected, crc_calculated, "corrupted bloom filter");
         let filter = &buf[..buf.len() - 1];
         let k = buf[buf.len() - 1];
         Ok(Self {
@@ -58,8 +63,12 @@ impl Bloom {
 
     /// Encode a bloom filter
     pub fn encode(&self, buf: &mut Vec<u8>) {
+        let old_pos = buf.len();
         buf.extend(&self.filter);
         buf.put_u8(self.k);
+        let filter_raw = &buf[old_pos..];
+        let crc = crc32fast::hash(filter_raw);
+        buf.put_u32(crc);
     }
 
     /// Get bloom filter bits per key from entries count and FPR
