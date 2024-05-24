@@ -1,8 +1,6 @@
 use super::Block;
 use crate::key::{KeySlice, KeyVec};
 use bytes::{Buf, BufMut};
-use log::warn;
-use nom::InputTake;
 
 /// Builds a block.
 pub struct BlockBuilder {
@@ -23,7 +21,7 @@ pub fn prefix_encoding(first_key: &KeyVec, key: &KeyVec) -> Vec<u8> {
         .iter()
         .zip(key.raw_ref().iter())
         .take_while(|(a, b)| **a == **b)
-        .map(|(a, b)| *a)
+        .map(|(a, _b)| *a)
         .collect::<Vec<_>>();
 
     let mut res = vec![];
@@ -38,7 +36,7 @@ pub fn prefix_encoding(first_key: &KeyVec, key: &KeyVec) -> Vec<u8> {
 pub fn prefix_decoding(first_key: &KeyVec, mut entry_raw: &[u8]) -> (KeyVec, Vec<u8>) {
     let overlap_len = entry_raw.get_u16();
     let rest_key_len = entry_raw.get_u16();
-    let (rest_key_raw, mut remaining) = entry_raw.split_at(rest_key_len as usize);
+    let (rest_key_raw, remaining) = entry_raw.split_at(rest_key_len as usize);
     assert!(overlap_len <= first_key.len() as u16);
 
     let mut key = first_key.raw_ref()[..overlap_len as usize].to_vec();

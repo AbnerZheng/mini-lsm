@@ -1,5 +1,3 @@
-#![allow(dead_code)] // REMOVE THIS LINE after fully implementing this functionality
-
 use std::fs;
 use std::fs::File;
 use std::io::{Read, Write};
@@ -8,10 +6,8 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use bytes::{Buf, BufMut};
-use log::warn;
 use parking_lot::{Mutex, MutexGuard};
 use serde::{Deserialize, Serialize};
-use serde_json::Deserializer;
 
 use crate::compact::CompactionTask;
 

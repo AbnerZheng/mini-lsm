@@ -1,5 +1,3 @@
-#![allow(dead_code)] // REMOVE THIS LINE after fully implementing this functionality
-
 use std::fs::{File, OpenOptions};
 use std::io::{BufWriter, Read, Write};
 use std::path::Path;
@@ -8,7 +6,6 @@ use std::sync::Arc;
 use anyhow::Result;
 use bytes::{Buf, BufMut, Bytes};
 use crossbeam_skiplist::SkipMap;
-use log::warn;
 use parking_lot::Mutex;
 
 pub struct Wal {

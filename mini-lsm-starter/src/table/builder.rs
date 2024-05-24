@@ -1,16 +1,16 @@
-#![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
-#![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
-
-use super::{BlockMeta, FileObject, SsTable};
-use crate::key::KeyVec;
-use crate::table::bloom::Bloom;
-use crate::{block::BlockBuilder, key::KeySlice, lsm_storage::BlockCache};
-use anyhow::Result;
-use bytes::BufMut;
-use farmhash::{fingerprint32, fingerprint64};
 use std::mem;
 use std::path::Path;
 use std::sync::Arc;
+
+use anyhow::Result;
+use bytes::BufMut;
+use farmhash::fingerprint32;
+
+use crate::{block::BlockBuilder, key::KeySlice, lsm_storage::BlockCache};
+use crate::key::KeyVec;
+use crate::table::bloom::Bloom;
+
+use super::{BlockMeta, FileObject, SsTable};
 
 /// Builds an SSTable from key-value pairs.
 pub struct SsTableBuilder {

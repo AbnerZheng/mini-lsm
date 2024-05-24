@@ -1,15 +1,17 @@
-use crate::block::Block;
-use crate::key::{KeyBytes, KeySlice};
-use crate::lsm_storage::BlockCache;
-use anyhow::{anyhow, Error, Result};
-pub use builder::SsTableBuilder;
-use bytes::{Buf, BufMut};
-use farmhash::fingerprint32;
-pub use iterator::SsTableIterator;
 use std::fs::File;
-use std::mem;
 use std::path::Path;
 use std::sync::Arc;
+
+use anyhow::{anyhow, Error, Result};
+use bytes::{Buf, BufMut};
+use farmhash::fingerprint32;
+
+pub use builder::SsTableBuilder;
+pub use iterator::SsTableIterator;
+
+use crate::block::{Block, SIZE_OF_U32};
+use crate::key::{KeyBytes, KeySlice};
+use crate::lsm_storage::BlockCache;
 
 use self::bloom::Bloom;
 
@@ -26,9 +28,6 @@ pub struct BlockMeta {
     /// The last key of the data block.
     pub last_key: KeyBytes,
 }
-
-const SIZE_OF_USIZE: usize = mem::size_of::<usize>();
-const SIZE_OF_U32: usize = mem::size_of::<u32>();
 
 impl BlockMeta {
     /// Encode block meta to a buffer.
@@ -48,7 +47,7 @@ impl BlockMeta {
     }
 
     /// Decode block meta from a buffer.
-    pub fn decode_block_meta(mut buf: &[u8]) -> Vec<BlockMeta> {
+    pub fn decode_block_meta(buf: &[u8]) -> Vec<BlockMeta> {
         let (mut buf, mut crc_raw) = buf.split_at(buf.len() - SIZE_OF_U32);
         let crc_expected = crc_raw.get_u32();
         let crc_calculated = crc32fast::hash(buf);

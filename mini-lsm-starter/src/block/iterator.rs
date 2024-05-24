@@ -1,11 +1,8 @@
-use std::sync::Arc;
-
-use bytes::{Buf, Bytes};
-
+use super::Block;
 use crate::block::builder::prefix_decoding;
 use crate::key::{KeySlice, KeyVec};
-
-use super::Block;
+use bytes::Buf;
+use std::sync::Arc;
 
 /// Iterates on a block.
 #[derive(Default)]

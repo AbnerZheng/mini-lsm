@@ -1,9 +1,4 @@
-#![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
-#![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
-
 use anyhow::Result;
-use log::warn;
-
 use super::StorageIterator;
 
 /// Merges two iterators of different types into one. If the two iterators have the same key, only
