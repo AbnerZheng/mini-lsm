@@ -8,6 +8,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use bytes::{Buf, BufMut, Bytes};
 use crossbeam_skiplist::SkipMap;
+use log::warn;
 use parking_lot::Mutex;
 
 pub struct Wal {
@@ -36,7 +37,16 @@ impl Wal {
             let key_len = buf_slice.get_u16();
             let (key, mut rem) = buf_slice.split_at(key_len as usize);
             let value_len = rem.get_u16();
-            let (value, rem) = rem.split_at(value_len as usize);
+            let (value, mut rem) = rem.split_at(value_len as usize);
+            let crc_expected = rem.get_u32();
+
+            let mut buf = Vec::with_capacity(key_len as usize + value_len as usize + 4);
+            buf.put_u16(key_len);
+            buf.extend_from_slice(key);
+            buf.put_u16(value_len);
+            buf.extend_from_slice(value);
+            let crc_calculated = crc32fast::hash(&buf);
+            assert_eq!(crc_expected, crc_calculated, "corrupted wal record");
 
             skiplist.insert(Bytes::copy_from_slice(key), Bytes::copy_from_slice(value));
             buf_slice = rem;
@@ -56,6 +66,9 @@ impl Wal {
         data.put_slice(key);
         data.put_u16(value.len() as u16);
         data.put_slice(value);
+
+        let crc = crc32fast::hash(&data);
+        data.put_u32(crc);
 
         let mut guard = self.file.lock();
         guard.write_all(&data)?;
