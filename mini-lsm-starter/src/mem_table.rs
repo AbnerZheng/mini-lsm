@@ -14,9 +14,6 @@ use crate::table::SsTableBuilder;
 use crate::wal::Wal;
 
 /// A basic mem-table based on crossbeam-skiplist.
-///
-/// An initial implementation of memtable is part of week 1, day 1. It will be incrementally implemented in other
-/// chapters of week 1 and week 2.
 pub struct MemTable {
     map: Arc<SkipMap<Bytes, Bytes>>,
     wal: Option<Wal>,
@@ -89,9 +86,6 @@ impl MemTable {
     }
 
     /// Put a key-value pair into the mem-table.
-    ///
-    /// In week 1, day 1, simply put the key-value pair into the skipmap.
-    /// In week 2, day 6, also flush the data to WAL.
     pub fn put(&self, key: &[u8], value: &[u8]) -> Result<()> {
         self.map
             .insert(Bytes::copy_from_slice(key), Bytes::copy_from_slice(value));
@@ -119,16 +113,15 @@ impl MemTable {
             item: (Default::default(), Default::default()),
         }
         .build();
-        iterator.next().unwrap_or_default();
+        // Move to first element
+        iterator.next().unwrap();
         iterator
     }
 
     pub fn flush(&self, builder: &mut SsTableBuilder) -> Result<()> {
-        let mut iter = self.scan(Bound::Unbounded, Bound::Unbounded);
-        while iter.is_valid() {
-            builder.add(iter.key(), iter.value());
-            iter.next()?;
-        }
+        self.map
+            .iter()
+            .for_each(|entry| builder.add(KeySlice::from_slice(entry.key()), entry.value()));
         Ok(())
     }
 
@@ -137,8 +130,7 @@ impl MemTable {
     }
 
     pub fn approximate_size(&self) -> usize {
-        self.approximate_size
-            .load(std::sync::atomic::Ordering::Relaxed)
+        self.approximate_size.load(Ordering::Relaxed)
     }
 
     /// Only use this function when closing the database

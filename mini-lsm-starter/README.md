@@ -6,16 +6,19 @@ Starter code for Mini-LSM.
 #### Test Your Understanding
 
 * Why doesn't the memtable provide a delete API? 
-  - Because we need a placeholder to indicate that all previous item related the specified key in immutable memtable is invalid and having been deleted.
+  - The memtable doesn't provide a delete API because a placeholder(tombstone) is required. 
+  - This placeholder signifies that all previous entries associated with the provided key in the immutable table and SST are invalid and have been deleted.
 * Is it possible to use other data structures as the memtable in LSM? What are the pros/cons of using the skiplist?
-  - Of course, we can also use concurrent hashmap/btree map/vector. Skiplist keep thing in sort, which is needed when merging memtable.  
+  - Indeed, alternatives such as concurrent hashmap, btree map or vector can be employed. 
+  - The skiplist maintains elements in a sorted order, a characteristic that is essential during the memtable merging process.
 * Why do we need a combination of state and state_lock? Can we only use state.read() and state.write()?
   - I think we can only use state.read() and state.write(), the reason why we use `state_lock` is that we want the reduce the time to hold `write lock` of state, for example, 
   - when doing force_freeze_memtable, we have to create memtable which may cost some milliseconds, in this way, we can reduce the critical region.
 * Why does the order to store and to probe the memtables matter? If a key appears in multiple memtables, which version should you return to the user?
-  - Preventing returning stale dats. The newest one, which means `state.memtables` firstly if possible, then `state.imm_memtables[0..n]`.  
+  - The order to store and probe the memtables matters because we want to return the more recent version of the key. 
+  - This means `state.memtables` is checked first, if possible, followed by `state.imm_memtables[0..n]`.
 * Is the memory layout of the memtable efficient / does it have good data locality? (Think of how Byte is implemented and stored in the skiplist...) What are the possible optimizations to make the memtable more efficient?
-* 
+  - 
 * So we are using parking_lot locks in this tutorial. Is its read-write lock a fair lock? What might happen to the readers trying to acquire the lock if there is one writer waiting for existing readers to stop?
   - It is a fair lock, and it may lead to deadlock if readers recursively acquire read lock. 
 * After freezing the memtable, is it possible that some threads still hold the old LSM state and wrote into these immutable memtables? How does your solution prevent it from happening?
@@ -74,6 +77,7 @@ Starter code for Mini-LSM.
 ### day 4
 #### Test Your Understanding
 * What is the time complexity of seeking a key in the SST?
+  - 
 * Where does the cursor stop when you seek a non-existent key in your implementation?
 * Is it possible (or necessary) to do in-place updates of SST files?
 * An SST is usually large (i.e., 256MB). In this case, the cost of copying/expanding the Vec would be significant. Does your implementation allocate enough space for your SST builder in advance? How did you implement it? 

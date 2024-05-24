@@ -408,7 +408,7 @@ impl LsmStorageInner {
             state: Arc::new(RwLock::new(Arc::new(state))),
             state_lock: Mutex::new(()),
             path: path.to_path_buf(),
-            block_cache: block_cache,
+            block_cache,
             next_sst_id: AtomicUsize::new(max_sst_id + 1),
             compaction_controller,
             manifest: Some(manifest),
