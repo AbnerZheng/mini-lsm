@@ -1,0 +1,32 @@
+=== Iteration 0 ===
+--- After Flush ---
+L0 (1): [1]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 1/1=1.000x
+Maximum Space Usage: 1/1=1.000x
+Read Amplification: 1x
+
+=== Iteration 1 ===
+--- After Flush ---
+L0 (2): [1, 2]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+--- Compaction Task ---
+compaction triggered at level 0 and 1 with size ratio 0
+Upper L0 [1, 2] Lower L0 [] -> [3, 4]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [1, 2]
+L2 (0): []
+L3 (0): []
+--- Compaction Task ---
+compaction triggered at level 0 and 1 with size ratio 0
+Upper L0 [3, 4] Lower L1 [] -> [5, 6]
+--- After Compaction ---
+L0 (0): []

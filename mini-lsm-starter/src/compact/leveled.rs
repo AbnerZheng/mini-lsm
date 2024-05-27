@@ -56,6 +56,20 @@ impl LeveledCompactionController {
         &self,
         snapshot: &LsmStorageState,
     ) -> Option<LeveledCompactionTask> {
+        assert_eq!(snapshot.levels.len(), self.options.max_levels);
+        if snapshot.l0_sstables.len() > self.options.level0_file_num_compaction_trigger {
+            // use number of file as file size to simplify problem
+            let target_size =
+                self.target_size(snapshot.levels[self.options.max_levels - 1].1.len());
+            let idx = target_size.iter().position(|&x| x > 0);
+            return Some(LeveledCompactionTask {
+                upper_level: None,
+                upper_level_sst_ids: vec![],
+                lower_level: 0,
+                lower_level_sst_ids: vec![],
+                is_lower_level_bottom_level: false,
+            });
+        }
         unimplemented!()
     }
 

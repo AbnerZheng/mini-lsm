@@ -47,20 +47,20 @@ impl SimpleLeveledCompactionController {
                 return Some(SimpleLeveledCompactionTask {
                     upper_level: None,
                     upper_level_sst_ids: snapshot.l0_sstables.clone(),
-                    lower_level: 1,
+                    lower_level: 0,
                     lower_level_sst_ids: snapshot.levels[0].1.clone(),
                     is_lower_level_bottom_level: false,
                 });
             }
         }
 
-        for upper_level in 1..self.options.max_levels {
-            assert_eq!(snapshot.levels[upper_level - 1].0, upper_level);
+        for upper_level in 0..(self.options.max_levels - 1) {
+            assert_eq!(snapshot.levels[upper_level].0, upper_level + 1);
             let lower_level = upper_level + 1;
-            assert_eq!(snapshot.levels[lower_level - 1].0, lower_level);
+            assert_eq!(snapshot.levels[lower_level].0, lower_level + 1);
 
-            let upper_level_sst = &snapshot.levels[upper_level - 1].1;
-            let lower_level_sst = &snapshot.levels[lower_level - 1].1;
+            let upper_level_sst = &snapshot.levels[upper_level].1;
+            let lower_level_sst = &snapshot.levels[lower_level].1;
 
             if lower_level_sst.len() * 100 < self.options.size_ratio_percent * upper_level_sst.len()
             {
@@ -94,24 +94,24 @@ impl SimpleLeveledCompactionController {
         task: &SimpleLeveledCompactionTask,
         output: &[usize],
     ) -> (LsmStorageState, Vec<usize>) {
-        assert_eq!(snapshot.levels[task.lower_level - 1].0, task.lower_level);
+        assert_eq!(snapshot.levels[task.lower_level].0, task.lower_level + 1);
         let mut snapshot = snapshot.clone();
         let mut to_remove_idx = vec![];
-        let lower_level_sst = &mut snapshot.levels[task.lower_level - 1].1;
+        let lower_level_sst = &mut snapshot.levels[task.lower_level].1;
         assert_eq!(
             *lower_level_sst, task.lower_level_sst_ids,
             "lower level sst ids mismatch"
         );
         to_remove_idx.extend_from_slice(lower_level_sst);
         *lower_level_sst = output.to_vec();
-        if task.upper_level.is_none() || task.upper_level == Some(0) {
+        if task.upper_level.is_none() {
             snapshot
                 .l0_sstables
                 .retain(|idx| !task.upper_level_sst_ids.contains(idx));
         } else {
             let upper_level = task.upper_level.unwrap();
-            assert_eq!(snapshot.levels[upper_level - 1].0, upper_level);
-            snapshot.levels[upper_level - 1]
+            assert_eq!(snapshot.levels[upper_level].0, upper_level + 1);
+            snapshot.levels[upper_level]
                 .1
                 .retain(|idx| !task.upper_level_sst_ids.contains(idx))
         }
