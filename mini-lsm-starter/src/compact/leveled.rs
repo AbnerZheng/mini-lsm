@@ -59,15 +59,14 @@ impl LeveledCompactionController {
         snapshot: &LsmStorageState,
     ) -> Option<LeveledCompactionTask> {
         assert_eq!(snapshot.levels.len(), self.options.max_levels);
+        let max_level_size_bytes = snapshot.levels[self.options.max_levels - 1]
+            .1
+            .iter()
+            .map(|sst_id| snapshot.sstables[sst_id].file.size())
+            .sum::<u64>();
+        let max_level_size_mb = max_level_size_bytes / 1024 / 1024;
+        let target_size = self.target_size(max_level_size_mb as usize);
         if snapshot.l0_sstables.len() >= self.options.level0_file_num_compaction_trigger {
-            let max_level_size = snapshot.levels[self.options.max_levels - 1]
-                .1
-                .iter()
-                .map(|sst_id| snapshot.sstables[sst_id].file.size())
-                .sum::<u64>()
-                / 1024
-                / 1024;
-            let target_size = self.target_size(max_level_size as usize);
             let idx = target_size
                 .iter()
                 .position(|&x| x > 0)
@@ -79,9 +78,40 @@ impl LeveledCompactionController {
                 upper_level_sst_ids: snapshot.l0_sstables.clone(),
                 lower_level: idx,
                 lower_level_sst_ids: snapshot.levels[idx].1.clone(),
-                is_lower_level_bottom_level: false,
+                is_lower_level_bottom_level: idx == self.options.max_levels - 1,
             });
         }
+
+        let files_sizes = snapshot
+            .levels
+            .iter()
+            .map(|(_, sst_ids)| {
+                let file_in_bytes = sst_ids
+                    .iter()
+                    .map(|sst_id| snapshot.sstables[sst_id].file.size())
+                    .sum::<u64>();
+                file_in_bytes / 1024 / 1024
+            })
+            .collect::<Vec<_>>();
+
+        let (idx, ratio) = files_sizes
+            .iter()
+            .zip(target_size)
+            .map(|(&act, tgt)| act as f64 / tgt as f64)
+            .enumerate()
+            .max_by(|x, y| x.1.partial_cmp(&y.1).unwrap())
+            .unwrap();
+
+        if ratio > 1.0 {
+            return Some(LeveledCompactionTask {
+                upper_level: Some(idx),
+                upper_level_sst_ids: vec![],
+                lower_level: idx + 1,
+                lower_level_sst_ids: vec![],
+                is_lower_level_bottom_level: idx + 1 == self.options.max_levels - 1,
+            });
+        }
+
         None
     }
 
