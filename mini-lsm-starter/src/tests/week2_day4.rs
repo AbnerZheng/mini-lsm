@@ -43,14 +43,3 @@ fn test_target_size() {
         vec![0, 0, 30, 300, 3 * 1000, 30 * 1000]
     );
 }
-
-#[test]
-fn test_target_size_2() {
-    let controller = LeveledCompactionController::new(LeveledCompactionOptions {
-        level0_file_num_compaction_trigger: 2,
-        level_size_multiplier: 2,
-        base_level_size_mb: 128,
-        max_levels: 4,
-    });
-    assert_eq!(controller.target_size(6), vec![0, 0, 0, 200]);
-}

@@ -1,6 +1,6 @@
-use log::warn;
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+
+use serde::{Deserialize, Serialize};
 
 use crate::lsm_storage::LsmStorageState;
 
@@ -38,7 +38,7 @@ impl TieredCompactionController {
         // Space Amplification Ratio
         let all_level_except_last_level = snapshot.levels[..snapshot.levels.len() - 1]
             .iter()
-            .map(|(idx, sst_ids)| sst_ids.len())
+            .map(|(_idx, sst_ids)| sst_ids.len())
             .sum::<usize>();
         let last_level_size = snapshot.levels.last().unwrap().1.len();
         if all_level_except_last_level * 100

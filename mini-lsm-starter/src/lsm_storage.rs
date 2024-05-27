@@ -465,6 +465,7 @@ impl LsmStorageInner {
                     }
                     None => {
                         let key = KeySlice::from_slice(key);
+
                         // read from ssttable
                         for idx in &snapshot.l0_sstables {
                             let sstable = snapshot.sstables[idx].clone();

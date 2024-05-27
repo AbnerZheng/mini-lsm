@@ -1,6 +1,9 @@
-use crate::lsm_storage::LsmStorageState;
-use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
+use std::collections::HashSet;
+
+use serde::{Deserialize, Serialize};
+
+use crate::lsm_storage::LsmStorageState;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LeveledCompactionTask {
@@ -151,6 +154,7 @@ impl LeveledCompactionController {
         task: &LeveledCompactionTask,
         output: &[usize],
     ) -> (LsmStorageState, Vec<usize>) {
+        println!("apply compaction {task:?}, {output:?}");
         let mut snapshot = snapshot.clone();
         let LeveledCompactionTask {
             upper_level,
@@ -163,11 +167,11 @@ impl LeveledCompactionController {
         match upper_level {
             None => {
                 // compact l0
-                assert_eq!(
-                    snapshot.l0_sstables, *upper_level_sst_ids,
-                    "state change during compaction"
-                );
-                snapshot.l0_sstables = vec![];
+                // let mut upper_set = HashSet::from(upper_level_sst_ids.as_slice().iter().copied());
+                let mut upper_set: HashSet<usize> =
+                    HashSet::from_iter(upper_level_sst_ids.iter().copied());
+                snapshot.l0_sstables.retain(|i| !upper_set.remove(i));
+                assert!(upper_set.is_empty(), "could not find l0 sstable");
             }
             Some(upper_level) => {
                 assert_eq!(upper_level_sst_ids.len(), 1);

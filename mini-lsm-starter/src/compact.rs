@@ -14,8 +14,8 @@ pub use tiered::{TieredCompactionController, TieredCompactionOptions, TieredComp
 use crate::compact::CompactionTask::ForceFullCompaction;
 use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::merge_iterator::MergeIterator;
+use crate::iterators::StorageIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
-use crate::iterators::{merge_iterator, StorageIterator};
 use crate::key::KeySlice;
 use crate::lsm_storage::{LsmStorageInner, LsmStorageState};
 use crate::manifest::ManifestRecord;
@@ -159,12 +159,9 @@ impl LsmStorageInner {
         };
 
         match task {
-            CompactionTask::Leveled(_) => {
-                unimplemented!();
-            }
             CompactionTask::Tiered(TieredCompactionTask {
                 tiers,
-                bottom_tier_included,
+                bottom_tier_included: _,
             }) => {
                 let to_compact = tiers
                     .iter()
@@ -180,11 +177,19 @@ impl LsmStorageInner {
                 let merge_iterator = MergeIterator::create(to_compact);
                 self.compact_from_iter(task.compact_to_bottom_level(), merge_iterator)
             }
-            CompactionTask::Simple(SimpleLeveledCompactionTask {
+            CompactionTask::Leveled(LeveledCompactionTask {
                 upper_level,
                 upper_level_sst_ids,
+                lower_level,
                 lower_level_sst_ids,
-                ..
+                is_lower_level_bottom_level,
+            })
+            | CompactionTask::Simple(SimpleLeveledCompactionTask {
+                upper_level,
+                upper_level_sst_ids,
+                lower_level,
+                lower_level_sst_ids,
+                is_lower_level_bottom_level,
             }) => {
                 let lower_tables = lower_level_sst_ids
                     .iter()
@@ -330,15 +335,18 @@ impl LsmStorageInner {
 
         let sst_to_remove = {
             let state_lock = self.state_lock.lock();
+            let mut state = self.state.read().as_ref().clone();
+
+            for sst in sst_to_add {
+                let prev = state.sstables.insert(sst.sst_id(), sst);
+                assert!(prev.is_none());
+            }
 
             let (mut new_state, sst_to_remove) = self
                 .compaction_controller
-                .apply_compaction_result(&self.state.read(), &compaction_task, &sst_to_add_ids);
+                .apply_compaction_result(&state, &compaction_task, &sst_to_add_ids);
 
-            for sst in sst_to_add {
-                let prev = new_state.sstables.insert(sst.sst_id(), sst);
-                assert!(prev.is_none());
-            }
+            drop(state);
 
             for sst_id in &sst_to_remove {
                 let res = new_state.sstables.remove(sst_id);
