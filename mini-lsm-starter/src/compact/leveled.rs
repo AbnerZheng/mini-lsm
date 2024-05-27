@@ -1,6 +1,6 @@
-use std::cmp::Ordering;
-use serde::{Deserialize, Serialize};
 use crate::lsm_storage::LsmStorageState;
+use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LeveledCompactionTask {
@@ -151,14 +151,13 @@ impl LeveledCompactionController {
         task: &LeveledCompactionTask,
         output: &[usize],
     ) -> (LsmStorageState, Vec<usize>) {
-        // println!("{:?}, {output:?}", task);
         let mut snapshot = snapshot.clone();
         let LeveledCompactionTask {
             upper_level,
             upper_level_sst_ids,
             lower_level,
             lower_level_sst_ids,
-            is_lower_level_bottom_level: _,
+            ..
         } = task;
         let mut files_to_remove = vec![];
         match upper_level {
@@ -206,7 +205,6 @@ impl LeveledCompactionController {
             }
             res
         };
-
         // find the right place to insert compacted SsTable
         let first_key = snapshot.sstables[&output[0]].first_key();
         if lower_level_kept.is_empty() {
