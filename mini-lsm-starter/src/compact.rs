@@ -15,7 +15,7 @@ use crate::compact::CompactionTask::ForceFullCompaction;
 use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::merge_iterator::MergeIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
-use crate::iterators::StorageIterator;
+use crate::iterators::{merge_iterator, StorageIterator};
 use crate::key::KeySlice;
 use crate::lsm_storage::{LsmStorageInner, LsmStorageState};
 use crate::manifest::ManifestRecord;
@@ -162,8 +162,23 @@ impl LsmStorageInner {
             CompactionTask::Leveled(_) => {
                 unimplemented!();
             }
-            CompactionTask::Tiered(_) => {
-                unimplemented!();
+            CompactionTask::Tiered(TieredCompactionTask {
+                tiers,
+                bottom_tier_included,
+            }) => {
+                let to_compact = tiers
+                    .iter()
+                    .map(|(_, sst_id)| {
+                        let sst = sst_id
+                            .iter()
+                            .map(|sst_id| snapshot.sstables[sst_id].clone())
+                            .collect::<Vec<_>>();
+                        let iter = SstConcatIterator::create_and_seek_to_first(sst)?;
+                        Ok(Box::new(iter))
+                    })
+                    .collect::<Result<Vec<_>>>()?;
+                let merge_iterator = MergeIterator::create(to_compact);
+                self.compact_from_iter(task.compact_to_bottom_level(), merge_iterator)
             }
             CompactionTask::Simple(SimpleLeveledCompactionTask {
                 upper_level,
