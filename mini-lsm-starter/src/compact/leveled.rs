@@ -38,9 +38,23 @@ impl LeveledCompactionController {
         unimplemented!()
     }
 
+    pub fn target_size(&self, max_level_size_mb: usize) -> Vec<usize> {
+        let mut res = vec![0; self.options.max_levels];
+        let mut cur = max_level_size_mb;
+        for i in (0..self.options.max_levels).rev() {
+            res[i] = cur;
+            if cur <= self.options.base_level_size_mb {
+                break;
+            }
+            cur /= self.options.level_size_multiplier;
+        }
+
+        res
+    }
+
     pub fn generate_compaction_task(
         &self,
-        _snapshot: &LsmStorageState,
+        snapshot: &LsmStorageState,
     ) -> Option<LeveledCompactionTask> {
         unimplemented!()
     }

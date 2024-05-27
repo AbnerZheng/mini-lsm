@@ -1,0 +1,1585 @@
+=== Iteration 0 ===
+--- After Flush ---
+L0 (1): [1]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (0): []
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 1/1=1.000x
+Maximum Space Usage: 1/1=1.000x
+Read Amplification: 1x
+
+=== Iteration 1 ===
+--- After Flush ---
+L0 (2): [1, 2]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (0): []
+--- Compaction Task ---
+flush L0 SST to base level 4
+Upper L0 [1.sst 20823b95..=99f5aaee, 2.sst 7604666b..=e2ad465a] Lower L4 [] -> [3.sst 20823b95..=8197c0f7, 4.sst 8197c0f8..=e2ad465a]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (2): [1, 2]
+--- Compaction Task ---
+1 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 4/2=2.000x
+Maximum Space Usage: 4/2=2.000x
+Read Amplification: 1x
+
+=== Iteration 2 ===
+--- After Flush ---
+L0 (1): [5]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (2): [1, 2]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 5/3=1.667x
+Maximum Space Usage: 4/3=1.333x
+Read Amplification: 2x
+
+=== Iteration 3 ===
+--- After Flush ---
+L0 (2): [5, 6]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (2): [1, 2]
+--- Compaction Task ---
+flush L0 SST to base level 4
+Upper L0 [5.sst d20929f..=1af997ac, 6.sst 62c4b89e..=6d1b26f1] Lower L4 [3.sst 20823b95..=8197c0f7] -> [7.sst d20929f..=33f2f766, 8.sst 33f2f767..=5ac55c2e, 9.sst 5ac55c2f..=8197c0f7]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (4): [5, 6, 3, 2]
+--- Compaction Task ---
+1 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 9/4=2.250x
+Maximum Space Usage: 7/4=1.750x
+Read Amplification: 1x
+
+=== Iteration 4 ===
+--- After Flush ---
+L0 (1): [10]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (4): [5, 6, 3, 2]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 10/5=2.000x
+Maximum Space Usage: 7/5=1.400x
+Read Amplification: 2x
+
+=== Iteration 5 ===
+--- After Flush ---
+L0 (2): [10, 11]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (4): [5, 6, 3, 2]
+--- Compaction Task ---
+flush L0 SST to base level 4
+Upper L0 [10.sst 6dc16a3a..=dad374ae, 11.sst 2eaf193a..=a8a2b024] Lower L4 [7.sst d20929f..=33f2f766, 8.sst 33f2f767..=5ac55c2e, 9.sst 5ac55c2f..=8197c0f7, 4.sst 8197c0f8..=e2ad465a] -> [12.sst d20929f..=30b805e8, 13.sst 30b805e9..=544f7932, 14.sst 544f7933..=77e6ec7c, 15.sst 77e6ec7d..=9b7e5fc6, 16.sst 9b7e5fc7..=bf15d310, 17.sst bf15d311..=e2ad465a]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+1 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 17/6=2.833x
+Maximum Space Usage: 12/6=2.000x
+Read Amplification: 1x
+
+=== Iteration 6 ===
+--- After Flush ---
+L0 (1): [18]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 18/7=2.571x
+Maximum Space Usage: 12/7=1.714x
+Read Amplification: 2x
+
+=== Iteration 7 ===
+--- After Flush ---
+L0 (2): [18, 19]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+flush L0 SST to base level 3
+Upper L0 [18.sst 62aa78c7..=6b5d0114, 19.sst 4bfce961..=628e6c22] Lower L3 [] -> [20.sst 4bfce961..=5bacf53a, 21.sst 5bacf53b..=6b5d0114]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (2): [18, 19]
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+1 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 21/8=2.625x
+Maximum Space Usage: 12/8=1.500x
+Read Amplification: 2x
+
+=== Iteration 8 ===
+--- After Flush ---
+L0 (1): [22]
+L1 (0): []
+L2 (0): []
+L3 (2): [18, 19]
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 22/9=2.444x
+Maximum Space Usage: 12/9=1.333x
+Read Amplification: 3x
+
+=== Iteration 9 ===
+--- After Flush ---
+L0 (2): [22, 23]
+L1 (0): []
+L2 (0): []
+L3 (2): [18, 19]
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+flush L0 SST to base level 3
+Upper L0 [22.sst 2d8dcc77..=77acf37c, 23.sst 45a5441a..=69e49b5f] Lower L3 [20.sst 4bfce961..=5bacf53a, 21.sst 5bacf53b..=6b5d0114] -> [24.sst 2d8dcc77..=40159637, 25.sst 40159638..=529d5ff9, 26.sst 529d5ffa..=652529ba, 27.sst 652529bb..=77acf37c]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (4): [22, 23, 20, 21]
+L4 (6): [10, 11, 7, 8, 9, 4]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "0.000MB", "96.000MB", "192.000MB"], real level sizes: ["0.000MB", "0.000MB", "128.000MB", "192.000MB"], base_level: 3
+compaction triggered by priority: 3 out of [(1.3333333333333333, 3)], select 24 for compaction
+Upper L3 [24.sst 2d8dcc77..=40159637] Lower L4 [12.sst d20929f..=30b805e8, 13.sst 30b805e9..=544f7932] -> [28.sst d20929f..=24dadf7a, 29.sst 24dadf7b..=3c952c56, 30.sst 3c952c57..=544f7932]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (3): [23, 20, 21]
+L4 (7): [24, 12, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+2 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 30/10=3.000x
+Maximum Space Usage: 14/10=1.400x
+Read Amplification: 2x
+
+=== Iteration 10 ===
+--- After Flush ---
+L0 (1): [31]
+L1 (0): []
+L2 (0): []
+L3 (3): [23, 20, 21]
+L4 (7): [24, 12, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 31/11=2.818x
+Maximum Space Usage: 14/11=1.273x
+Read Amplification: 3x
+
+=== Iteration 11 ===
+--- After Flush ---
+L0 (2): [31, 32]
+L1 (0): []
+L2 (0): []
+L3 (3): [23, 20, 21]
+L4 (7): [24, 12, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+flush L0 SST to base level 3
+Upper L0 [31.sst 7be21180..=f705b8cc, 32.sst 78f69eb..=18db3507] Lower L3 [25.sst 40159638..=529d5ff9, 26.sst 529d5ffa..=652529ba, 27.sst 652529bb..=77acf37c] -> [33.sst 78f69eb..=3773e017, 34.sst 3773e018..=67585644, 35.sst 67585645..=973ccc71, 36.sst 973ccc72..=c721429e, 37.sst c721429f..=f705b8cc]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (5): [31, 32, 25, 26, 27]
+L4 (7): [24, 12, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "0.000MB", "112.000MB", "224.000MB"], real level sizes: ["0.000MB", "0.000MB", "160.000MB", "224.000MB"], base_level: 3
+compaction triggered by priority: 3 out of [(1.4285714285714286, 3)], select 33 for compaction
+Upper L3 [33.sst 78f69eb..=3773e017] Lower L4 [28.sst d20929f..=24dadf7a, 29.sst 24dadf7b..=3c952c56] -> [38.sst 78f69eb..=193c000e, 39.sst 193c000f..=2ae89632, 40.sst 2ae89633..=3c952c56]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (4): [32, 25, 26, 27]
+L4 (8): [33, 28, 29, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+2 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 40/12=3.333x
+Maximum Space Usage: 17/12=1.417x
+Read Amplification: 2x
+
+=== Iteration 12 ===
+--- After Flush ---
+L0 (1): [41]
+L1 (0): []
+L2 (0): []
+L3 (4): [32, 25, 26, 27]
+L4 (8): [33, 28, 29, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 41/13=3.154x
+Maximum Space Usage: 17/13=1.308x
+Read Amplification: 3x
+
+=== Iteration 13 ===
+--- After Flush ---
+L0 (2): [41, 42]
+L1 (0): []
+L2 (0): []
+L3 (4): [32, 25, 26, 27]
+L4 (8): [33, 28, 29, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+flush L0 SST to base level 3
+Upper L0 [41.sst 1ca4e235..=55bb981e, 42.sst 5a2c9711..=7e6901cd] Lower L3 [34.sst 3773e018..=67585644, 35.sst 67585645..=973ccc71] -> [43.sst 1ca4e235..=3b4adcc3, 44.sst 3b4adcc4..=59f0d752, 45.sst 59f0d753..=7896d1e1, 46.sst 7896d1e2..=973ccc71]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (6): [41, 42, 34, 35, 26, 27]
+L4 (8): [33, 28, 29, 13, 7, 8, 9, 4]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "0.000MB", "128.000MB", "256.000MB"], real level sizes: ["0.000MB", "0.000MB", "192.000MB", "256.000MB"], base_level: 3
+compaction triggered by priority: 3 out of [(1.5, 3)], select 36 for compaction
+Upper L3 [36.sst 973ccc72..=c721429e] Lower L4 [15.sst 77e6ec7d..=9b7e5fc6, 16.sst 9b7e5fc7..=bf15d310, 17.sst bf15d311..=e2ad465a] -> [47.sst 77e6ec7d..=929882f3, 48.sst 929882f4..=ad4a196b, 49.sst ad4a196c..=c7fbafe2, 50.sst c7fbafe3..=e2ad465a]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (5): [41, 42, 34, 35, 27]
+L4 (9): [33, 28, 29, 13, 7, 36, 15, 16, 17]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "72.000MB", "144.000MB", "288.000MB"], real level sizes: ["0.000MB", "0.000MB", "160.000MB", "288.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.1111111111111112, 3)], select 37 for compaction
+Upper L3 [37.sst c721429f..=f705b8cc] Lower L4 [49.sst ad4a196c..=c7fbafe2, 50.sst c7fbafe3..=e2ad465a] -> [51.sst ad4a196c..=c5ddf936, 52.sst c5ddf937..=de71d901, 53.sst de71d902..=f705b8cc]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+3 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 53/14=3.786x
+Maximum Space Usage: 18/14=1.286x
+Read Amplification: 2x
+
+=== Iteration 14 ===
+--- After Flush ---
+L0 (1): [54]
+L1 (0): []
+L2 (0): []
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 54/15=3.600x
+Maximum Space Usage: 18/15=1.200x
+Read Amplification: 3x
+
+=== Iteration 15 ===
+--- After Flush ---
+L0 (2): [54, 55]
+L1 (0): []
+L2 (0): []
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [54.sst 7af2437c..=d1188aee, 55.sst 712a73e7..=e3720f30] Lower L2 [] -> [56.sst 712a73e7..=aa4e418b, 57.sst aa4e418c..=e3720f30]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (2): [54, 55]
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+1 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 57/16=3.562x
+Maximum Space Usage: 18/16=1.125x
+Read Amplification: 3x
+
+=== Iteration 16 ===
+--- After Flush ---
+L0 (1): [58]
+L1 (0): []
+L2 (2): [54, 55]
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 58/17=3.412x
+Maximum Space Usage: 18/17=1.059x
+Read Amplification: 4x
+
+=== Iteration 17 ===
+--- After Flush ---
+L0 (2): [58, 59]
+L1 (0): []
+L2 (2): [54, 55]
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [58.sst 4be30c44..=c298f63f, 59.sst 73b86068..=c058d585] Lower L2 [56.sst 712a73e7..=aa4e418b, 57.sst aa4e418c..=e3720f30] -> [60.sst 4be30c44..=71c6ccfe, 61.sst 71c6ccff..=97aa8db9, 62.sst 97aa8dba..=bd8e4e74, 63.sst bd8e4e75..=e3720f30]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [58, 59, 56, 57]
+L3 (4): [41, 42, 34, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "80.000MB", "160.000MB", "320.000MB"], real level sizes: ["0.000MB", "128.000MB", "128.000MB", "320.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.6, 2)], select 60 for compaction
+Upper L2 [60.sst 4be30c44..=71c6ccfe] Lower L3 [44.sst 3b4adcc4..=59f0d752, 45.sst 59f0d753..=7896d1e1] -> [64.sst 3b4adcc4..=4fb983cd, 65.sst 4fb983ce..=64282ad7, 66.sst 64282ad8..=7896d1e1]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [59, 56, 57]
+L3 (5): [41, 60, 44, 45, 35]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "80.000MB", "160.000MB", "320.000MB"], real level sizes: ["0.000MB", "96.000MB", "160.000MB", "320.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.2, 2)], select 61 for compaction
+Upper L2 [61.sst 71c6ccff..=97aa8db9] Lower L3 [66.sst 64282ad8..=7896d1e1, 46.sst 7896d1e2..=973ccc71] -> [67.sst 64282ad8..=7553a122, 68.sst 7553a123..=867f176d, 69.sst 867f176e..=97aa8db9]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (2): [56, 57]
+L3 (6): [41, 60, 44, 61, 66, 46]
+L4 (10): [33, 28, 29, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "80.000MB", "160.000MB", "320.000MB"], real level sizes: ["0.000MB", "64.000MB", "192.000MB", "320.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.2, 3)], select 43 for compaction
+Upper L3 [43.sst 1ca4e235..=3b4adcc3] Lower L4 [39.sst 193c000f..=2ae89632, 40.sst 2ae89633..=3c952c56] -> [70.sst 193c000f..=25046426, 71.sst 25046427..=30ccc83e, 72.sst 30ccc83f..=3c952c56]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (2): [56, 57]
+L3 (5): [60, 44, 61, 66, 46]
+L4 (11): [33, 43, 39, 40, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+4 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 72/18=4.000x
+Maximum Space Usage: 22/18=1.222x
+Read Amplification: 3x
+
+=== Iteration 18 ===
+--- After Flush ---
+L0 (1): [73]
+L1 (0): []
+L2 (2): [56, 57]
+L3 (5): [60, 44, 61, 66, 46]
+L4 (11): [33, 43, 39, 40, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 73/19=3.842x
+Maximum Space Usage: 22/19=1.158x
+Read Amplification: 4x
+
+=== Iteration 19 ===
+--- After Flush ---
+L0 (2): [73, 74]
+L1 (0): []
+L2 (2): [56, 57]
+L3 (5): [60, 44, 61, 66, 46]
+L4 (11): [33, 43, 39, 40, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [73.sst 36942df5..=6d13f171, 74.sst 2cd21a5b..=a3a95c30] Lower L2 [62.sst 97aa8dba..=bd8e4e74] -> [75.sst 2cd21a5b..=5d10d662, 76.sst 5d10d663..=8d4f926b, 77.sst 8d4f926c..=bd8e4e74]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [73, 74, 62, 57]
+L3 (5): [60, 44, 61, 66, 46]
+L4 (11): [33, 43, 39, 40, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "88.000MB", "176.000MB", "352.000MB"], real level sizes: ["0.000MB", "128.000MB", "160.000MB", "352.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.4545454545454546, 2)], select 63 for compaction
+Upper L2 [63.sst bd8e4e75..=e3720f30] Lower L3 [] -> [78.sst bd8e4e75..=e3720f30]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [73, 74, 62]
+L3 (6): [60, 44, 61, 66, 46, 63]
+L4 (11): [33, 43, 39, 40, 13, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "88.000MB", "176.000MB", "352.000MB"], real level sizes: ["0.000MB", "96.000MB", "192.000MB", "352.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.0909090909090908, 3), (1.0909090909090908, 2)], select 64 for compaction
+Upper L3 [64.sst 3b4adcc4..=4fb983cd] Lower L4 [72.sst 30ccc83f..=3c952c56, 30.sst 3c952c57..=544f7932] -> [79.sst 30ccc83f..=3ca3033a, 80.sst 3ca3033b..=48793e36, 81.sst 48793e37..=544f7932]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [73, 74, 62]
+L3 (5): [44, 61, 66, 46, 63]
+L4 (12): [33, 43, 39, 64, 72, 30, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+3 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 81/20=4.050x
+Maximum Space Usage: 23/20=1.150x
+Read Amplification: 3x
+
+=== Iteration 20 ===
+--- After Flush ---
+L0 (1): [82]
+L1 (0): []
+L2 (3): [73, 74, 62]
+L3 (5): [44, 61, 66, 46, 63]
+L4 (12): [33, 43, 39, 64, 72, 30, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 82/21=3.905x
+Maximum Space Usage: 23/21=1.095x
+Read Amplification: 4x
+
+=== Iteration 21 ===
+--- After Flush ---
+L0 (2): [82, 83]
+L1 (0): []
+L2 (3): [73, 74, 62]
+L3 (5): [44, 61, 66, 46, 63]
+L4 (12): [33, 43, 39, 64, 72, 30, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [82.sst 73362ecf..=7b4f53d5, 83.sst 58af2847..=86167ffd] Lower L2 [75.sst 2cd21a5b..=5d10d662, 76.sst 5d10d663..=8d4f926b] -> [84.sst 2cd21a5b..=44f1785e, 85.sst 44f1785f..=5d10d662, 86.sst 5d10d663..=75303466, 87.sst 75303467..=8d4f926b]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (5): [82, 83, 75, 76, 62]
+L3 (5): [44, 61, 66, 46, 63]
+L4 (12): [33, 43, 39, 64, 72, 30, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "96.000MB", "192.000MB", "384.000MB"], real level sizes: ["0.000MB", "160.000MB", "160.000MB", "384.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.6666666666666667, 2)], select 77 for compaction
+Upper L2 [77.sst 8d4f926c..=bd8e4e74] Lower L3 [69.sst 867f176e..=97aa8db9] -> [88.sst 867f176e..=a206b2f0, 89.sst a206b2f1..=bd8e4e74]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [82, 83, 75, 76]
+L3 (6): [44, 61, 66, 77, 69, 63]
+L4 (12): [33, 43, 39, 64, 72, 30, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "96.000MB", "192.000MB", "384.000MB"], real level sizes: ["0.000MB", "128.000MB", "192.000MB", "384.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.3333333333333333, 2)], select 84 for compaction
+Upper L2 [84.sst 2cd21a5b..=44f1785e] Lower L3 [] -> [90.sst 2cd21a5b..=44f1785e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [83, 75, 76]
+L3 (7): [84, 44, 61, 66, 77, 69, 63]
+L4 (12): [33, 43, 39, 64, 72, 30, 7, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "96.000MB", "192.000MB", "384.000MB"], real level sizes: ["0.000MB", "96.000MB", "224.000MB", "384.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.1666666666666667, 3)], select 65 for compaction
+Upper L3 [65.sst 4fb983ce..=64282ad7] Lower L4 [81.sst 48793e37..=544f7932, 14.sst 544f7933..=77e6ec7c] -> [91.sst 48793e37..=5848784d, 92.sst 5848784e..=6817b264, 93.sst 6817b265..=77e6ec7c]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [83, 75, 76]
+L3 (6): [84, 61, 66, 77, 69, 63]
+L4 (13): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+4 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 93/22=4.227x
+Maximum Space Usage: 26/22=1.182x
+Read Amplification: 3x
+
+=== Iteration 22 ===
+--- After Flush ---
+L0 (1): [94]
+L1 (0): []
+L2 (3): [83, 75, 76]
+L3 (6): [84, 61, 66, 77, 69, 63]
+L4 (13): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 94/23=4.087x
+Maximum Space Usage: 26/23=1.130x
+Read Amplification: 4x
+
+=== Iteration 23 ===
+--- After Flush ---
+L0 (2): [94, 95]
+L1 (0): []
+L2 (3): [83, 75, 76]
+L3 (6): [84, 61, 66, 77, 69, 63]
+L4 (13): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [94.sst 38bfeee7..=551e6e0e, 95.sst 1df13055..=644275bc] Lower L2 [85.sst 44f1785f..=5d10d662, 86.sst 5d10d663..=75303466] -> [96.sst 1df13055..=33c0f158, 97.sst 33c0f159..=4990b25d, 98.sst 4990b25e..=5f607361, 99.sst 5f607362..=75303466]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (5): [94, 95, 85, 86, 76]
+L3 (6): [84, 61, 66, 77, 69, 63]
+L4 (13): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "104.000MB", "208.000MB", "416.000MB"], real level sizes: ["0.000MB", "160.000MB", "192.000MB", "416.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.5384615384615385, 2)], select 87 for compaction
+Upper L2 [87.sst 75303467..=8d4f926b] Lower L3 [67.sst 64282ad8..=7553a122, 68.sst 7553a123..=867f176d, 88.sst 867f176e..=a206b2f0] -> [100.sst 64282ad8..=739fccdd, 101.sst 739fccde..=83176ee3, 102.sst 83176ee4..=928f10e9, 103.sst 928f10ea..=a206b2f0]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [94, 95, 85, 86]
+L3 (7): [84, 87, 67, 68, 88, 69, 63]
+L4 (13): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "104.000MB", "208.000MB", "416.000MB"], real level sizes: ["0.000MB", "128.000MB", "224.000MB", "416.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.2307692307692308, 2), (1.0769230769230769, 3)], select 96 for compaction
+Upper L2 [96.sst 1df13055..=33c0f158] Lower L3 [90.sst 2cd21a5b..=44f1785e] -> [104.sst 1df13055..=31715459, 105.sst 3171545a..=44f1785e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [95, 85, 86]
+L3 (8): [96, 90, 87, 67, 68, 88, 69, 63]
+L4 (13): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 37, 49, 50]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "104.000MB", "208.000MB", "416.000MB"], real level sizes: ["0.000MB", "96.000MB", "256.000MB", "416.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.2307692307692308, 3)], select 78 for compaction
+Upper L3 [78.sst bd8e4e75..=e3720f30] Lower L4 [51.sst ad4a196c..=c5ddf936, 52.sst c5ddf937..=de71d901, 53.sst de71d902..=f705b8cc] -> [106.sst ad4a196c..=bfb90143, 107.sst bfb90144..=d227e91b, 108.sst d227e91c..=e496d0f3, 109.sst e496d0f4..=f705b8cc]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [95, 85, 86]
+L3 (7): [96, 90, 87, 67, 68, 88, 69]
+L4 (14): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 78, 51, 52, 53]
+--- Compaction Task ---
+4 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 109/24=4.542x
+Maximum Space Usage: 28/24=1.167x
+Read Amplification: 3x
+
+=== Iteration 24 ===
+--- After Flush ---
+L0 (1): [110]
+L1 (0): []
+L2 (3): [95, 85, 86]
+L3 (7): [96, 90, 87, 67, 68, 88, 69]
+L4 (14): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 78, 51, 52, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 110/25=4.400x
+Maximum Space Usage: 28/25=1.120x
+Read Amplification: 4x
+
+=== Iteration 25 ===
+--- After Flush ---
+L0 (2): [110, 111]
+L1 (0): []
+L2 (3): [95, 85, 86]
+L3 (7): [96, 90, 87, 67, 68, 88, 69]
+L4 (14): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 78, 51, 52, 53]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [110.sst 6b4e2e25..=ddeb3b3e, 111.sst 970688a..=5665f9bd] Lower L2 [97.sst 33c0f159..=4990b25d, 98.sst 4990b25e..=5f607361, 99.sst 5f607362..=75303466] -> [112.sst 970688a..=33ef5f7a, 113.sst 33ef5f7b..=5e6e566b, 114.sst 5e6e566c..=88ed4d5c, 115.sst 88ed4d5d..=b36c444d, 116.sst b36c444e..=ddeb3b3e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (5): [110, 111, 97, 98, 99]
+L3 (7): [96, 90, 87, 67, 68, 88, 69]
+L4 (14): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 78, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "112.000MB", "224.000MB", "448.000MB"], real level sizes: ["0.000MB", "160.000MB", "224.000MB", "448.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.4285714285714286, 2)], select 112 for compaction
+Upper L2 [112.sst 970688a..=33ef5f7a] Lower L3 [104.sst 1df13055..=31715459, 105.sst 3171545a..=44f1785e] -> [117.sst 970688a..=1d46187a, 118.sst 1d46187b..=311bc86c, 119.sst 311bc86d..=44f1785e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [111, 97, 98, 99]
+L3 (8): [112, 104, 105, 87, 67, 68, 88, 69]
+L4 (14): [33, 43, 39, 64, 72, 65, 81, 14, 36, 15, 78, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "112.000MB", "224.000MB", "448.000MB"], real level sizes: ["0.000MB", "128.000MB", "256.000MB", "448.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.1428571428571428, 3), (1.1428571428571428, 2)], select 89 for compaction
+Upper L3 [89.sst a206b2f1..=bd8e4e74] Lower L4 [48.sst 929882f4..=ad4a196b, 106.sst ad4a196c..=bfb90143] -> [120.sst 929882f4..=a1a357b8, 121.sst a1a357b9..=b0ae2c7d, 122.sst b0ae2c7e..=bfb90143]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [111, 97, 98, 99]
+L3 (7): [112, 104, 105, 87, 67, 68, 88]
+L4 (15): [33, 43, 39, 64, 72, 65, 81, 14, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "120.000MB", "240.000MB", "480.000MB"], real level sizes: ["0.000MB", "128.000MB", "224.000MB", "480.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.0666666666666667, 2)], select 113 for compaction
+Upper L2 [113.sst 33ef5f7b..=5e6e566b] Lower L3 [119.sst 311bc86d..=44f1785e] -> [123.sst 311bc86d..=47c50f6b, 124.sst 47c50f6c..=5e6e566b]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [97, 98, 99]
+L3 (8): [112, 104, 113, 119, 87, 67, 68, 88]
+L4 (15): [33, 43, 39, 64, 72, 65, 81, 14, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "120.000MB", "240.000MB", "480.000MB"], real level sizes: ["0.000MB", "96.000MB", "256.000MB", "480.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.0666666666666667, 3)], select 100 for compaction
+Upper L3 [100.sst 64282ad8..=739fccdd] Lower L4 [92.sst 5848784e..=6817b264, 93.sst 6817b265..=77e6ec7c] -> [125.sst 5848784e..=62d29f07, 126.sst 62d29f08..=6d5cc5c1, 127.sst 6d5cc5c2..=77e6ec7c]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [97, 98, 99]
+L3 (7): [112, 104, 113, 119, 67, 68, 88]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+5 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 127/26=4.885x
+Maximum Space Usage: 31/26=1.192x
+Read Amplification: 3x
+
+=== Iteration 26 ===
+--- After Flush ---
+L0 (1): [128]
+L1 (0): []
+L2 (3): [97, 98, 99]
+L3 (7): [112, 104, 113, 119, 67, 68, 88]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 128/27=4.741x
+Maximum Space Usage: 31/27=1.148x
+Read Amplification: 4x
+
+=== Iteration 27 ===
+--- After Flush ---
+L0 (2): [128, 129]
+L1 (0): []
+L2 (3): [97, 98, 99]
+L3 (7): [112, 104, 113, 119, 67, 68, 88]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [128.sst 43b98edd..=9cc10724, 129.sst 19230a13..=5adc9b8b] Lower L2 [114.sst 5e6e566c..=88ed4d5c, 115.sst 88ed4d5d..=b36c444d] -> [130.sst 19230a13..=3fb558a0, 131.sst 3fb558a1..=6647a72f, 132.sst 6647a730..=8cd9f5be, 133.sst 8cd9f5bf..=b36c444d]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (5): [128, 129, 114, 115, 99]
+L3 (7): [112, 104, 113, 119, 67, 68, 88]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "128.000MB", "256.000MB", "512.000MB"], real level sizes: ["0.000MB", "160.000MB", "224.000MB", "512.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.25, 2)], select 116 for compaction
+Upper L2 [116.sst b36c444e..=ddeb3b3e] Lower L3 [] -> [134.sst b36c444e..=ddeb3b3e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [128, 129, 114, 115]
+L3 (8): [112, 104, 113, 119, 67, 68, 88, 116]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+2 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 134/28=4.786x
+Maximum Space Usage: 32/28=1.143x
+Read Amplification: 3x
+
+=== Iteration 28 ===
+--- After Flush ---
+L0 (1): [135]
+L1 (0): []
+L2 (4): [128, 129, 114, 115]
+L3 (8): [112, 104, 113, 119, 67, 68, 88, 116]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 135/29=4.655x
+Maximum Space Usage: 32/29=1.103x
+Read Amplification: 4x
+
+=== Iteration 29 ===
+--- After Flush ---
+L0 (2): [135, 136]
+L1 (0): []
+L2 (4): [128, 129, 114, 115]
+L3 (8): [112, 104, 113, 119, 67, 68, 88, 116]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+flush L0 SST to base level 2
+Upper L0 [135.sst 757867d4..=a085821e, 136.sst 24557bde..=8d1a9a0c] Lower L2 [130.sst 19230a13..=3fb558a0, 131.sst 3fb558a1..=6647a72f, 132.sst 6647a730..=8cd9f5be, 133.sst 8cd9f5bf..=b36c444d] -> [137.sst 19230a13..=32d9e91b, 138.sst 32d9e91c..=4c90c825, 139.sst 4c90c826..=6647a72f, 140.sst 6647a730..=7ffe8639, 141.sst 7ffe863a..=99b56543, 142.sst 99b56544..=b36c444d]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (6): [135, 136, 130, 131, 132, 133]
+L3 (8): [112, 104, 113, 119, 67, 68, 88, 116]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "128.000MB", "256.000MB", "512.000MB"], real level sizes: ["0.000MB", "192.000MB", "256.000MB", "512.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.5, 2)], select 137 for compaction
+Upper L2 [137.sst 19230a13..=32d9e91b] Lower L3 [117.sst 970688a..=1d46187a, 118.sst 1d46187b..=311bc86c, 123.sst 311bc86d..=47c50f6b] -> [143.sst 970688a..=19059241, 144.sst 19059242..=289abbfa, 145.sst 289abbfb..=382fe5b2, 146.sst 382fe5b3..=47c50f6b]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (5): [136, 130, 131, 132, 133]
+L3 (9): [137, 117, 118, 123, 119, 67, 68, 88, 116]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "128.000MB", "256.000MB", "512.000MB"], real level sizes: ["0.000MB", "160.000MB", "288.000MB", "512.000MB"], base_level: 2
+compaction triggered by priority: 2 out of [(1.25, 2), (1.125, 3)], select 138 for compaction
+Upper L2 [138.sst 32d9e91c..=4c90c825] Lower L3 [145.sst 289abbfb..=382fe5b2, 146.sst 382fe5b3..=47c50f6b, 124.sst 47c50f6c..=5e6e566b] -> [147.sst 289abbfb..=360fa296, 148.sst 360fa297..=43848932, 149.sst 43848933..=50f96fce, 150.sst 50f96fcf..=5e6e566b]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [130, 131, 132, 133]
+L3 (10): [137, 117, 138, 145, 146, 124, 67, 68, 88, 116]
+L4 (16): [33, 43, 39, 64, 72, 65, 100, 92, 93, 36, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["0.000MB", "128.000MB", "256.000MB", "512.000MB"], real level sizes: ["0.000MB", "128.000MB", "320.000MB", "512.000MB"], base_level: 2
+compaction triggered by priority: 3 out of [(1.25, 3)], select 101 for compaction
+Upper L3 [101.sst 739fccde..=83176ee3] Lower L4 [127.sst 6d5cc5c2..=77e6ec7c, 47.sst 77e6ec7d..=929882f3] -> [151.sst 6d5cc5c2..=79c604d1, 152.sst 79c604d2..=862f43e2, 153.sst 862f43e3..=929882f3]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [130, 131, 132, 133]
+L3 (9): [137, 117, 138, 145, 146, 124, 68, 88, 116]
+L4 (17): [33, 43, 39, 64, 72, 65, 100, 92, 101, 127, 47, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["68.000MB", "136.000MB", "272.000MB", "544.000MB"], real level sizes: ["0.000MB", "128.000MB", "288.000MB", "544.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.0588235294117647, 3)], select 102 for compaction
+Upper L3 [102.sst 83176ee4..=928f10e9] Lower L4 [152.sst 79c604d2..=862f43e2, 153.sst 862f43e3..=929882f3] -> [154.sst 79c604d2..=820c2edc, 155.sst 820c2edd..=8a5258e7, 156.sst 8a5258e8..=929882f3]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+5 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 156/30=5.200x
+Maximum Space Usage: 36/30=1.200x
+Read Amplification: 3x
+
+=== Iteration 30 ===
+--- After Flush ---
+L0 (1): [157]
+L1 (0): []
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 157/31=5.065x
+Maximum Space Usage: 36/31=1.161x
+Read Amplification: 4x
+
+=== Iteration 31 ===
+--- After Flush ---
+L0 (2): [157, 158]
+L1 (0): []
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [157.sst 232e61a8..=80cc3b55, 158.sst 7355f546..=cfc3bf47] Lower L1 [] -> [159.sst 232e61a8..=79791077, 160.sst 79791078..=cfc3bf47]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [157, 158]
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+1 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 160/32=5.000x
+Maximum Space Usage: 36/32=1.125x
+Read Amplification: 4x
+
+=== Iteration 32 ===
+--- After Flush ---
+L0 (1): [161]
+L1 (2): [157, 158]
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 161/33=4.879x
+Maximum Space Usage: 36/33=1.091x
+Read Amplification: 5x
+
+=== Iteration 33 ===
+--- After Flush ---
+L0 (2): [161, 162]
+L1 (2): [157, 158]
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [161.sst d0aebbd..=2095d232, 162.sst 6622dd3d..=997bd99d] Lower L1 [159.sst 232e61a8..=79791077, 160.sst 79791078..=cfc3bf47] -> [163.sst d0aebbd..=3db9209e, 164.sst 3db9209f..=6e675581, 165.sst 6e675582..=9f158a64, 166.sst 9f158a65..=cfc3bf47]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [161, 162, 159, 160]
+L2 (4): [130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["72.000MB", "144.000MB", "288.000MB", "576.000MB"], real level sizes: ["128.000MB", "128.000MB", "256.000MB", "576.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.7777777777777777, 1)], select 163 for compaction
+Upper L1 [163.sst d0aebbd..=3db9209e] Lower L2 [] -> [167.sst d0aebbd..=3db9209e]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [162, 159, 160]
+L2 (5): [163, 130, 131, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["72.000MB", "144.000MB", "288.000MB", "576.000MB"], real level sizes: ["96.000MB", "160.000MB", "256.000MB", "576.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.3333333333333333, 1), (1.1111111111111112, 2)], select 164 for compaction
+Upper L1 [164.sst 3db9209f..=6e675581] Lower L2 [139.sst 4c90c826..=6647a72f, 140.sst 6647a730..=7ffe8639] -> [168.sst 3db9209f..=53d0427c, 169.sst 53d0427d..=69e7645a, 170.sst 69e7645b..=7ffe8639]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [159, 160]
+L2 (6): [163, 164, 139, 140, 132, 133]
+L3 (8): [137, 117, 138, 145, 146, 124, 88, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["72.000MB", "144.000MB", "288.000MB", "576.000MB"], real level sizes: ["64.000MB", "192.000MB", "256.000MB", "576.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.3333333333333333, 2)], select 141 for compaction
+Upper L2 [141.sst 7ffe863a..=99b56543] Lower L3 [103.sst 928f10ea..=a206b2f0] -> [171.sst 7ffe863a..=91029c94, 172.sst 91029c95..=a206b2f0]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [159, 160]
+L2 (5): [163, 164, 139, 140, 133]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 103, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["72.000MB", "144.000MB", "288.000MB", "576.000MB"], real level sizes: ["64.000MB", "160.000MB", "288.000MB", "576.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.1111111111111112, 2)], select 142 for compaction
+Upper L2 [142.sst 99b56544..=b36c444d] Lower L3 [172.sst 91029c95..=a206b2f0] -> [173.sst 91029c95..=a2377070, 174.sst a2377071..=b36c444d]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [159, 160]
+L2 (4): [163, 164, 139, 140]
+L3 (10): [137, 117, 138, 145, 146, 124, 141, 142, 172, 116]
+L4 (18): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 106, 51, 52, 53]
+--- Compaction Task ---
+target level sizes: ["72.000MB", "144.000MB", "288.000MB", "576.000MB"], real level sizes: ["64.000MB", "128.000MB", "320.000MB", "576.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.1111111111111112, 3)], select 134 for compaction
+Upper L3 [134.sst b36c444e..=ddeb3b3e] Lower L4 [122.sst b0ae2c7e..=bfb90143, 107.sst bfb90144..=d227e91b, 108.sst d227e91c..=e496d0f3] -> [175.sst b0ae2c7e..=bda8559a, 176.sst bda8559b..=caa27eb8, 177.sst caa27eb9..=d79ca7d5, 178.sst d79ca7d6..=e496d0f3]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [159, 160]
+L2 (4): [163, 164, 139, 140]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+6 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 178/34=5.235x
+Maximum Space Usage: 38/34=1.118x
+Read Amplification: 4x
+
+=== Iteration 34 ===
+--- After Flush ---
+L0 (1): [179]
+L1 (2): [159, 160]
+L2 (4): [163, 164, 139, 140]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 179/35=5.114x
+Maximum Space Usage: 38/35=1.086x
+Read Amplification: 5x
+
+=== Iteration 35 ===
+--- After Flush ---
+L0 (2): [179, 180]
+L1 (2): [159, 160]
+L2 (4): [163, 164, 139, 140]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [179.sst ed93927..=3f4d7203, 180.sst 19b4af2a..=58031474] Lower L1 [] -> [181.sst ed93927..=336e26cd, 182.sst 336e26ce..=58031474]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [179, 180, 159, 160]
+L2 (4): [163, 164, 139, 140]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["76.000MB", "152.000MB", "304.000MB", "608.000MB"], real level sizes: ["128.000MB", "128.000MB", "288.000MB", "608.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.6842105263157894, 1)], select 165 for compaction
+Upper L1 [165.sst 6e675582..=9f158a64] Lower L2 [170.sst 69e7645b..=7ffe8639] -> [183.sst 69e7645b..=847e775f, 184.sst 847e7760..=9f158a64]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [179, 180, 160]
+L2 (5): [163, 164, 139, 165, 170]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["76.000MB", "152.000MB", "304.000MB", "608.000MB"], real level sizes: ["96.000MB", "160.000MB", "288.000MB", "608.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.263157894736842, 1), (1.0526315789473684, 2)], select 166 for compaction
+Upper L1 [166.sst 9f158a65..=cfc3bf47] Lower L2 [] -> [185.sst 9f158a65..=cfc3bf47]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [179, 180]
+L2 (6): [163, 164, 139, 165, 170, 166]
+L3 (9): [137, 117, 138, 145, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["76.000MB", "152.000MB", "304.000MB", "608.000MB"], real level sizes: ["64.000MB", "192.000MB", "288.000MB", "608.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.263157894736842, 2)], select 167 for compaction
+Upper L2 [167.sst d0aebbd..=3db9209e] Lower L3 [143.sst 970688a..=19059241, 144.sst 19059242..=289abbfa, 147.sst 289abbfb..=360fa296, 148.sst 360fa297..=43848932] -> [186.sst 970688a..=150e08aa, 187.sst 150e08ab..=20aba8cc, 188.sst 20aba8cd..=2c4948ee, 189.sst 2c4948ef..=37e6e910, 190.sst 37e6e911..=43848932]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [179, 180]
+L2 (5): [164, 139, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 148, 146, 124, 141, 142, 172]
+L4 (19): [33, 43, 39, 64, 72, 65, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["76.000MB", "152.000MB", "304.000MB", "608.000MB"], real level sizes: ["64.000MB", "160.000MB", "320.000MB", "608.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.0526315789473684, 3), (1.0526315789473684, 2)], select 149 for compaction
+Upper L3 [149.sst 43848933..=50f96fce] Lower L4 [80.sst 3ca3033b..=48793e36, 91.sst 48793e37..=5848784d] -> [191.sst 3ca3033b..=45da2a40, 192.sst 45da2a41..=4f115146, 193.sst 4f115147..=5848784d]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [179, 180]
+L2 (5): [164, 139, 165, 170, 166]
+L3 (9): [167, 143, 144, 147, 148, 124, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+5 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 193/36=5.361x
+Maximum Space Usage: 41/36=1.139x
+Read Amplification: 4x
+
+=== Iteration 36 ===
+--- After Flush ---
+L0 (1): [194]
+L1 (2): [179, 180]
+L2 (5): [164, 139, 165, 170, 166]
+L3 (9): [167, 143, 144, 147, 148, 124, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 194/37=5.243x
+Maximum Space Usage: 41/37=1.108x
+Read Amplification: 5x
+
+=== Iteration 37 ===
+--- After Flush ---
+L0 (2): [194, 195]
+L1 (2): [179, 180]
+L2 (5): [164, 139, 165, 170, 166]
+L3 (9): [167, 143, 144, 147, 148, 124, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [194.sst 51d7e2f1..=52aa7e5e, 195.sst 69108ea4..=732093ff] Lower L1 [182.sst 336e26ce..=58031474] -> [196.sst 336e26ce..=48a9a088, 197.sst 48a9a089..=5de51a43, 198.sst 5de51a44..=732093ff]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [179, 194, 195, 182]
+L2 (5): [164, 139, 165, 170, 166]
+L3 (9): [167, 143, 144, 147, 148, 124, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["80.000MB", "160.000MB", "320.000MB", "640.000MB"], real level sizes: ["128.000MB", "160.000MB", "288.000MB", "640.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.6, 1)], select 181 for compaction
+Upper L1 [181.sst ed93927..=336e26cd] Lower L2 [] -> [199.sst ed93927..=336e26cd]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [194, 195, 182]
+L2 (6): [181, 164, 139, 165, 170, 166]
+L3 (9): [167, 143, 144, 147, 148, 124, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["80.000MB", "160.000MB", "320.000MB", "640.000MB"], real level sizes: ["96.000MB", "192.000MB", "288.000MB", "640.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.2, 2), (1.2, 1)], select 168 for compaction
+Upper L2 [168.sst 3db9209f..=53d0427c] Lower L3 [190.sst 37e6e911..=43848932, 150.sst 50f96fcf..=5e6e566b] -> [200.sst 37e6e911..=44beb82e, 201.sst 44beb82f..=5196874c, 202.sst 5196874d..=5e6e566b]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [194, 195, 182]
+L2 (5): [181, 139, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 150, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["80.000MB", "160.000MB", "320.000MB", "640.000MB"], real level sizes: ["96.000MB", "160.000MB", "320.000MB", "640.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.2, 1)], select 196 for compaction
+Upper L1 [196.sst 336e26ce..=48a9a088] Lower L2 [] -> [203.sst 336e26ce..=48a9a088]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [195, 182]
+L2 (6): [181, 196, 139, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 150, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["80.000MB", "160.000MB", "320.000MB", "640.000MB"], real level sizes: ["64.000MB", "192.000MB", "320.000MB", "640.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.2, 2)], select 169 for compaction
+Upper L2 [169.sst 53d0427d..=69e7645a] Lower L3 [202.sst 5196874d..=5e6e566b] -> [204.sst 5196874d..=5dbef5d3, 205.sst 5dbef5d4..=69e7645a]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [195, 182]
+L2 (5): [181, 196, 165, 170, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 141, 142, 172]
+L4 (20): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 102, 152, 153, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["80.000MB", "160.000MB", "320.000MB", "640.000MB"], real level sizes: ["64.000MB", "160.000MB", "352.000MB", "640.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.1, 3)], select 171 for compaction
+Upper L3 [171.sst 7ffe863a..=91029c94] Lower L4 [154.sst 79c604d2..=820c2edc, 155.sst 820c2edd..=8a5258e7, 156.sst 8a5258e8..=929882f3] -> [206.sst 79c604d2..=7ffaa459, 207.sst 7ffaa45a..=862f43e2, 208.sst 862f43e3..=8c63e36a, 209.sst 8c63e36b..=929882f3]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [195, 182]
+L2 (5): [181, 196, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 169, 202, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+6 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 209/38=5.500x
+Maximum Space Usage: 42/38=1.105x
+Read Amplification: 4x
+
+=== Iteration 38 ===
+--- After Flush ---
+L0 (1): [210]
+L1 (2): [195, 182]
+L2 (5): [181, 196, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 169, 202, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 210/39=5.385x
+Maximum Space Usage: 42/39=1.077x
+Read Amplification: 5x
+
+=== Iteration 39 ===
+--- After Flush ---
+L0 (2): [210, 211]
+L1 (2): [195, 182]
+L2 (5): [181, 196, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 169, 202, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [210.sst 70641eba..=7921ebf0, 211.sst 521ef2e9..=80d109b5] Lower L1 [197.sst 48a9a089..=5de51a43, 198.sst 5de51a44..=732093ff] -> [212.sst 48a9a089..=56b37ad3, 213.sst 56b37ad4..=64bd551e, 214.sst 64bd551f..=72c72f69, 215.sst 72c72f6a..=80d109b5]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [210, 211, 197, 198]
+L2 (5): [181, 196, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 169, 202, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["84.000MB", "168.000MB", "336.000MB", "672.000MB"], real level sizes: ["128.000MB", "160.000MB", "320.000MB", "672.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.5238095238095237, 1)], select 212 for compaction
+Upper L1 [212.sst 48a9a089..=56b37ad3] Lower L2 [] -> [216.sst 48a9a089..=56b37ad3]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [211, 197, 198]
+L2 (6): [181, 196, 212, 165, 170, 166]
+L3 (10): [167, 143, 144, 147, 168, 190, 169, 202, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["84.000MB", "168.000MB", "336.000MB", "672.000MB"], real level sizes: ["96.000MB", "192.000MB", "320.000MB", "672.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.1428571428571428, 2), (1.1428571428571428, 1)], select 183 for compaction
+Upper L2 [183.sst 69e7645b..=847e775f] Lower L3 [] -> [217.sst 69e7645b..=847e775f]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [211, 197, 198]
+L2 (5): [181, 196, 212, 170, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["84.000MB", "168.000MB", "336.000MB", "672.000MB"], real level sizes: ["96.000MB", "160.000MB", "352.000MB", "672.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.1428571428571428, 1), (1.0476190476190477, 3)], select 213 for compaction
+Upper L1 [213.sst 56b37ad4..=64bd551e] Lower L2 [] -> [218.sst 56b37ad4..=64bd551e]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [197, 198]
+L2 (6): [181, 196, 212, 213, 170, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 142, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["84.000MB", "168.000MB", "336.000MB", "672.000MB"], real level sizes: ["64.000MB", "192.000MB", "352.000MB", "672.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.1428571428571428, 2), (1.0476190476190477, 3)], select 184 for compaction
+Upper L2 [184.sst 847e7760..=9f158a64] Lower L3 [173.sst 91029c95..=a2377070] -> [219.sst 847e7760..=935af3e7, 220.sst 935af3e8..=a2377070]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [197, 198]
+L2 (5): [181, 196, 212, 213, 166]
+L3 (12): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 173, 172]
+L4 (21): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 48, 134, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["84.000MB", "168.000MB", "336.000MB", "672.000MB"], real level sizes: ["64.000MB", "160.000MB", "384.000MB", "672.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.1428571428571428, 3)], select 174 for compaction
+Upper L3 [174.sst a2377071..=b36c444d] Lower L4 [121.sst a1a357b9..=b0ae2c7d, 175.sst b0ae2c7e..=bda8559a] -> [221.sst a1a357b9..=aafa5703, 222.sst aafa5704..=b451564e, 223.sst b451564f..=bda8559a]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [197, 198]
+L2 (5): [181, 196, 212, 213, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 173]
+L4 (22): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+6 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 223/40=5.575x
+Maximum Space Usage: 44/40=1.100x
+Read Amplification: 4x
+
+=== Iteration 40 ===
+--- After Flush ---
+L0 (1): [224]
+L1 (2): [197, 198]
+L2 (5): [181, 196, 212, 213, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 173]
+L4 (22): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 224/41=5.463x
+Maximum Space Usage: 44/41=1.073x
+Read Amplification: 5x
+
+=== Iteration 41 ===
+--- After Flush ---
+L0 (2): [224, 225]
+L1 (2): [197, 198]
+L2 (5): [181, 196, 212, 213, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 173]
+L4 (22): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [224.sst 60a3ace1..=b5f8f265, 225.sst 743a0158..=ed4d20d4] Lower L1 [214.sst 64bd551f..=72c72f69, 215.sst 72c72f6a..=80d109b5] -> [226.sst 60a3ace1..=83ce09dd, 227.sst 83ce09de..=a6f866da, 228.sst a6f866db..=ca22c3d7, 229.sst ca22c3d8..=ed4d20d4]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [224, 225, 214, 215]
+L2 (5): [181, 196, 212, 213, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 173]
+L4 (22): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["88.000MB", "176.000MB", "352.000MB", "704.000MB"], real level sizes: ["128.000MB", "160.000MB", "352.000MB", "704.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.4545454545454546, 1)], select 226 for compaction
+Upper L1 [226.sst 60a3ace1..=83ce09dd] Lower L2 [218.sst 56b37ad4..=64bd551e] -> [230.sst 56b37ad4..=6d40c258, 231.sst 6d40c259..=83ce09dd]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [225, 214, 215]
+L2 (6): [181, 196, 212, 226, 218, 166]
+L3 (11): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 173]
+L4 (22): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["88.000MB", "176.000MB", "352.000MB", "704.000MB"], real level sizes: ["96.000MB", "192.000MB", "352.000MB", "704.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.0909090909090908, 2), (1.0909090909090908, 1)], select 185 for compaction
+Upper L2 [185.sst 9f158a65..=cfc3bf47] Lower L3 [220.sst 935af3e8..=a2377070] -> [232.sst 935af3e8..=b18f5997, 233.sst b18f5998..=cfc3bf47]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [225, 214, 215]
+L2 (5): [181, 196, 212, 226, 218]
+L3 (12): [167, 143, 144, 147, 168, 190, 169, 202, 183, 184, 185, 220]
+L4 (22): [33, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["88.000MB", "176.000MB", "352.000MB", "704.000MB"], real level sizes: ["96.000MB", "160.000MB", "384.000MB", "704.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.0909090909090908, 3), (1.0909090909090908, 1)], select 186 for compaction
+Upper L3 [186.sst 970688a..=150e08aa] Lower L4 [38.sst 78f69eb..=193c000e] -> [234.sst 78f69eb..=1065b4fc, 235.sst 1065b4fd..=193c000e]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [225, 214, 215]
+L2 (5): [181, 196, 212, 226, 218]
+L3 (11): [143, 144, 147, 168, 190, 169, 202, 183, 184, 185, 220]
+L4 (23): [186, 38, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["92.000MB", "184.000MB", "368.000MB", "736.000MB"], real level sizes: ["96.000MB", "160.000MB", "352.000MB", "736.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.0434782608695652, 1)], select 227 for compaction
+Upper L1 [227.sst 83ce09de..=a6f866da] Lower L2 [] -> [236.sst 83ce09de..=a6f866da]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [214, 215]
+L2 (6): [181, 196, 212, 226, 218, 227]
+L3 (11): [143, 144, 147, 168, 190, 169, 202, 183, 184, 185, 220]
+L4 (23): [186, 38, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["92.000MB", "184.000MB", "368.000MB", "736.000MB"], real level sizes: ["64.000MB", "192.000MB", "352.000MB", "736.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.0434782608695652, 2)], select 199 for compaction
+Upper L2 [199.sst ed93927..=336e26cd] Lower L3 [187.sst 150e08ab..=20aba8cc, 188.sst 20aba8cd..=2c4948ee, 189.sst 2c4948ef..=37e6e910] -> [237.sst ed93927..=191ca520, 238.sst 191ca521..=2360111b, 239.sst 2360111c..=2da37d15, 240.sst 2da37d16..=37e6e910]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [214, 215]
+L2 (5): [196, 212, 226, 218, 227]
+L3 (12): [199, 187, 188, 189, 168, 190, 169, 202, 183, 184, 185, 220]
+L4 (23): [186, 38, 43, 39, 64, 149, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["92.000MB", "184.000MB", "368.000MB", "736.000MB"], real level sizes: ["64.000MB", "160.000MB", "384.000MB", "736.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.0434782608695652, 3)], select 200 for compaction
+Upper L3 [200.sst 37e6e911..=44beb82e] Lower L4 [79.sst 30ccc83f..=3ca3033a, 191.sst 3ca3033b..=45da2a40] -> [241.sst 30ccc83f..=37d13e3e, 242.sst 37d13e3f..=3ed5b43f, 243.sst 3ed5b440..=45da2a40]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [214, 215]
+L2 (5): [196, 212, 226, 218, 227]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+7 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 243/42=5.786x
+Maximum Space Usage: 46/42=1.095x
+Read Amplification: 4x
+
+=== Iteration 42 ===
+--- After Flush ---
+L0 (1): [244]
+L1 (2): [214, 215]
+L2 (5): [196, 212, 226, 218, 227]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 244/43=5.674x
+Maximum Space Usage: 46/43=1.070x
+Read Amplification: 5x
+
+=== Iteration 43 ===
+--- After Flush ---
+L0 (2): [244, 245]
+L1 (2): [214, 215]
+L2 (5): [196, 212, 226, 218, 227]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [244.sst 859b1dd..=87921ab0, 245.sst 6665e0d2..=843e7523] Lower L1 [] -> [246.sst 859b1dd..=47f5e646, 247.sst 47f5e647..=87921ab0]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [244, 245, 214, 215]
+L2 (5): [196, 212, 226, 218, 227]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["96.000MB", "192.000MB", "384.000MB", "768.000MB"], real level sizes: ["128.000MB", "160.000MB", "352.000MB", "768.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.3333333333333333, 1)], select 228 for compaction
+Upper L1 [228.sst a6f866db..=ca22c3d7] Lower L2 [] -> [248.sst a6f866db..=ca22c3d7]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [244, 245, 215]
+L2 (6): [196, 212, 226, 218, 227, 228]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+2 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 248/44=5.636x
+Maximum Space Usage: 46/44=1.045x
+Read Amplification: 4x
+
+=== Iteration 44 ===
+--- After Flush ---
+L0 (1): [249]
+L1 (3): [244, 245, 215]
+L2 (6): [196, 212, 226, 218, 227, 228]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 249/45=5.533x
+Maximum Space Usage: 46/45=1.022x
+Read Amplification: 5x
+
+=== Iteration 45 ===
+--- After Flush ---
+L0 (2): [249, 250]
+L1 (3): [244, 245, 215]
+L2 (6): [196, 212, 226, 218, 227, 228]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [249.sst 686a9390..=7590e484, 250.sst 65c7b9cf..=d09bb38b] Lower L1 [247.sst 47f5e647..=87921ab0, 229.sst ca22c3d8..=ed4d20d4] -> [251.sst 47f5e647..=714bb4e9, 252.sst 714bb4ea..=9aa1838d, 253.sst 9aa1838e..=c3f75230, 254.sst c3f75231..=ed4d20d4]
+--- After Compaction ---
+L0 (0): []
+L1 (5): [244, 249, 250, 247, 229]
+L2 (6): [196, 212, 226, 218, 227, 228]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["96.000MB", "192.000MB", "384.000MB", "768.000MB"], real level sizes: ["160.000MB", "192.000MB", "352.000MB", "768.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.6666666666666667, 1)], select 246 for compaction
+Upper L1 [246.sst 859b1dd..=47f5e646] Lower L2 [203.sst 336e26ce..=48a9a088] -> [255.sst 859b1dd..=2881a932, 256.sst 2881a933..=48a9a088]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [249, 250, 247, 229]
+L2 (7): [246, 203, 212, 226, 218, 227, 228]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["96.000MB", "192.000MB", "384.000MB", "768.000MB"], real level sizes: ["128.000MB", "224.000MB", "352.000MB", "768.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.3333333333333333, 1), (1.1666666666666667, 2)], select 251 for compaction
+Upper L1 [251.sst 47f5e647..=714bb4e9] Lower L2 [256.sst 2881a933..=48a9a088, 216.sst 48a9a089..=56b37ad3, 230.sst 56b37ad4..=6d40c258, 231.sst 6d40c259..=83ce09dd] -> [257.sst 2881a933..=3ac422ed, 258.sst 3ac422ee..=4d069ca9, 259.sst 4d069caa..=5f491665, 260.sst 5f491666..=718b9021, 261.sst 718b9022..=83ce09dd]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [250, 247, 229]
+L2 (8): [246, 251, 256, 216, 230, 231, 227, 228]
+L3 (11): [199, 187, 188, 189, 190, 169, 202, 183, 184, 185, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["96.000MB", "192.000MB", "384.000MB", "768.000MB"], real level sizes: ["96.000MB", "256.000MB", "352.000MB", "768.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.3333333333333333, 2)], select 236 for compaction
+Upper L2 [236.sst 83ce09de..=a6f866da] Lower L3 [217.sst 69e7645b..=847e775f, 219.sst 847e7760..=935af3e7, 232.sst 935af3e8..=b18f5997] -> [262.sst 69e7645b..=7bd161a9, 263.sst 7bd161aa..=8dbb5ef8, 264.sst 8dbb5ef9..=9fa55c47, 265.sst 9fa55c48..=b18f5997]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [250, 247, 229]
+L2 (7): [246, 251, 256, 216, 230, 231, 228]
+L3 (12): [199, 187, 188, 189, 190, 169, 202, 236, 217, 219, 232, 220]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["96.000MB", "192.000MB", "384.000MB", "768.000MB"], real level sizes: ["96.000MB", "224.000MB", "384.000MB", "768.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.1666666666666667, 2)], select 248 for compaction
+Upper L2 [248.sst a6f866db..=ca22c3d7] Lower L3 [265.sst 9fa55c48..=b18f5997, 233.sst b18f5998..=cfc3bf47] -> [266.sst 9fa55c48..=afaf7d47, 267.sst afaf7d48..=bfb99e47, 268.sst bfb99e48..=cfc3bf47]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [250, 247, 229]
+L2 (6): [246, 251, 256, 216, 230, 231]
+L3 (13): [199, 187, 188, 189, 190, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (24): [186, 38, 43, 39, 200, 79, 191, 80, 91, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["96.000MB", "192.000MB", "384.000MB", "768.000MB"], real level sizes: ["96.000MB", "192.000MB", "416.000MB", "768.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.0833333333333333, 3)], select 201 for compaction
+Upper L3 [201.sst 44beb82f..=5196874c] Lower L4 [243.sst 3ed5b440..=45da2a40, 192.sst 45da2a41..=4f115146, 193.sst 4f115147..=5848784d] -> [269.sst 3ed5b440..=45326542, 270.sst 45326543..=4b8f1646, 271.sst 4b8f1647..=51ebc749, 272.sst 51ebc74a..=5848784d]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [250, 247, 229]
+L2 (6): [246, 251, 256, 216, 230, 231]
+L3 (12): [199, 187, 188, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+6 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 272/46=5.913x
+Maximum Space Usage: 51/46=1.109x
+Read Amplification: 4x
+
+=== Iteration 46 ===
+--- After Flush ---
+L0 (1): [273]
+L1 (3): [250, 247, 229]
+L2 (6): [246, 251, 256, 216, 230, 231]
+L3 (12): [199, 187, 188, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 273/47=5.809x
+Maximum Space Usage: 51/47=1.085x
+Read Amplification: 5x
+
+=== Iteration 47 ===
+--- After Flush ---
+L0 (2): [273, 274]
+L1 (3): [250, 247, 229]
+L2 (6): [246, 251, 256, 216, 230, 231]
+L3 (12): [199, 187, 188, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [273.sst 2e231024..=82f51596, 274.sst 258cfe31..=5ea8acf3] Lower L1 [252.sst 714bb4ea..=9aa1838d] -> [275.sst 258cfe31..=4c93d54f, 276.sst 4c93d550..=739aac6e, 277.sst 739aac6f..=9aa1838d]
+--- After Compaction ---
+L0 (0): []
+L1 (5): [273, 274, 252, 247, 229]
+L2 (6): [246, 251, 256, 216, 230, 231]
+L3 (12): [199, 187, 188, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["100.000MB", "200.000MB", "400.000MB", "800.000MB"], real level sizes: ["160.000MB", "192.000MB", "384.000MB", "800.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.6, 1)], select 253 for compaction
+Upper L1 [253.sst 9aa1838e..=c3f75230] Lower L2 [] -> [278.sst 9aa1838e..=c3f75230]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [273, 274, 252, 229]
+L2 (7): [246, 251, 256, 216, 230, 231, 253]
+L3 (12): [199, 187, 188, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["100.000MB", "200.000MB", "400.000MB", "800.000MB"], real level sizes: ["128.000MB", "224.000MB", "384.000MB", "800.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.28, 1), (1.12, 2)], select 254 for compaction
+Upper L1 [254.sst c3f75231..=ed4d20d4] Lower L2 [] -> [279.sst c3f75231..=ed4d20d4]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [273, 274, 252]
+L2 (8): [246, 251, 256, 216, 230, 231, 253, 254]
+L3 (12): [199, 187, 188, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["100.000MB", "200.000MB", "400.000MB", "800.000MB"], real level sizes: ["96.000MB", "256.000MB", "384.000MB", "800.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.28, 2)], select 255 for compaction
+Upper L2 [255.sst 859b1dd..=2881a932] Lower L3 [237.sst ed93927..=191ca520, 238.sst 191ca521..=2360111b, 239.sst 2360111c..=2da37d15] -> [280.sst 859b1dd..=11ac24aa, 281.sst 11ac24ab..=1afe9778, 282.sst 1afe9779..=24510a46, 283.sst 24510a47..=2da37d15]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [273, 274, 252]
+L2 (7): [251, 256, 216, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 239, 189, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["100.000MB", "200.000MB", "400.000MB", "800.000MB"], real level sizes: ["96.000MB", "224.000MB", "416.000MB", "800.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.12, 2), (1.04, 3)], select 257 for compaction
+Upper L2 [257.sst 2881a933..=3ac422ed] Lower L3 [283.sst 24510a47..=2da37d15, 240.sst 2da37d16..=37e6e910] -> [284.sst 24510a47..=2bccbd28, 285.sst 2bccbd29..=3348700a, 286.sst 3348700b..=3ac422ed]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [273, 274, 252]
+L2 (6): [256, 216, 230, 231, 253, 254]
+L3 (14): [255, 237, 238, 257, 283, 240, 169, 202, 236, 217, 219, 248, 265, 233]
+L4 (25): [186, 38, 43, 39, 200, 79, 201, 243, 192, 193, 100, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["100.000MB", "200.000MB", "400.000MB", "800.000MB"], real level sizes: ["96.000MB", "192.000MB", "448.000MB", "800.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.12, 3)], select 204 for compaction
+Upper L3 [204.sst 5196874d..=5dbef5d3] Lower L4 [271.sst 4b8f1647..=51ebc749, 272.sst 51ebc74a..=5848784d, 125.sst 5848784e..=62d29f07] -> [287.sst 4b8f1647..=515ff876, 288.sst 515ff877..=5730daa6, 289.sst 5730daa7..=5d01bcd6, 290.sst 5d01bcd7..=62d29f07]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [273, 274, 252]
+L2 (6): [256, 216, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 202, 236, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+6 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 290/48=6.042x
+Maximum Space Usage: 52/48=1.083x
+Read Amplification: 4x
+
+=== Iteration 48 ===
+--- After Flush ---
+L0 (1): [291]
+L1 (3): [273, 274, 252]
+L2 (6): [256, 216, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 202, 236, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 291/49=5.939x
+Maximum Space Usage: 52/49=1.061x
+Read Amplification: 5x
+
+=== Iteration 49 ===
+--- After Flush ---
+L0 (2): [291, 292]
+L1 (3): [273, 274, 252]
+L2 (6): [256, 216, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 202, 236, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+flush L0 SST to base level 1
+Upper L0 [291.sst 44a2d9b..=588dc3c8, 292.sst 60a4999f..=c1e68685] Lower L1 [275.sst 258cfe31..=4c93d54f, 276.sst 4c93d550..=739aac6e, 277.sst 739aac6f..=9aa1838d] -> [293.sst 44a2d9b..=2a363f62, 294.sst 2a363f63..=5022512b, 295.sst 5022512c..=760e62f3, 296.sst 760e62f4..=9bfa74bc, 297.sst 9bfa74bd..=c1e68685]
+--- After Compaction ---
+L0 (0): []
+L1 (5): [291, 292, 275, 276, 277]
+L2 (6): [256, 216, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 202, 236, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["104.000MB", "208.000MB", "416.000MB", "832.000MB"], real level sizes: ["160.000MB", "192.000MB", "416.000MB", "832.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.5384615384615385, 1)], select 293 for compaction
+Upper L1 [293.sst 44a2d9b..=2a363f62] Lower L2 [] -> [298.sst 44a2d9b..=2a363f62]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [292, 275, 276, 277]
+L2 (7): [293, 256, 216, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 202, 236, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["104.000MB", "208.000MB", "416.000MB", "832.000MB"], real level sizes: ["128.000MB", "224.000MB", "416.000MB", "832.000MB"], base_level: 1
+compaction triggered by priority: 1 out of [(1.2307692307692308, 1), (1.0769230769230769, 2)], select 294 for compaction
+Upper L1 [294.sst 2a363f63..=5022512b] Lower L2 [258.sst 3ac422ee..=4d069ca9, 259.sst 4d069caa..=5f491665] -> [299.sst 2a363f63..=3be731b8, 300.sst 3be731b9..=4d98240e, 301.sst 4d98240f..=5f491665]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [275, 276, 277]
+L2 (8): [293, 294, 258, 259, 230, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 202, 236, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["104.000MB", "208.000MB", "416.000MB", "832.000MB"], real level sizes: ["96.000MB", "256.000MB", "416.000MB", "832.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.2307692307692308, 2)], select 260 for compaction
+Upper L2 [260.sst 5f491666..=718b9021] Lower L3 [205.sst 5dbef5d4..=69e7645a, 262.sst 69e7645b..=7bd161a9] -> [302.sst 5dbef5d4..=67c519c5, 303.sst 67c519c6..=71cb3db7, 304.sst 71cb3db8..=7bd161a9]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [275, 276, 277]
+L2 (7): [293, 294, 258, 259, 231, 253, 254]
+L3 (14): [255, 237, 238, 257, 283, 240, 260, 205, 262, 217, 219, 248, 265, 233]
+L4 (26): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 171, 154, 155, 156, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["104.000MB", "208.000MB", "416.000MB", "832.000MB"], real level sizes: ["96.000MB", "224.000MB", "448.000MB", "832.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.0769230769230769, 3), (1.0769230769230769, 2)], select 263 for compaction
+Upper L3 [263.sst 7bd161aa..=8dbb5ef8] Lower L4 [206.sst 79c604d2..=7ffaa459, 207.sst 7ffaa45a..=862f43e2, 208.sst 862f43e3..=8c63e36a, 209.sst 8c63e36b..=929882f3] -> [305.sst 79c604d2..=7ebcead7, 306.sst 7ebcead8..=83b3d0de, 307.sst 83b3d0df..=88aab6e5, 308.sst 88aab6e6..=8da19cec, 309.sst 8da19ced..=929882f3]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [275, 276, 277]
+L2 (7): [293, 294, 258, 259, 231, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 260, 205, 262, 219, 248, 265, 233]
+L4 (27): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 263, 206, 207, 208, 209, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["108.000MB", "216.000MB", "432.000MB", "864.000MB"], real level sizes: ["96.000MB", "224.000MB", "416.000MB", "864.000MB"], base_level: 1
+compaction triggered by priority: 2 out of [(1.037037037037037, 2)], select 261 for compaction
+Upper L2 [261.sst 718b9022..=83ce09dd] Lower L3 [303.sst 67c519c6..=71cb3db7, 304.sst 71cb3db8..=7bd161a9] -> [310.sst 67c519c6..=711d69cd, 311.sst 711d69ce..=7a75b9d5, 312.sst 7a75b9d6..=83ce09dd]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [275, 276, 277]
+L2 (6): [293, 294, 258, 259, 253, 254]
+L3 (14): [255, 237, 238, 257, 283, 240, 260, 261, 303, 304, 219, 248, 265, 233]
+L4 (27): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 263, 206, 207, 208, 209, 89, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+target level sizes: ["108.000MB", "216.000MB", "432.000MB", "864.000MB"], real level sizes: ["96.000MB", "192.000MB", "448.000MB", "864.000MB"], base_level: 1
+compaction triggered by priority: 3 out of [(1.037037037037037, 3)], select 264 for compaction
+Upper L3 [264.sst 8dbb5ef9..=9fa55c47] Lower L4 [309.sst 8da19ced..=929882f3, 120.sst 929882f4..=a1a357b8] -> [313.sst 8da19ced..=944cdb30, 314.sst 944cdb31..=9af81974, 315.sst 9af81975..=a1a357b8]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [275, 276, 277]
+L2 (6): [293, 294, 258, 259, 253, 254]
+L3 (13): [255, 237, 238, 257, 283, 240, 260, 261, 303, 304, 248, 265, 233]
+L4 (28): [186, 38, 43, 39, 200, 79, 201, 243, 204, 271, 272, 125, 92, 101, 263, 206, 207, 208, 264, 309, 120, 174, 121, 175, 122, 107, 108, 53]
+--- Compaction Task ---
+7 compaction triggered in this iteration
+--- Statistics ---
+Write Amplification: 315/50=6.300x
+Maximum Space Usage: 55/50=1.100x
+Read Amplification: 4x
+
