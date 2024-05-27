@@ -163,7 +163,7 @@ impl LeveledCompactionController {
             upper_level_sst_ids,
             lower_level,
             lower_level_sst_ids,
-            is_lower_level_bottom_level,
+            is_lower_level_bottom_level: _,
         } = task;
         let mut files_to_remove = vec![];
         match upper_level {
@@ -184,10 +184,9 @@ impl LeveledCompactionController {
         }
 
         files_to_remove.extend_from_slice(upper_level_sst_ids);
-
-        let (level_id, sst_ids) = &snapshot.levels[*lower_level];
-
         files_to_remove.extend_from_slice(lower_level_sst_ids);
+        
+        let (level_id, sst_ids) = &snapshot.levels[*lower_level];
         let mut lower_level_kept = if lower_level_sst_ids.is_empty() {
             // no need to remove
             sst_ids.clone()
@@ -236,27 +235,5 @@ impl LeveledCompactionController {
             }
         }
         (snapshot, files_to_remove)
-
-        // if lower_level_sst_ids.is_empty() {
-        //     let output_first_key = output.iter().map(|sst_id|snapshot.sstables[sst_id])
-        //     let first_output_key = snapshot.sstables[&output[0]].first_key();
-        //     let exist = sst_ids
-        //         .last()
-        //         .map(|i| snapshot.sstables[i].last_key() <= first_output_key);
-        //     match exist {
-        //         None | Some(true) => {
-        //             let mut keep = sst_ids.clone();
-        //             keep.extend_from_slice(output);
-        //             snapshot.levels[*lower_level].1 = keep;
-        //         }
-        //         Some(false) => {
-        //             let mut keep = output.to_vec();
-        //             keep.extend_from_slice(sst_ids);
-        //             snapshot.levels[*lower_level].1 = keep;
-        //         }
-        //     }
-        //
-        //     return (snapshot, files_to_remove);
-        // }
     }
 }
