@@ -1,8 +1,11 @@
 use log::warn;
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 use std::process::id;
+use std::sync::Arc;
 
-use crate::lsm_storage::LsmStorageState;
+use crate::lsm_storage::{range_overlap, LsmStorageState};
+use crate::table::SsTable;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LeveledCompactionTask {
@@ -33,11 +36,35 @@ impl LeveledCompactionController {
 
     fn find_overlapping_ssts(
         &self,
-        _snapshot: &LsmStorageState,
-        _sst_ids: &[usize],
-        _in_level: usize,
+        snapshot: &LsmStorageState,
+        sst_ids: &[usize],
+        lower_level: usize,
     ) -> Vec<usize> {
-        unimplemented!()
+        let min_key = sst_ids
+            .iter()
+            .map(|sst_id| snapshot.sstables[sst_id].first_key())
+            .min()
+            .unwrap();
+        let max_key = sst_ids
+            .iter()
+            .map(|sst_id| snapshot.sstables[sst_id].last_key())
+            .max()
+            .unwrap();
+
+        snapshot.levels[lower_level]
+            .1
+            .iter()
+            .filter(|&sst_id| {
+                let sst = snapshot.sstables[sst_id].clone();
+
+                if sst.first_key() > max_key {
+                    false
+                } else {
+                    sst.last_key() >= min_key
+                }
+            })
+            .copied()
+            .collect::<Vec<_>>()
     }
 
     pub fn target_size(&self, max_level_size_mb: usize) -> Vec<usize> {
@@ -77,7 +104,11 @@ impl LeveledCompactionController {
                 upper_level: None,
                 upper_level_sst_ids: snapshot.l0_sstables.clone(),
                 lower_level: idx,
-                lower_level_sst_ids: snapshot.levels[idx].1.clone(),
+                lower_level_sst_ids: self.find_overlapping_ssts(
+                    snapshot,
+                    &snapshot.l0_sstables,
+                    idx,
+                ),
                 is_lower_level_bottom_level: idx == self.options.max_levels - 1,
             });
         }
@@ -99,15 +130,19 @@ impl LeveledCompactionController {
             .zip(target_size)
             .map(|(&act, tgt)| act as f64 / tgt as f64)
             .enumerate()
-            .max_by(|x, y| x.1.partial_cmp(&y.1).unwrap())
+            .max_by(|x, y| {
+                // println!("{x:?}, {y:?}");
+                x.1.partial_cmp(&y.1).unwrap_or(Ordering::Less)
+            })
             .unwrap();
 
         if ratio > 1.0 {
+            let oldest = snapshot.levels[idx].1.iter().min().unwrap();
             return Some(LeveledCompactionTask {
                 upper_level: Some(idx),
-                upper_level_sst_ids: vec![],
+                upper_level_sst_ids: vec![*oldest],
                 lower_level: idx + 1,
-                lower_level_sst_ids: vec![],
+                lower_level_sst_ids: self.find_overlapping_ssts(snapshot, &[*oldest], idx + 1),
                 is_lower_level_bottom_level: idx + 1 == self.options.max_levels - 1,
             });
         }
@@ -121,6 +156,7 @@ impl LeveledCompactionController {
         task: &LeveledCompactionTask,
         output: &[usize],
     ) -> (LsmStorageState, Vec<usize>) {
+        // println!("{:?}, {output:?}", task);
         let mut snapshot = snapshot.clone();
         let LeveledCompactionTask {
             upper_level,
@@ -138,17 +174,89 @@ impl LeveledCompactionController {
                     "state change during compaction"
                 );
                 snapshot.l0_sstables = vec![];
-                files_to_remove.extend_from_slice(upper_level_sst_ids);
-                let (level_id, sst_ids) = &snapshot.levels[*lower_level];
-                assert_eq!(
-                    *sst_ids, *lower_level_sst_ids,
-                    "state change during compaction"
-                );
-                files_to_remove.extend_from_slice(sst_ids);
-                snapshot.levels[*lower_level] = (*level_id, output.to_vec());
             }
-            Some(_) => {}
+            Some(upper_level) => {
+                assert_eq!(upper_level_sst_ids.len(), 1);
+                snapshot.levels[*upper_level]
+                    .1
+                    .retain(|i| *i != upper_level_sst_ids[0]);
+            }
+        }
+
+        files_to_remove.extend_from_slice(upper_level_sst_ids);
+
+        let (level_id, sst_ids) = &snapshot.levels[*lower_level];
+
+        files_to_remove.extend_from_slice(lower_level_sst_ids);
+        let mut lower_level_kept = if lower_level_sst_ids.is_empty() {
+            // no need to remove
+            sst_ids.clone()
+        } else {
+            let mut found = false;
+            let mut res = vec![];
+            for (i, sst_id) in sst_ids.iter().enumerate() {
+                if lower_level_sst_ids[0] == *sst_id {
+                    assert_eq!(
+                        *lower_level_sst_ids,
+                        sst_ids[i..i + lower_level_sst_ids.len()],
+                        "state change during compaction"
+                    );
+                    found = true;
+
+                    res.extend_from_slice(&sst_ids[..i]);
+                    res.extend_from_slice(&sst_ids[i + lower_level_sst_ids.len()..]);
+                }
+            }
+            if !found {
+                panic!("state has changed");
+            }
+            res
+        };
+
+        // find the right place to insert compacted SsTable
+        let first_key = snapshot.sstables[&output[0]].first_key();
+        if lower_level_kept.is_empty() {
+            snapshot.levels[*lower_level] = (*level_id, output.to_vec());
+        } else {
+            let insert_idx = lower_level_kept
+                .iter()
+                .position(|sst_id| snapshot.sstables[sst_id].last_key() > first_key);
+            match insert_idx {
+                None => {
+                    lower_level_kept.extend_from_slice(output);
+                    snapshot.levels[*lower_level] = (*level_id, lower_level_kept.to_vec());
+                }
+                Some(idx) => {
+                    let (prev, post) = lower_level_kept.split_at(idx);
+                    let mut res = prev.to_vec();
+                    res.extend_from_slice(output);
+                    res.extend_from_slice(post);
+                    snapshot.levels[*lower_level] = (*level_id, res);
+                }
+            }
         }
         (snapshot, files_to_remove)
+
+        // if lower_level_sst_ids.is_empty() {
+        //     let output_first_key = output.iter().map(|sst_id|snapshot.sstables[sst_id])
+        //     let first_output_key = snapshot.sstables[&output[0]].first_key();
+        //     let exist = sst_ids
+        //         .last()
+        //         .map(|i| snapshot.sstables[i].last_key() <= first_output_key);
+        //     match exist {
+        //         None | Some(true) => {
+        //             let mut keep = sst_ids.clone();
+        //             keep.extend_from_slice(output);
+        //             snapshot.levels[*lower_level].1 = keep;
+        //         }
+        //         Some(false) => {
+        //             let mut keep = output.to_vec();
+        //             keep.extend_from_slice(sst_ids);
+        //             snapshot.levels[*lower_level].1 = keep;
+        //         }
+        //     }
+        //
+        //     return (snapshot, files_to_remove);
+        // }
     }
 }

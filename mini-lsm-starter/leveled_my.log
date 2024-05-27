@@ -21,7 +21,7 @@ L3 (0): []
 L4 (0): []
 --- Compaction Task ---
 flush L0 SST to base level 4
-Upper L0 [1.sst 1fa0d123..=9602ad67, 2.sst 829c80c..=4d068f0a] Lower L3 [] -> [3.sst 829c80c..=4f163ab9, 4.sst 4f163aba..=9602ad67]
+Upper L0 [1.sst 5f1c9951..=bd38d41f, 2.sst 5f1c9951..=bd38d41f] Lower L3 [] -> [3.sst 5f1c9951..=8e2ab6b7, 4.sst 8e2ab6b8..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
@@ -58,7 +58,7 @@ L3 (0): []
 L4 (2): [1, 2]
 --- Compaction Task ---
 flush L0 SST to base level 4
-Upper L0 [5.sst 5d01ddac..=d0ec5181, 6.sst 50836923..=657e5bc3] Lower L3 [3.sst 829c80c..=4f163ab9, 4.sst 4f163aba..=9602ad67] -> [7.sst 829c80c..=3a5a6a68, 8.sst 3a5a6a69..=6c8b0cc6, 9.sst 6c8b0cc7..=9ebbaf23, 10.sst 9ebbaf24..=d0ec5181]
+Upper L0 [5.sst 5f1c9951..=bd38d41f, 6.sst 5f1c9951..=bd38d41f] Lower L3 [3.sst 5f1c9951..=8e2ab6b7, 4.sst 8e2ab6b8..=bd38d41f] -> [7.sst 5f1c9951..=76a3a803, 8.sst 76a3a804..=8e2ab6b7, 9.sst 8e2ab6b8..=a5b1c56b, 10.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
@@ -95,7 +95,7 @@ L3 (0): []
 L4 (4): [5, 6, 3, 4]
 --- Compaction Task ---
 flush L0 SST to base level 4
-Upper L0 [11.sst 3390c3d0..=a539fa93, 12.sst 61c936e3..=d2f855ee] Lower L3 [7.sst 829c80c..=3a5a6a68, 8.sst 3a5a6a69..=6c8b0cc6, 9.sst 6c8b0cc7..=9ebbaf23, 10.sst 9ebbaf24..=d0ec5181] -> [13.sst 829c80c..=29f6dfb0, 14.sst 29f6dfb1..=4bc3f756, 15.sst 4bc3f757..=6d910efc, 16.sst 6d910efd..=8f5e26a2, 17.sst 8f5e26a3..=b12b3e48, 18.sst b12b3e49..=d2f855ee]
+Upper L0 [11.sst 5f1c9951..=bd38d41f, 12.sst 5f1c9951..=bd38d41f] Lower L3 [7.sst 5f1c9951..=76a3a803, 8.sst 76a3a804..=8e2ab6b7, 9.sst 8e2ab6b8..=a5b1c56b, 10.sst a5b1c56c..=bd38d41f] -> [13.sst 5f1c9951..=6ecbf872, 14.sst 6ecbf873..=7e7b5795, 15.sst 7e7b5796..=8e2ab6b7, 16.sst 8e2ab6b8..=9dda15da, 17.sst 9dda15db..=ad8974fc, 18.sst ad8974fd..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
@@ -132,7 +132,7 @@ L3 (0): []
 L4 (6): [11, 12, 7, 8, 9, 10]
 --- Compaction Task ---
 flush L0 SST to base level 3
-Upper L0 [19.sst 4e383c74..=4fe6b05f, 20.sst 536dda70..=64136b82] Lower L2 [] -> [21.sst 4e383c74..=5925d3fa, 22.sst 5925d3fb..=64136b82]
+Upper L0 [19.sst 5f1c9951..=bd38d41f, 20.sst 5f1c9951..=bd38d41f] Lower L2 [] -> [21.sst 5f1c9951..=8e2ab6b7, 22.sst 8e2ab6b8..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
@@ -169,7 +169,7 @@ L3 (2): [19, 20]
 L4 (6): [11, 12, 7, 8, 9, 10]
 --- Compaction Task ---
 flush L0 SST to base level 3
-Upper L0 [23.sst 19265489..=32ab65fd, 24.sst 138e4bf1..=3ff83972] Lower L2 [21.sst 4e383c74..=5925d3fa, 22.sst 5925d3fb..=64136b82] -> [25.sst 138e4bf1..=27af93d4, 26.sst 27af93d5..=3bd0dbb9, 27.sst 3bd0dbba..=4ff2239d, 28.sst 4ff2239e..=64136b82]
+Upper L0 [23.sst 5f1c9951..=bd38d41f, 24.sst 5f1c9951..=bd38d41f] Lower L2 [21.sst 5f1c9951..=8e2ab6b7, 22.sst 8e2ab6b8..=bd38d41f] -> [25.sst 5f1c9951..=76a3a803, 26.sst 76a3a804..=8e2ab6b7, 27.sst 8e2ab6b8..=a5b1c56b, 28.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
@@ -177,749 +177,1277 @@ L2 (0): []
 L3 (4): [23, 24, 21, 22]
 L4 (6): [11, 12, 7, 8, 9, 10]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L2 [25.sst 5f1c9951..=76a3a803] Lower L3 [13.sst 5f1c9951..=6ecbf872, 14.sst 6ecbf873..=7e7b5795] -> [29.sst 5f1c9951..=69918367, 30.sst 69918368..=74066d7e, 31.sst 74066d7f..=7e7b5795]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (3): [24, 21, 22]
+L4 (7): [25, 13, 14, 7, 8, 9, 10]
+--- Compaction Task ---
+2 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 28/10=2.800x
+Write Amplification: 31/10=3.100x
 Maximum Space Usage: 14/10=1.400x
 Read Amplification: 2x
 
 === Iteration 10 ===
 --- After Flush ---
-L0 (1): [29]
+L0 (1): [32]
 L1 (0): []
 L2 (0): []
-L3 (4): [23, 24, 21, 22]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (3): [24, 21, 22]
+L4 (7): [25, 13, 14, 7, 8, 9, 10]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 29/11=2.636x
+Write Amplification: 32/11=2.909x
 Maximum Space Usage: 14/11=1.273x
 Read Amplification: 3x
 
 === Iteration 11 ===
 --- After Flush ---
-L0 (2): [29, 30]
+L0 (2): [32, 33]
 L1 (0): []
 L2 (0): []
-L3 (4): [23, 24, 21, 22]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (3): [24, 21, 22]
+L4 (7): [25, 13, 14, 7, 8, 9, 10]
 --- Compaction Task ---
 flush L0 SST to base level 3
-Upper L0 [29.sst 6471442e..=b85b961e, 30.sst 340143eb..=59b4c032] Lower L2 [25.sst 138e4bf1..=27af93d4, 26.sst 27af93d5..=3bd0dbb9, 27.sst 3bd0dbba..=4ff2239d, 28.sst 4ff2239e..=64136b82] -> [31.sst 138e4bf1..=2f05d84d, 32.sst 2f05d84e..=4a7d64aa, 33.sst 4a7d64ab..=65f4f107, 34.sst 65f4f108..=816c7d64, 35.sst 816c7d65..=9ce409c1, 36.sst 9ce409c2..=b85b961e]
+Upper L0 [32.sst 5f1c9951..=bd38d41f, 33.sst 5f1c9951..=bd38d41f] Lower L2 [26.sst 76a3a804..=8e2ab6b7, 27.sst 8e2ab6b8..=a5b1c56b, 28.sst a5b1c56c..=bd38d41f] -> [34.sst 5f1c9951..=71ef0b79, 35.sst 71ef0b7a..=84c17da2, 36.sst 84c17da3..=9793efcc, 37.sst 9793efcd..=aa6661f5, 38.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
 L2 (0): []
-L3 (6): [29, 30, 25, 26, 27, 28]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (5): [32, 33, 26, 27, 28]
+L4 (7): [25, 13, 14, 7, 8, 9, 10]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L2 [34.sst 5f1c9951..=71ef0b79] Lower L3 [29.sst 5f1c9951..=69918367, 30.sst 69918368..=74066d7e] -> [39.sst 5f1c9951..=6615355f, 40.sst 66153560..=6d0dd16e, 41.sst 6d0dd16f..=74066d7e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (4): [33, 26, 27, 28]
+L4 (8): [34, 29, 30, 14, 7, 8, 9, 10]
+--- Compaction Task ---
+2 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 36/12=3.000x
-Maximum Space Usage: 18/12=1.500x
+Write Amplification: 41/12=3.417x
+Maximum Space Usage: 17/12=1.417x
 Read Amplification: 2x
 
 === Iteration 12 ===
 --- After Flush ---
-L0 (1): [37]
+L0 (1): [42]
 L1 (0): []
 L2 (0): []
-L3 (6): [29, 30, 25, 26, 27, 28]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (4): [33, 26, 27, 28]
+L4 (8): [34, 29, 30, 14, 7, 8, 9, 10]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 37/13=2.846x
-Maximum Space Usage: 18/13=1.385x
+Write Amplification: 42/13=3.231x
+Maximum Space Usage: 17/13=1.308x
 Read Amplification: 3x
 
 === Iteration 13 ===
 --- After Flush ---
-L0 (2): [37, 38]
+L0 (2): [42, 43]
 L1 (0): []
 L2 (0): []
-L3 (6): [29, 30, 25, 26, 27, 28]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (4): [33, 26, 27, 28]
+L4 (8): [34, 29, 30, 14, 7, 8, 9, 10]
 --- Compaction Task ---
 flush L0 SST to base level 3
-Upper L0 [37.sst 1f4a9d8a..=788d9702, 38.sst 392d5d43..=6a8550b6] Lower L2 [31.sst 138e4bf1..=2f05d84d, 32.sst 2f05d84e..=4a7d64aa, 33.sst 4a7d64ab..=65f4f107, 34.sst 65f4f108..=816c7d64, 35.sst 816c7d65..=9ce409c1, 36.sst 9ce409c2..=b85b961e] -> [39.sst 138e4bf1..=2827f535, 40.sst 2827f536..=3cc19e7b, 41.sst 3cc19e7c..=515b47c1, 42.sst 515b47c2..=65f4f107, 43.sst 65f4f108..=7a8e9a4c, 44.sst 7a8e9a4d..=8f284392, 45.sst 8f284393..=a3c1ecd8, 46.sst a3c1ecd9..=b85b961e]
+Upper L0 [42.sst 5f1c9951..=bd38d41f, 43.sst 5f1c9951..=bd38d41f] Lower L2 [35.sst 71ef0b7a..=84c17da2, 36.sst 84c17da3..=9793efcc, 37.sst 9793efcd..=aa6661f5, 38.sst aa6661f6..=bd38d41f] -> [44.sst 5f1c9951..=6ecbf872, 45.sst 6ecbf873..=7e7b5795, 46.sst 7e7b5796..=8e2ab6b7, 47.sst 8e2ab6b8..=9dda15da, 48.sst 9dda15db..=ad8974fc, 49.sst ad8974fd..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
 L2 (0): []
-L3 (8): [37, 38, 31, 32, 33, 34, 35, 36]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (6): [42, 43, 35, 36, 37, 38]
+L4 (8): [34, 29, 30, 14, 7, 8, 9, 10]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L2 [44.sst 5f1c9951..=6ecbf872] Lower L3 [39.sst 5f1c9951..=6615355f, 40.sst 66153560..=6d0dd16e, 41.sst 6d0dd16f..=74066d7e] -> [50.sst 5f1c9951..=64570e5b, 51.sst 64570e5c..=69918367, 52.sst 69918368..=6ecbf872, 53.sst 6ecbf873..=74066d7e]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (5): [43, 35, 36, 37, 38]
+L4 (9): [44, 39, 40, 41, 14, 7, 8, 9, 10]
+--- Compaction Task ---
+Upper L2 [45.sst 6ecbf873..=7e7b5795] Lower L3 [53.sst 6ecbf873..=74066d7e, 31.sst 74066d7f..=7e7b5795] -> [54.sst 6ecbf873..=74066d7d, 55.sst 74066d7e..=7940e289, 56.sst 7940e28a..=7e7b5795]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (0): []
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
+--- Compaction Task ---
+3 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 46/14=3.286x
-Maximum Space Usage: 22/14=1.571x
+Write Amplification: 56/14=4.000x
+Maximum Space Usage: 20/14=1.429x
 Read Amplification: 2x
 
 === Iteration 14 ===
 --- After Flush ---
-L0 (1): [47]
+L0 (1): [57]
 L1 (0): []
 L2 (0): []
-L3 (8): [37, 38, 31, 32, 33, 34, 35, 36]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 47/15=3.133x
-Maximum Space Usage: 22/15=1.467x
+Write Amplification: 57/15=3.800x
+Maximum Space Usage: 20/15=1.333x
 Read Amplification: 3x
 
 === Iteration 15 ===
 --- After Flush ---
-L0 (2): [47, 48]
+L0 (2): [57, 58]
 L1 (0): []
 L2 (0): []
-L3 (8): [37, 38, 31, 32, 33, 34, 35, 36]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [47.sst 7ed26517..=d6a983dc, 48.sst 514911f7..=9d65ef0b] Lower L2 [39.sst 138e4bf1..=2827f535, 40.sst 2827f536..=3cc19e7b, 41.sst 3cc19e7c..=515b47c1, 42.sst 515b47c2..=65f4f107, 43.sst 65f4f108..=7a8e9a4c, 44.sst 7a8e9a4d..=8f284392, 45.sst 8f284393..=a3c1ecd8, 46.sst a3c1ecd9..=b85b961e] -> [49.sst 138e4bf1..=271104ba, 50.sst 271104bb..=3a93bd85, 51.sst 3a93bd86..=4e167650, 52.sst 4e167651..=61992f1b, 53.sst 61992f1c..=751be7e6, 54.sst 751be7e7..=889ea0b0, 55.sst 889ea0b1..=9c21597b, 56.sst 9c21597c..=afa41246, 57.sst afa41247..=c326cb11, 58.sst c326cb12..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [57.sst 5f1c9951..=bd38d41f, 58.sst 5f1c9951..=bd38d41f] Lower L1 [] -> [59.sst 5f1c9951..=8e2ab6b7, 60.sst 8e2ab6b8..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (10): [47, 48, 39, 40, 41, 42, 43, 44, 45, 46]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (2): [57, 58]
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
 --- Compaction Task ---
 1 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 58/16=3.625x
-Maximum Space Usage: 26/16=1.625x
-Read Amplification: 2x
+Write Amplification: 60/16=3.750x
+Maximum Space Usage: 20/16=1.250x
+Read Amplification: 3x
 
 === Iteration 16 ===
 --- After Flush ---
-L0 (1): [59]
+L0 (1): [61]
 L1 (0): []
-L2 (0): []
-L3 (10): [47, 48, 39, 40, 41, 42, 43, 44, 45, 46]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (2): [57, 58]
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 59/17=3.471x
-Maximum Space Usage: 26/17=1.529x
-Read Amplification: 3x
+Write Amplification: 61/17=3.588x
+Maximum Space Usage: 20/17=1.176x
+Read Amplification: 4x
 
 === Iteration 17 ===
 --- After Flush ---
-L0 (2): [59, 60]
+L0 (2): [61, 62]
 L1 (0): []
-L2 (0): []
-L3 (10): [47, 48, 39, 40, 41, 42, 43, 44, 45, 46]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (2): [57, 58]
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [59.sst 3f357f90..=89526238, 60.sst 6583e380..=d59798f5] Lower L2 [49.sst 138e4bf1..=271104ba, 50.sst 271104bb..=3a93bd85, 51.sst 3a93bd86..=4e167650, 52.sst 4e167651..=61992f1b, 53.sst 61992f1c..=751be7e6, 54.sst 751be7e7..=889ea0b0, 55.sst 889ea0b1..=9c21597b, 56.sst 9c21597c..=afa41246, 57.sst afa41247..=c326cb11, 58.sst c326cb12..=d6a983dc] -> [61.sst 138e4bf1..=23d09099, 62.sst 23d0909a..=3412d542, 63.sst 3412d543..=445519eb, 64.sst 445519ec..=54975e94, 65.sst 54975e95..=64d9a33d, 66.sst 64d9a33e..=751be7e6, 67.sst 751be7e7..=855e2c8f, 68.sst 855e2c90..=95a07138, 69.sst 95a07139..=a5e2b5e1, 70.sst a5e2b5e2..=b624fa8a, 71.sst b624fa8b..=c6673f33, 72.sst c6673f34..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [61.sst 5f1c9951..=bd38d41f, 62.sst 5f1c9951..=bd38d41f] Lower L1 [59.sst 5f1c9951..=8e2ab6b7, 60.sst 8e2ab6b8..=bd38d41f] -> [63.sst 5f1c9951..=76a3a803, 64.sst 76a3a804..=8e2ab6b7, 65.sst 8e2ab6b8..=a5b1c56b, 66.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (12): [59, 60, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (4): [61, 62, 59, 60]
+L3 (4): [35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [63.sst 5f1c9951..=76a3a803] Lower L2 [] -> [67.sst 5f1c9951..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [62, 59, 60]
+L3 (5): [63, 35, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
+--- Compaction Task ---
+Upper L1 [64.sst 76a3a804..=8e2ab6b7] Lower L2 [46.sst 7e7b5796..=8e2ab6b7] -> [68.sst 76a3a804..=82672f5d, 69.sst 82672f5e..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (2): [59, 60]
+L3 (6): [63, 64, 46, 36, 37, 38]
+L4 (10): [44, 39, 40, 45, 53, 31, 7, 8, 9, 10]
+--- Compaction Task ---
+Upper L2 [47.sst 8e2ab6b8..=9dda15da] Lower L3 [16.sst 8e2ab6b8..=9dda15da] -> [70.sst 8e2ab6b8..=96026648, 71.sst 96026649..=9dda15da]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (2): [59, 60]
+L3 (5): [63, 64, 46, 37, 38]
+L4 (11): [44, 39, 40, 45, 53, 31, 7, 47, 16, 9, 10]
+--- Compaction Task ---
+4 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 72/18=4.000x
-Maximum Space Usage: 30/18=1.667x
-Read Amplification: 2x
+Write Amplification: 71/18=3.944x
+Maximum Space Usage: 22/18=1.222x
+Read Amplification: 3x
 
 === Iteration 18 ===
 --- After Flush ---
-L0 (1): [73]
+L0 (1): [72]
 L1 (0): []
-L2 (0): []
-L3 (12): [59, 60, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (2): [59, 60]
+L3 (5): [63, 64, 46, 37, 38]
+L4 (11): [44, 39, 40, 45, 53, 31, 7, 47, 16, 9, 10]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 73/19=3.842x
-Maximum Space Usage: 30/19=1.579x
-Read Amplification: 3x
+Write Amplification: 72/19=3.789x
+Maximum Space Usage: 22/19=1.158x
+Read Amplification: 4x
 
 === Iteration 19 ===
 --- After Flush ---
-L0 (2): [73, 74]
+L0 (2): [72, 73]
 L1 (0): []
-L2 (0): []
-L3 (12): [59, 60, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (2): [59, 60]
+L3 (5): [63, 64, 46, 37, 38]
+L4 (11): [44, 39, 40, 45, 53, 31, 7, 47, 16, 9, 10]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [73.sst 70e73677..=a585adda, 74.sst 62311a40..=8a161b78] Lower L2 [61.sst 138e4bf1..=23d09099, 62.sst 23d0909a..=3412d542, 63.sst 3412d543..=445519eb, 64.sst 445519ec..=54975e94, 65.sst 54975e95..=64d9a33d, 66.sst 64d9a33e..=751be7e6, 67.sst 751be7e7..=855e2c8f, 68.sst 855e2c90..=95a07138, 69.sst 95a07139..=a5e2b5e1, 70.sst a5e2b5e2..=b624fa8a, 71.sst b624fa8b..=c6673f33, 72.sst c6673f34..=d6a983dc] -> [75.sst 138e4bf1..=217df480, 76.sst 217df481..=2f6d9d11, 77.sst 2f6d9d12..=3d5d45a2, 78.sst 3d5d45a3..=4b4cee33, 79.sst 4b4cee34..=593c96c4, 80.sst 593c96c5..=672c3f55, 81.sst 672c3f56..=751be7e6, 82.sst 751be7e7..=830b9076, 83.sst 830b9077..=90fb3907, 84.sst 90fb3908..=9eeae198, 85.sst 9eeae199..=acda8a29, 86.sst acda8a2a..=baca32ba, 87.sst baca32bb..=c8b9db4b, 88.sst c8b9db4c..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [72.sst 5f1c9951..=bd38d41f, 73.sst 5f1c9951..=bd38d41f] Lower L1 [65.sst 8e2ab6b8..=a5b1c56b, 66.sst a5b1c56c..=bd38d41f] -> [74.sst 5f1c9951..=76a3a803, 75.sst 76a3a804..=8e2ab6b7, 76.sst 8e2ab6b8..=a5b1c56b, 77.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (14): [73, 74, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (4): [72, 73, 65, 66]
+L3 (5): [63, 64, 46, 37, 38]
+L4 (11): [44, 39, 40, 45, 53, 31, 7, 47, 16, 9, 10]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [74.sst 5f1c9951..=76a3a803] Lower L2 [67.sst 5f1c9951..=76a3a803] -> [78.sst 5f1c9951..=6ae020a9, 79.sst 6ae020aa..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [73, 65, 66]
+L3 (6): [74, 67, 64, 46, 37, 38]
+L4 (11): [44, 39, 40, 45, 53, 31, 7, 47, 16, 9, 10]
+--- Compaction Task ---
+Upper L2 [48.sst 9dda15db..=ad8974fc] Lower L3 [17.sst 9dda15db..=ad8974fc] -> [80.sst 9dda15db..=a5b1c56b, 81.sst a5b1c56c..=ad8974fc]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [73, 65, 66]
+L3 (5): [74, 67, 64, 46, 38]
+L4 (12): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 10]
+--- Compaction Task ---
+3 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 88/20=4.400x
-Maximum Space Usage: 34/20=1.700x
-Read Amplification: 2x
+Write Amplification: 81/20=4.050x
+Maximum Space Usage: 24/20=1.200x
+Read Amplification: 3x
 
 === Iteration 20 ===
 --- After Flush ---
-L0 (1): [89]
+L0 (1): [82]
 L1 (0): []
-L2 (0): []
-L3 (14): [73, 74, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [73, 65, 66]
+L3 (5): [74, 67, 64, 46, 38]
+L4 (12): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 10]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 89/21=4.238x
-Maximum Space Usage: 34/21=1.619x
-Read Amplification: 3x
+Write Amplification: 82/21=3.905x
+Maximum Space Usage: 24/21=1.143x
+Read Amplification: 4x
 
 === Iteration 21 ===
 --- After Flush ---
-L0 (2): [89, 90]
+L0 (2): [82, 83]
 L1 (0): []
-L2 (0): []
-L3 (14): [73, 74, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [73, 65, 66]
+L3 (5): [74, 67, 64, 46, 38]
+L4 (12): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 10]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [89.sst 14376a2c..=880bdb87, 90.sst 32aa1828..=8b98f0d3] Lower L2 [75.sst 138e4bf1..=217df480, 76.sst 217df481..=2f6d9d11, 77.sst 2f6d9d12..=3d5d45a2, 78.sst 3d5d45a3..=4b4cee33, 79.sst 4b4cee34..=593c96c4, 80.sst 593c96c5..=672c3f55, 81.sst 672c3f56..=751be7e6, 82.sst 751be7e7..=830b9076, 83.sst 830b9077..=90fb3907, 84.sst 90fb3908..=9eeae198, 85.sst 9eeae199..=acda8a29, 86.sst acda8a2a..=baca32ba, 87.sst baca32bb..=c8b9db4b, 88.sst c8b9db4c..=d6a983dc] -> [91.sst 138e4bf1..=1fbfff6e, 92.sst 1fbfff6f..=2bf1b2ed, 93.sst 2bf1b2ee..=3823666c, 94.sst 3823666d..=445519eb, 95.sst 445519ec..=5086cd69, 96.sst 5086cd6a..=5cb880e8, 97.sst 5cb880e9..=68ea3467, 98.sst 68ea3468..=751be7e6, 99.sst 751be7e7..=814d9b64, 100.sst 814d9b65..=8d7f4ee3, 101.sst 8d7f4ee4..=99b10262, 102.sst 99b10263..=a5e2b5e1, 103.sst a5e2b5e2..=b214695f, 104.sst b2146960..=be461cde, 105.sst be461cdf..=ca77d05d, 106.sst ca77d05e..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [82.sst 5f1c9951..=bd38d41f, 83.sst 5f1c9951..=bd38d41f] Lower L1 [75.sst 76a3a804..=8e2ab6b7, 76.sst 8e2ab6b8..=a5b1c56b, 77.sst a5b1c56c..=bd38d41f] -> [84.sst 5f1c9951..=71ef0b79, 85.sst 71ef0b7a..=84c17da2, 86.sst 84c17da3..=9793efcc, 87.sst 9793efcd..=aa6661f5, 88.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (16): [89, 90, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (5): [82, 83, 75, 76, 77]
+L3 (5): [74, 67, 64, 46, 38]
+L4 (12): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 10]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [84.sst 5f1c9951..=71ef0b79] Lower L2 [78.sst 5f1c9951..=6ae020a9, 79.sst 6ae020aa..=76a3a803] -> [89.sst 5f1c9951..=66f448e1, 90.sst 66f448e2..=6ecbf872, 91.sst 6ecbf873..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [83, 75, 76, 77]
+L3 (6): [84, 78, 79, 64, 46, 38]
+L4 (12): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 10]
+--- Compaction Task ---
+Upper L1 [85.sst 71ef0b7a..=84c17da2] Lower L2 [91.sst 6ecbf873..=76a3a803, 68.sst 76a3a804..=82672f5d, 69.sst 82672f5e..=8e2ab6b7] -> [92.sst 6ecbf873..=76a3a803, 93.sst 76a3a804..=7e7b5794, 94.sst 7e7b5795..=86530725, 95.sst 86530726..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [75, 76, 77]
+L3 (7): [84, 78, 85, 91, 68, 69, 38]
+L4 (12): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 10]
+--- Compaction Task ---
+Upper L2 [49.sst ad8974fd..=bd38d41f] Lower L3 [18.sst ad8974fd..=bd38d41f] -> [96.sst ad8974fd..=b561248d, 97.sst b561248e..=bd38d41f]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [75, 76, 77]
+L3 (6): [84, 78, 85, 91, 68, 69]
+L4 (13): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+4 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 106/22=4.818x
-Maximum Space Usage: 38/22=1.727x
-Read Amplification: 2x
+Write Amplification: 97/22=4.409x
+Maximum Space Usage: 27/22=1.227x
+Read Amplification: 3x
 
 === Iteration 22 ===
 --- After Flush ---
-L0 (1): [107]
+L0 (1): [98]
 L1 (0): []
-L2 (0): []
-L3 (16): [89, 90, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [75, 76, 77]
+L3 (6): [84, 78, 85, 91, 68, 69]
+L4 (13): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 107/23=4.652x
-Maximum Space Usage: 38/23=1.652x
-Read Amplification: 3x
+Write Amplification: 98/23=4.261x
+Maximum Space Usage: 27/23=1.174x
+Read Amplification: 4x
 
 === Iteration 23 ===
 --- After Flush ---
-L0 (2): [107, 108]
+L0 (2): [98, 99]
 L1 (0): []
-L2 (0): []
-L3 (16): [89, 90, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [75, 76, 77]
+L3 (6): [84, 78, 85, 91, 68, 69]
+L4 (13): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [107.sst 7c0396b3..=951acd68, 108.sst 30cfbfa8..=a455a07e] Lower L2 [91.sst 138e4bf1..=1fbfff6e, 92.sst 1fbfff6f..=2bf1b2ed, 93.sst 2bf1b2ee..=3823666c, 94.sst 3823666d..=445519eb, 95.sst 445519ec..=5086cd69, 96.sst 5086cd6a..=5cb880e8, 97.sst 5cb880e9..=68ea3467, 98.sst 68ea3468..=751be7e6, 99.sst 751be7e7..=814d9b64, 100.sst 814d9b65..=8d7f4ee3, 101.sst 8d7f4ee4..=99b10262, 102.sst 99b10263..=a5e2b5e1, 103.sst a5e2b5e2..=b214695f, 104.sst b2146960..=be461cde, 105.sst be461cdf..=ca77d05d, 106.sst ca77d05e..=d6a983dc] -> [109.sst 138e4bf1..=1e652460, 110.sst 1e652461..=293bfcd1, 111.sst 293bfcd2..=3412d542, 112.sst 3412d543..=3ee9adb2, 113.sst 3ee9adb3..=49c08623, 114.sst 49c08624..=54975e94, 115.sst 54975e95..=5f6e3704, 116.sst 5f6e3705..=6a450f75, 117.sst 6a450f76..=751be7e6, 118.sst 751be7e7..=7ff2c056, 119.sst 7ff2c057..=8ac998c7, 120.sst 8ac998c8..=95a07138, 121.sst 95a07139..=a07749a8, 122.sst a07749a9..=ab4e2219, 123.sst ab4e221a..=b624fa8a, 124.sst b624fa8b..=c0fbd2fa, 125.sst c0fbd2fb..=cbd2ab6b, 126.sst cbd2ab6c..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [98.sst 5f1c9951..=bd38d41f, 99.sst 5f1c9951..=bd38d41f] Lower L1 [86.sst 84c17da3..=9793efcc, 87.sst 9793efcd..=aa6661f5, 88.sst aa6661f6..=bd38d41f] -> [100.sst 5f1c9951..=71ef0b79, 101.sst 71ef0b7a..=84c17da2, 102.sst 84c17da3..=9793efcc, 103.sst 9793efcd..=aa6661f5, 104.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (18): [107, 108, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (5): [98, 99, 86, 87, 88]
+L3 (6): [84, 78, 85, 91, 68, 69]
+L4 (13): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [100.sst 5f1c9951..=71ef0b79] Lower L2 [89.sst 5f1c9951..=66f448e1, 90.sst 66f448e2..=6ecbf872, 92.sst 6ecbf873..=76a3a803] -> [105.sst 5f1c9951..=64fe5cfc, 106.sst 64fe5cfd..=6ae020a9, 107.sst 6ae020aa..=70c1e456, 108.sst 70c1e457..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [99, 86, 87, 88]
+L3 (7): [100, 89, 90, 92, 91, 68, 69]
+L4 (13): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [101.sst 71ef0b7a..=84c17da2] Lower L2 [108.sst 70c1e457..=76a3a803, 93.sst 76a3a804..=7e7b5794, 94.sst 7e7b5795..=86530725] -> [109.sst 70c1e457..=76262d09, 110.sst 76262d0a..=7b8a75bd, 111.sst 7b8a75be..=80eebe71, 112.sst 80eebe72..=86530725]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [86, 87, 88]
+L3 (8): [100, 89, 90, 101, 108, 93, 94, 69]
+L4 (13): [44, 39, 40, 45, 53, 31, 7, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [95.sst 86530726..=8e2ab6b7] Lower L3 [15.sst 7e7b5796..=8e2ab6b7] -> [113.sst 7e7b5796..=86530726, 114.sst 86530727..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [86, 87, 88]
+L3 (7): [100, 89, 90, 101, 108, 93, 94]
+L4 (14): [44, 39, 40, 45, 53, 31, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+4 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 126/24=5.250x
-Maximum Space Usage: 42/24=1.750x
-Read Amplification: 2x
+Write Amplification: 114/24=4.750x
+Maximum Space Usage: 29/24=1.208x
+Read Amplification: 3x
 
 === Iteration 24 ===
 --- After Flush ---
-L0 (1): [127]
+L0 (1): [115]
 L1 (0): []
-L2 (0): []
-L3 (18): [107, 108, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [86, 87, 88]
+L3 (7): [100, 89, 90, 101, 108, 93, 94]
+L4 (14): [44, 39, 40, 45, 53, 31, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 127/25=5.080x
-Maximum Space Usage: 42/25=1.680x
-Read Amplification: 3x
+Write Amplification: 115/25=4.600x
+Maximum Space Usage: 29/25=1.160x
+Read Amplification: 4x
 
 === Iteration 25 ===
 --- After Flush ---
-L0 (2): [127, 128]
+L0 (2): [115, 116]
 L1 (0): []
-L2 (0): []
-L3 (18): [107, 108, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [86, 87, 88]
+L3 (7): [100, 89, 90, 101, 108, 93, 94]
+L4 (14): [44, 39, 40, 45, 53, 31, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [127.sst 104f44b9..=6e03f29c, 128.sst 1de14eea..=6a32169c] Lower L2 [109.sst 138e4bf1..=1e652460, 110.sst 1e652461..=293bfcd1, 111.sst 293bfcd2..=3412d542, 112.sst 3412d543..=3ee9adb2, 113.sst 3ee9adb3..=49c08623, 114.sst 49c08624..=54975e94, 115.sst 54975e95..=5f6e3704, 116.sst 5f6e3705..=6a450f75, 117.sst 6a450f76..=751be7e6, 118.sst 751be7e7..=7ff2c056, 119.sst 7ff2c057..=8ac998c7, 120.sst 8ac998c8..=95a07138, 121.sst 95a07139..=a07749a8, 122.sst a07749a9..=ab4e2219, 123.sst ab4e221a..=b624fa8a, 124.sst b624fa8b..=c0fbd2fa, 125.sst c0fbd2fb..=cbd2ab6b, 126.sst cbd2ab6c..=d6a983dc] -> [129.sst 104f44b9..=1a3a2e46, 130.sst 1a3a2e47..=242517d5, 131.sst 242517d6..=2e100163, 132.sst 2e100164..=37faeaf2, 133.sst 37faeaf3..=41e5d481, 134.sst 41e5d482..=4bd0be0f, 135.sst 4bd0be10..=55bba79e, 136.sst 55bba79f..=5fa6912c, 137.sst 5fa6912d..=69917abb, 138.sst 69917abc..=737c644a, 139.sst 737c644b..=7d674dd8, 140.sst 7d674dd9..=87523767, 141.sst 87523768..=913d20f5, 142.sst 913d20f6..=9b280a84, 143.sst 9b280a85..=a512f413, 144.sst a512f414..=aefddda1, 145.sst aefddda2..=b8e8c730, 146.sst b8e8c731..=c2d3b0be, 147.sst c2d3b0bf..=ccbe9a4d, 148.sst ccbe9a4e..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [115.sst 5f1c9951..=bd38d41f, 116.sst 5f1c9951..=bd38d41f] Lower L1 [102.sst 84c17da3..=9793efcc, 103.sst 9793efcd..=aa6661f5, 104.sst aa6661f6..=bd38d41f] -> [117.sst 5f1c9951..=71ef0b79, 118.sst 71ef0b7a..=84c17da2, 119.sst 84c17da3..=9793efcc, 120.sst 9793efcd..=aa6661f5, 121.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (20): [127, 128, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (5): [115, 116, 102, 103, 104]
+L3 (7): [100, 89, 90, 101, 108, 93, 94]
+L4 (14): [44, 39, 40, 45, 53, 31, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [117.sst 5f1c9951..=71ef0b79] Lower L2 [105.sst 5f1c9951..=64fe5cfc, 106.sst 64fe5cfd..=6ae020a9, 107.sst 6ae020aa..=70c1e456, 109.sst 70c1e457..=76262d09] -> [122.sst 5f1c9951..=63b81d41, 123.sst 63b81d42..=6853a133, 124.sst 6853a134..=6cef2525, 125.sst 6cef2526..=718aa917, 126.sst 718aa918..=76262d09]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [116, 102, 103, 104]
+L3 (8): [117, 105, 106, 107, 109, 108, 93, 94]
+L4 (14): [44, 39, 40, 45, 53, 31, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [110.sst 76262d0a..=7b8a75bd] Lower L3 [55.sst 74066d7e..=7940e289, 56.sst 7940e28a..=7e7b5795] -> [127.sst 74066d7e..=7782bb85, 128.sst 7782bb86..=7aff098d, 129.sst 7aff098e..=7e7b5795]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [116, 102, 103, 104]
+L3 (7): [117, 105, 106, 107, 109, 93, 94]
+L4 (15): [44, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [118.sst 71ef0b7a..=84c17da2] Lower L2 [126.sst 718aa918..=76262d09, 111.sst 7b8a75be..=80eebe71, 112.sst 80eebe72..=86530725] -> [130.sst 718aa918..=76bcc09a, 131.sst 76bcc09b..=7beed81e, 132.sst 7beed81f..=8120efa1, 133.sst 8120efa2..=86530725]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [102, 103, 104]
+L3 (8): [117, 105, 106, 107, 118, 126, 111, 112]
+L4 (15): [44, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [122.sst 5f1c9951..=63b81d41] Lower L3 [50.sst 5f1c9951..=64570e5b] -> [134.sst 5f1c9951..=61b9d3d5, 135.sst 61b9d3d6..=64570e5b]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (3): [102, 103, 104]
+L3 (7): [105, 106, 107, 118, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+5 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 148/26=5.692x
-Maximum Space Usage: 46/26=1.769x
-Read Amplification: 2x
+Write Amplification: 135/26=5.192x
+Maximum Space Usage: 31/26=1.192x
+Read Amplification: 3x
 
 === Iteration 26 ===
 --- After Flush ---
-L0 (1): [149]
+L0 (1): [136]
 L1 (0): []
-L2 (0): []
-L3 (20): [127, 128, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [102, 103, 104]
+L3 (7): [105, 106, 107, 118, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 149/27=5.519x
-Maximum Space Usage: 46/27=1.704x
-Read Amplification: 3x
+Write Amplification: 136/27=5.037x
+Maximum Space Usage: 31/27=1.148x
+Read Amplification: 4x
 
 === Iteration 27 ===
 --- After Flush ---
-L0 (2): [149, 150]
+L0 (2): [136, 137]
 L1 (0): []
-L2 (0): []
-L3 (20): [127, 128, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (3): [102, 103, 104]
+L3 (7): [105, 106, 107, 118, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [149.sst 23fb8483..=3f224c95, 150.sst 606926fd..=a4910d5f] Lower L2 [129.sst 104f44b9..=1a3a2e46, 130.sst 1a3a2e47..=242517d5, 131.sst 242517d6..=2e100163, 132.sst 2e100164..=37faeaf2, 133.sst 37faeaf3..=41e5d481, 134.sst 41e5d482..=4bd0be0f, 135.sst 4bd0be10..=55bba79e, 136.sst 55bba79f..=5fa6912c, 137.sst 5fa6912d..=69917abb, 138.sst 69917abc..=737c644a, 139.sst 737c644b..=7d674dd8, 140.sst 7d674dd9..=87523767, 141.sst 87523768..=913d20f5, 142.sst 913d20f6..=9b280a84, 143.sst 9b280a85..=a512f413, 144.sst a512f414..=aefddda1, 145.sst aefddda2..=b8e8c730, 146.sst b8e8c731..=c2d3b0be, 147.sst c2d3b0bf..=ccbe9a4d, 148.sst ccbe9a4e..=d6a983dc] -> [151.sst 104f44b9..=19535edc, 152.sst 19535edd..=22577901, 153.sst 22577902..=2b5b9325, 154.sst 2b5b9326..=345fad4a, 155.sst 345fad4b..=3d63c76e, 156.sst 3d63c76f..=4667e193, 157.sst 4667e194..=4f6bfbb7, 158.sst 4f6bfbb8..=587015dc, 159.sst 587015dd..=61743000, 160.sst 61743001..=6a784a25, 161.sst 6a784a26..=737c644a, 162.sst 737c644b..=7c807e6e, 163.sst 7c807e6f..=85849893, 164.sst 85849894..=8e88b2b7, 165.sst 8e88b2b8..=978cccdc, 166.sst 978cccdd..=a090e700, 167.sst a090e701..=a9950125, 168.sst a9950126..=b2991b49, 169.sst b2991b4a..=bb9d356e, 170.sst bb9d356f..=c4a14f92, 171.sst c4a14f93..=cda569b7, 172.sst cda569b8..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [136.sst 5f1c9951..=bd38d41f, 137.sst 5f1c9951..=bd38d41f] Lower L1 [119.sst 84c17da3..=9793efcc, 120.sst 9793efcd..=aa6661f5, 121.sst aa6661f6..=bd38d41f] -> [138.sst 5f1c9951..=71ef0b79, 139.sst 71ef0b7a..=84c17da2, 140.sst 84c17da3..=9793efcc, 141.sst 9793efcd..=aa6661f5, 142.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (22): [149, 150, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (5): [136, 137, 119, 120, 121]
+L3 (7): [105, 106, 107, 118, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [138.sst 5f1c9951..=71ef0b79] Lower L2 [123.sst 63b81d42..=6853a133, 124.sst 6853a134..=6cef2525, 125.sst 6cef2526..=718aa917, 130.sst 718aa918..=76bcc09a] -> [143.sst 5f1c9951..=63d63ac5, 144.sst 63d63ac6..=688fdc3a, 145.sst 688fdc3b..=6d497daf, 146.sst 6d497db0..=72031f24, 147.sst 72031f25..=76bcc09a]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [137, 119, 120, 121]
+L3 (8): [138, 123, 124, 125, 130, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+2 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 172/28=6.143x
-Maximum Space Usage: 50/28=1.786x
-Read Amplification: 2x
+Write Amplification: 147/28=5.250x
+Maximum Space Usage: 33/28=1.179x
+Read Amplification: 3x
 
 === Iteration 28 ===
 --- After Flush ---
-L0 (1): [173]
+L0 (1): [148]
 L1 (0): []
-L2 (0): []
-L3 (22): [149, 150, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (4): [137, 119, 120, 121]
+L3 (8): [138, 123, 124, 125, 130, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 173/29=5.966x
-Maximum Space Usage: 50/29=1.724x
-Read Amplification: 3x
+Write Amplification: 148/29=5.103x
+Maximum Space Usage: 33/29=1.138x
+Read Amplification: 4x
 
 === Iteration 29 ===
 --- After Flush ---
-L0 (2): [173, 174]
+L0 (2): [148, 149]
 L1 (0): []
-L2 (0): []
-L3 (22): [149, 150, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (4): [137, 119, 120, 121]
+L3 (8): [138, 123, 124, 125, 130, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [173.sst e1dd11a..=8979056f, 174.sst f79ee0..=3c42590b] Lower L2 [151.sst 104f44b9..=19535edc, 152.sst 19535edd..=22577901, 153.sst 22577902..=2b5b9325, 154.sst 2b5b9326..=345fad4a, 155.sst 345fad4b..=3d63c76e, 156.sst 3d63c76f..=4667e193, 157.sst 4667e194..=4f6bfbb7, 158.sst 4f6bfbb8..=587015dc, 159.sst 587015dd..=61743000, 160.sst 61743001..=6a784a25, 161.sst 6a784a26..=737c644a, 162.sst 737c644b..=7c807e6e, 163.sst 7c807e6f..=85849893, 164.sst 85849894..=8e88b2b7, 165.sst 8e88b2b8..=978cccdc, 166.sst 978cccdd..=a090e700, 167.sst a090e701..=a9950125, 168.sst a9950126..=b2991b49, 169.sst b2991b4a..=bb9d356e, 170.sst bb9d356f..=c4a14f92, 171.sst c4a14f93..=cda569b7, 172.sst cda569b8..=d6a983dc] -> [175.sst f79ee0..=9df0869, 176.sst 9df086a..=12c671f4, 177.sst 12c671f5..=1baddb7e, 178.sst 1baddb7f..=24954509, 179.sst 2495450a..=2d7cae93, 180.sst 2d7cae94..=3664181e, 181.sst 3664181f..=3f4b81a8, 182.sst 3f4b81a9..=4832eb33, 183.sst 4832eb34..=511a54bd, 184.sst 511a54be..=5a01be48, 185.sst 5a01be49..=62e927d2, 186.sst 62e927d3..=6bd0915d, 187.sst 6bd0915e..=74b7fae8, 188.sst 74b7fae9..=7d9f6472, 189.sst 7d9f6473..=8686cdfd, 190.sst 8686cdfe..=8f6e3787, 191.sst 8f6e3788..=9855a112, 192.sst 9855a113..=a13d0a9c, 193.sst a13d0a9d..=aa247427, 194.sst aa247428..=b30bddb1, 195.sst b30bddb2..=bbf3473c, 196.sst bbf3473d..=c4dab0c6, 197.sst c4dab0c7..=cdc21a51, 198.sst cdc21a52..=d6a983dc]
+flush L0 SST to base level 2
+Upper L0 [148.sst 5f1c9951..=bd38d41f, 149.sst 5f1c9951..=bd38d41f] Lower L1 [139.sst 71ef0b7a..=84c17da2, 140.sst 84c17da3..=9793efcc, 141.sst 9793efcd..=aa6661f5, 142.sst aa6661f6..=bd38d41f] -> [150.sst 5f1c9951..=6ecbf872, 151.sst 6ecbf873..=7e7b5795, 152.sst 7e7b5796..=8e2ab6b7, 153.sst 8e2ab6b8..=9dda15da, 154.sst 9dda15db..=ad8974fc, 155.sst ad8974fd..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
 L1 (0): []
-L2 (0): []
-L3 (24): [173, 174, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (6): [148, 149, 139, 140, 141, 142]
+L3 (8): [138, 123, 124, 125, 130, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L1 [150.sst 5f1c9951..=6ecbf872] Lower L2 [143.sst 5f1c9951..=63d63ac5, 144.sst 63d63ac6..=688fdc3a, 145.sst 688fdc3b..=6d497daf, 146.sst 6d497db0..=72031f24] -> [156.sst 5f1c9951..=62e44dad, 157.sst 62e44dae..=66ac020b, 158.sst 66ac020c..=6a73b668, 159.sst 6a73b669..=6e3b6ac6, 160.sst 6e3b6ac7..=72031f24]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (5): [149, 139, 140, 141, 142]
+L3 (9): [150, 143, 144, 145, 146, 130, 126, 111, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [151.sst 6ecbf873..=7e7b5795] Lower L2 [160.sst 6e3b6ac7..=72031f24, 147.sst 72031f25..=76bcc09a, 131.sst 76bcc09b..=7beed81e, 132.sst 7beed81f..=8120efa1] -> [161.sst 6e3b6ac7..=7202ebbe, 162.sst 7202ebbf..=75ca6cb7, 163.sst 75ca6cb8..=7991edaf, 164.sst 7991edb0..=7d596ea8, 165.sst 7d596ea9..=8120efa1]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [139, 140, 141, 142]
+L3 (10): [150, 143, 144, 145, 151, 160, 147, 131, 132, 112]
+L4 (16): [122, 50, 39, 40, 45, 110, 55, 56, 95, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [133.sst 8120efa2..=86530725] Lower L3 [113.sst 7e7b5796..=86530726] -> [166.sst 7e7b5796..=82672f5d, 167.sst 82672f5e..=86530726]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [139, 140, 141, 142]
+L3 (9): [150, 143, 144, 145, 151, 160, 147, 131, 132]
+L4 (17): [122, 50, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [156.sst 5f1c9951..=62e44dad] Lower L3 [134.sst 5f1c9951..=61b9d3d5, 135.sst 61b9d3d6..=64570e5b] -> [168.sst 5f1c9951..=60dac053, 169.sst 60dac054..=6298e757, 170.sst 6298e758..=64570e5b]
+--- After Compaction ---
+L0 (0): []
+L1 (0): []
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+5 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 198/30=6.600x
-Maximum Space Usage: 54/30=1.800x
-Read Amplification: 2x
+Write Amplification: 170/30=5.667x
+Maximum Space Usage: 36/30=1.200x
+Read Amplification: 3x
 
 === Iteration 30 ===
 --- After Flush ---
-L0 (1): [199]
+L0 (1): [171]
 L1 (0): []
-L2 (0): []
-L3 (24): [173, 174, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 199/31=6.419x
-Maximum Space Usage: 54/31=1.742x
-Read Amplification: 3x
+Write Amplification: 171/31=5.516x
+Maximum Space Usage: 36/31=1.161x
+Read Amplification: 4x
 
 === Iteration 31 ===
 --- After Flush ---
-L0 (2): [199, 200]
+L0 (2): [171, 172]
 L1 (0): []
-L2 (0): []
-L3 (24): [173, 174, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [199.sst 2224b770..=73e3aae3, 200.sst 72736773..=b2a6855f] Lower L2 [175.sst f79ee0..=9df0869, 176.sst 9df086a..=12c671f4, 177.sst 12c671f5..=1baddb7e, 178.sst 1baddb7f..=24954509, 179.sst 2495450a..=2d7cae93, 180.sst 2d7cae94..=3664181e, 181.sst 3664181f..=3f4b81a8, 182.sst 3f4b81a9..=4832eb33, 183.sst 4832eb34..=511a54bd, 184.sst 511a54be..=5a01be48, 185.sst 5a01be49..=62e927d2, 186.sst 62e927d3..=6bd0915d, 187.sst 6bd0915e..=74b7fae8, 188.sst 74b7fae9..=7d9f6472, 189.sst 7d9f6473..=8686cdfd, 190.sst 8686cdfe..=8f6e3787, 191.sst 8f6e3788..=9855a112, 192.sst 9855a113..=a13d0a9c, 193.sst a13d0a9d..=aa247427, 194.sst aa247428..=b30bddb1, 195.sst b30bddb2..=bbf3473c, 196.sst bbf3473d..=c4dab0c6, 197.sst c4dab0c7..=cdc21a51, 198.sst cdc21a52..=d6a983dc] -> [201.sst f79ee0..=92fb186, 202.sst 92fb187..=1167c42d, 203.sst 1167c42e..=199fd6d4, 204.sst 199fd6d5..=21d7e97c, 205.sst 21d7e97d..=2a0ffc23, 206.sst 2a0ffc24..=32480eca, 207.sst 32480ecb..=3a802171, 208.sst 3a802172..=42b83419, 209.sst 42b8341a..=4af046c0, 210.sst 4af046c1..=53285967, 211.sst 53285968..=5b606c0e, 212.sst 5b606c0f..=63987eb6, 213.sst 63987eb7..=6bd0915d, 214.sst 6bd0915e..=7408a404, 215.sst 7408a405..=7c40b6ac, 216.sst 7c40b6ad..=8478c953, 217.sst 8478c954..=8cb0dbfa, 218.sst 8cb0dbfb..=94e8eea1, 219.sst 94e8eea2..=9d210149, 220.sst 9d21014a..=a55913f0, 221.sst a55913f1..=ad912697, 222.sst ad912698..=b5c9393e, 223.sst b5c9393f..=be014be6, 224.sst be014be7..=c6395e8d, 225.sst c6395e8e..=ce717134, 226.sst ce717135..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [171.sst 5f1c9951..=bd38d41f, 172.sst 5f1c9951..=bd38d41f] Lower L0 [] -> [173.sst 5f1c9951..=8e2ab6b7, 174.sst 8e2ab6b8..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (26): [199, 200, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (2): [171, 172]
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 1 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 226/32=7.062x
-Maximum Space Usage: 58/32=1.812x
-Read Amplification: 2x
+Write Amplification: 174/32=5.438x
+Maximum Space Usage: 36/32=1.125x
+Read Amplification: 4x
 
 === Iteration 32 ===
 --- After Flush ---
-L0 (1): [227]
-L1 (0): []
-L2 (0): []
-L3 (26): [199, 200, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [175]
+L1 (2): [171, 172]
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 227/33=6.879x
-Maximum Space Usage: 58/33=1.758x
-Read Amplification: 3x
+Write Amplification: 175/33=5.303x
+Maximum Space Usage: 36/33=1.091x
+Read Amplification: 5x
 
 === Iteration 33 ===
 --- After Flush ---
-L0 (2): [227, 228]
-L1 (0): []
-L2 (0): []
-L3 (26): [199, 200, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [175, 176]
+L1 (2): [171, 172]
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [227.sst 5161f818..=7730aae6, 228.sst 37666019..=6ef4daa4] Lower L2 [201.sst f79ee0..=92fb186, 202.sst 92fb187..=1167c42d, 203.sst 1167c42e..=199fd6d4, 204.sst 199fd6d5..=21d7e97c, 205.sst 21d7e97d..=2a0ffc23, 206.sst 2a0ffc24..=32480eca, 207.sst 32480ecb..=3a802171, 208.sst 3a802172..=42b83419, 209.sst 42b8341a..=4af046c0, 210.sst 4af046c1..=53285967, 211.sst 53285968..=5b606c0e, 212.sst 5b606c0f..=63987eb6, 213.sst 63987eb7..=6bd0915d, 214.sst 6bd0915e..=7408a404, 215.sst 7408a405..=7c40b6ac, 216.sst 7c40b6ad..=8478c953, 217.sst 8478c954..=8cb0dbfa, 218.sst 8cb0dbfb..=94e8eea1, 219.sst 94e8eea2..=9d210149, 220.sst 9d21014a..=a55913f0, 221.sst a55913f1..=ad912697, 222.sst ad912698..=b5c9393e, 223.sst b5c9393f..=be014be6, 224.sst be014be7..=c6395e8d, 225.sst c6395e8e..=ce717134, 226.sst ce717135..=d6a983dc] -> [229.sst f79ee0..=899670c, 230.sst 899670d..=103b2f3a, 231.sst 103b2f3b..=17dcf767, 232.sst 17dcf768..=1f7ebf95, 233.sst 1f7ebf96..=272087c3, 234.sst 272087c4..=2ec24ff0, 235.sst 2ec24ff1..=3664181e, 236.sst 3664181f..=3e05e04b, 237.sst 3e05e04c..=45a7a879, 238.sst 45a7a87a..=4d4970a7, 239.sst 4d4970a8..=54eb38d4, 240.sst 54eb38d5..=5c8d0102, 241.sst 5c8d0103..=642ec92f, 242.sst 642ec930..=6bd0915d, 243.sst 6bd0915e..=7372598b, 244.sst 7372598c..=7b1421b8, 245.sst 7b1421b9..=82b5e9e6, 246.sst 82b5e9e7..=8a57b213, 247.sst 8a57b214..=91f97a41, 248.sst 91f97a42..=999b426f, 249.sst 999b4270..=a13d0a9c, 250.sst a13d0a9d..=a8ded2ca, 251.sst a8ded2cb..=b0809af7, 252.sst b0809af8..=b8226325, 253.sst b8226326..=bfc42b53, 254.sst bfc42b54..=c765f380, 255.sst c765f381..=cf07bbae, 256.sst cf07bbaf..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [175.sst 5f1c9951..=bd38d41f, 176.sst 5f1c9951..=bd38d41f] Lower L0 [173.sst 5f1c9951..=8e2ab6b7, 174.sst 8e2ab6b8..=bd38d41f] -> [177.sst 5f1c9951..=76a3a803, 178.sst 76a3a804..=8e2ab6b7, 179.sst 8e2ab6b8..=a5b1c56b, 180.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (28): [227, 228, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (4): [175, 176, 173, 174]
+L2 (4): [139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [177.sst 5f1c9951..=76a3a803] Lower L1 [] -> [181.sst 5f1c9951..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [176, 173, 174]
+L2 (5): [177, 139, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L0 [178.sst 76a3a804..=8e2ab6b7] Lower L1 [152.sst 7e7b5796..=8e2ab6b7] -> [182.sst 76a3a804..=82672f5d, 183.sst 82672f5e..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [173, 174]
+L2 (6): [177, 178, 152, 140, 141, 142]
+L3 (8): [143, 144, 145, 151, 160, 147, 131, 132]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [153.sst 8e2ab6b8..=9dda15da] Lower L2 [] -> [184.sst 8e2ab6b8..=9dda15da]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [173, 174]
+L2 (5): [177, 178, 152, 141, 142]
+L3 (9): [143, 144, 145, 151, 160, 147, 131, 132, 153]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [154.sst 9dda15db..=ad8974fc] Lower L2 [] -> [185.sst 9dda15db..=ad8974fc]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [173, 174]
+L2 (4): [177, 178, 152, 142]
+L3 (10): [143, 144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (18): [156, 134, 135, 39, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [157.sst 62e44dae..=66ac020b] Lower L3 [170.sst 6298e758..=64570e5b, 51.sst 64570e5c..=69918367] -> [186.sst 6298e758..=64ebc607, 187.sst 64ebc608..=673ea4b7, 188.sst 673ea4b8..=69918367]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [173, 174]
+L2 (4): [177, 178, 152, 142]
+L3 (9): [144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+6 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 256/34=7.529x
-Maximum Space Usage: 62/34=1.824x
-Read Amplification: 2x
+Write Amplification: 188/34=5.529x
+Maximum Space Usage: 38/34=1.118x
+Read Amplification: 4x
 
 === Iteration 34 ===
 --- After Flush ---
-L0 (1): [257]
-L1 (0): []
-L2 (0): []
-L3 (28): [227, 228, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [189]
+L1 (2): [173, 174]
+L2 (4): [177, 178, 152, 142]
+L3 (9): [144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 257/35=7.343x
-Maximum Space Usage: 62/35=1.771x
-Read Amplification: 3x
+Write Amplification: 189/35=5.400x
+Maximum Space Usage: 38/35=1.086x
+Read Amplification: 5x
 
 === Iteration 35 ===
 --- After Flush ---
-L0 (2): [257, 258]
-L1 (0): []
-L2 (0): []
-L3 (28): [227, 228, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [189, 190]
+L1 (2): [173, 174]
+L2 (4): [177, 178, 152, 142]
+L3 (9): [144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [257.sst 27fee7fe..=30612a4a, 258.sst 5ae616bf..=8b188ebf] Lower L2 [229.sst f79ee0..=899670c, 230.sst 899670d..=103b2f3a, 231.sst 103b2f3b..=17dcf767, 232.sst 17dcf768..=1f7ebf95, 233.sst 1f7ebf96..=272087c3, 234.sst 272087c4..=2ec24ff0, 235.sst 2ec24ff1..=3664181e, 236.sst 3664181f..=3e05e04b, 237.sst 3e05e04c..=45a7a879, 238.sst 45a7a87a..=4d4970a7, 239.sst 4d4970a8..=54eb38d4, 240.sst 54eb38d5..=5c8d0102, 241.sst 5c8d0103..=642ec92f, 242.sst 642ec930..=6bd0915d, 243.sst 6bd0915e..=7372598b, 244.sst 7372598c..=7b1421b8, 245.sst 7b1421b9..=82b5e9e6, 246.sst 82b5e9e7..=8a57b213, 247.sst 8a57b214..=91f97a41, 248.sst 91f97a42..=999b426f, 249.sst 999b4270..=a13d0a9c, 250.sst a13d0a9d..=a8ded2ca, 251.sst a8ded2cb..=b0809af7, 252.sst b0809af8..=b8226325, 253.sst b8226326..=bfc42b53, 254.sst bfc42b54..=c765f380, 255.sst c765f381..=cf07bbae, 256.sst cf07bbaf..=d6a983dc] -> [259.sst f79ee0..=8172681, 260.sst 8172682..=f36ae23, 261.sst f36ae24..=165635c5, 262.sst 165635c6..=1d75bd67, 263.sst 1d75bd68..=24954509, 264.sst 2495450a..=2bb4ccab, 265.sst 2bb4ccac..=32d4544d, 266.sst 32d4544e..=39f3dbef, 267.sst 39f3dbf0..=41136391, 268.sst 41136392..=4832eb33, 269.sst 4832eb34..=4f5272d5, 270.sst 4f5272d6..=5671fa77, 271.sst 5671fa78..=5d918219, 272.sst 5d91821a..=64b109bb, 273.sst 64b109bc..=6bd0915d, 274.sst 6bd0915e..=72f018ff, 275.sst 72f01900..=7a0fa0a1, 276.sst 7a0fa0a2..=812f2843, 277.sst 812f2844..=884eafe5, 278.sst 884eafe6..=8f6e3787, 279.sst 8f6e3788..=968dbf29, 280.sst 968dbf2a..=9dad46cb, 281.sst 9dad46cc..=a4ccce6d, 282.sst a4ccce6e..=abec560f, 283.sst abec5610..=b30bddb1, 284.sst b30bddb2..=ba2b6553, 285.sst ba2b6554..=c14aecf5, 286.sst c14aecf6..=c86a7497, 287.sst c86a7498..=cf89fc39, 288.sst cf89fc3a..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [189.sst 5f1c9951..=bd38d41f, 190.sst 5f1c9951..=bd38d41f] Lower L0 [179.sst 8e2ab6b8..=a5b1c56b, 180.sst a5b1c56c..=bd38d41f] -> [191.sst 5f1c9951..=76a3a803, 192.sst 76a3a804..=8e2ab6b7, 193.sst 8e2ab6b8..=a5b1c56b, 194.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (30): [257, 258, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (4): [189, 190, 179, 180]
+L2 (4): [177, 178, 152, 142]
+L3 (9): [144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [191.sst 5f1c9951..=76a3a803] Lower L1 [181.sst 5f1c9951..=76a3a803] -> [195.sst 5f1c9951..=6ae020a9, 196.sst 6ae020aa..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [190, 179, 180]
+L2 (5): [191, 181, 178, 152, 142]
+L3 (9): [144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L0 [192.sst 76a3a804..=8e2ab6b7] Lower L1 [182.sst 76a3a804..=82672f5d, 183.sst 82672f5e..=8e2ab6b7] -> [197.sst 76a3a804..=7e7b5794, 198.sst 7e7b5795..=86530725, 199.sst 86530726..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [179, 180]
+L2 (6): [191, 181, 192, 182, 183, 142]
+L3 (9): [144, 145, 151, 160, 147, 131, 132, 153, 154]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [155.sst ad8974fd..=bd38d41f] Lower L2 [] -> [200.sst ad8974fd..=bd38d41f]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [179, 180]
+L2 (5): [191, 181, 192, 182, 183]
+L3 (10): [144, 145, 151, 160, 147, 131, 132, 153, 154, 155]
+L4 (19): [156, 134, 157, 170, 51, 40, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [158.sst 66ac020c..=6a73b668] Lower L3 [187.sst 64ebc608..=673ea4b7, 188.sst 673ea4b8..=69918367, 52.sst 69918368..=6ecbf872] -> [201.sst 64ebc608..=6763d2a1, 202.sst 6763d2a2..=69dbdf3c, 203.sst 69dbdf3d..=6c53ebd7, 204.sst 6c53ebd8..=6ecbf872]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [179, 180]
+L2 (5): [191, 181, 192, 182, 183]
+L3 (9): [145, 151, 160, 147, 131, 132, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+5 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 288/36=8.000x
-Maximum Space Usage: 66/36=1.833x
-Read Amplification: 2x
+Write Amplification: 204/36=5.667x
+Maximum Space Usage: 40/36=1.111x
+Read Amplification: 4x
 
 === Iteration 36 ===
 --- After Flush ---
-L0 (1): [289]
-L1 (0): []
-L2 (0): []
-L3 (30): [257, 258, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [205]
+L1 (2): [179, 180]
+L2 (5): [191, 181, 192, 182, 183]
+L3 (9): [145, 151, 160, 147, 131, 132, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 289/37=7.811x
-Maximum Space Usage: 66/37=1.784x
-Read Amplification: 3x
+Write Amplification: 205/37=5.541x
+Maximum Space Usage: 40/37=1.081x
+Read Amplification: 5x
 
 === Iteration 37 ===
 --- After Flush ---
-L0 (2): [289, 290]
-L1 (0): []
-L2 (0): []
-L3 (30): [257, 258, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [205, 206]
+L1 (2): [179, 180]
+L2 (5): [191, 181, 192, 182, 183]
+L3 (9): [145, 151, 160, 147, 131, 132, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [289.sst 1fcbb4fd..=508ea672, 290.sst 319937a2..=405ff073] Lower L2 [259.sst f79ee0..=8172681, 260.sst 8172682..=f36ae23, 261.sst f36ae24..=165635c5, 262.sst 165635c6..=1d75bd67, 263.sst 1d75bd68..=24954509, 264.sst 2495450a..=2bb4ccab, 265.sst 2bb4ccac..=32d4544d, 266.sst 32d4544e..=39f3dbef, 267.sst 39f3dbf0..=41136391, 268.sst 41136392..=4832eb33, 269.sst 4832eb34..=4f5272d5, 270.sst 4f5272d6..=5671fa77, 271.sst 5671fa78..=5d918219, 272.sst 5d91821a..=64b109bb, 273.sst 64b109bc..=6bd0915d, 274.sst 6bd0915e..=72f018ff, 275.sst 72f01900..=7a0fa0a1, 276.sst 7a0fa0a2..=812f2843, 277.sst 812f2844..=884eafe5, 278.sst 884eafe6..=8f6e3787, 279.sst 8f6e3788..=968dbf29, 280.sst 968dbf2a..=9dad46cb, 281.sst 9dad46cc..=a4ccce6d, 282.sst a4ccce6e..=abec560f, 283.sst abec5610..=b30bddb1, 284.sst b30bddb2..=ba2b6553, 285.sst ba2b6554..=c14aecf5, 286.sst c14aecf6..=c86a7497, 287.sst c86a7498..=cf89fc39, 288.sst cf89fc3a..=d6a983dc] -> [291.sst f79ee0..=7a52e06, 292.sst 7a52e07..=e52bd2e, 293.sst e52bd2f..=15004c56, 294.sst 15004c57..=1baddb7e, 295.sst 1baddb7f..=225b6aa6, 296.sst 225b6aa7..=2908f9ce, 297.sst 2908f9cf..=2fb688f6, 298.sst 2fb688f7..=3664181e, 299.sst 3664181f..=3d11a746, 300.sst 3d11a747..=43bf366e, 301.sst 43bf366f..=4a6cc595, 302.sst 4a6cc596..=511a54bd, 303.sst 511a54be..=57c7e3e5, 304.sst 57c7e3e6..=5e75730d, 305.sst 5e75730e..=65230235, 306.sst 65230236..=6bd0915d, 307.sst 6bd0915e..=727e2085, 308.sst 727e2086..=792bafad, 309.sst 792bafae..=7fd93ed5, 310.sst 7fd93ed6..=8686cdfd, 311.sst 8686cdfe..=8d345d25, 312.sst 8d345d26..=93e1ec4c, 313.sst 93e1ec4d..=9a8f7b74, 314.sst 9a8f7b75..=a13d0a9c, 315.sst a13d0a9d..=a7ea99c4, 316.sst a7ea99c5..=ae9828ec, 317.sst ae9828ed..=b545b814, 318.sst b545b815..=bbf3473c, 319.sst bbf3473d..=c2a0d664, 320.sst c2a0d665..=c94e658c, 321.sst c94e658d..=cffbf4b4, 322.sst cffbf4b5..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [205.sst 5f1c9951..=bd38d41f, 206.sst 5f1c9951..=bd38d41f] Lower L0 [193.sst 8e2ab6b8..=a5b1c56b, 194.sst a5b1c56c..=bd38d41f] -> [207.sst 5f1c9951..=76a3a803, 208.sst 76a3a804..=8e2ab6b7, 209.sst 8e2ab6b8..=a5b1c56b, 210.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (32): [289, 290, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (4): [205, 206, 193, 194]
+L2 (5): [191, 181, 192, 182, 183]
+L3 (9): [145, 151, 160, 147, 131, 132, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [207.sst 5f1c9951..=76a3a803] Lower L1 [195.sst 5f1c9951..=6ae020a9, 196.sst 6ae020aa..=76a3a803] -> [211.sst 5f1c9951..=66f448e1, 212.sst 66f448e2..=6ecbf872, 213.sst 6ecbf873..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [206, 193, 194]
+L2 (6): [207, 195, 196, 192, 182, 183]
+L3 (9): [145, 151, 160, 147, 131, 132, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [197.sst 76a3a804..=7e7b5794] Lower L2 [163.sst 75ca6cb8..=7991edaf, 164.sst 7991edb0..=7d596ea8, 165.sst 7d596ea9..=8120efa1] -> [214.sst 75ca6cb8..=78a00d71, 215.sst 78a00d72..=7b75ae2c, 216.sst 7b75ae2d..=7e4b4ee6, 217.sst 7e4b4ee7..=8120efa1]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [206, 193, 194]
+L2 (5): [207, 195, 196, 182, 183]
+L3 (10): [145, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L0 [208.sst 76a3a804..=8e2ab6b7] Lower L1 [198.sst 7e7b5795..=86530725, 199.sst 86530726..=8e2ab6b7] -> [218.sst 76a3a804..=7e7b5794, 219.sst 7e7b5795..=86530725, 220.sst 86530726..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [193, 194]
+L2 (6): [207, 195, 196, 208, 198, 199]
+L3 (10): [145, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [211.sst 5f1c9951..=66f448e1] Lower L2 [] -> [221.sst 5f1c9951..=66f448e1]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [193, 194]
+L2 (5): [195, 196, 208, 198, 199]
+L3 (11): [211, 145, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (20): [156, 134, 157, 158, 187, 188, 52, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [159.sst 6a73b669..=6e3b6ac6] Lower L3 [203.sst 69dbdf3d..=6c53ebd7, 204.sst 6c53ebd8..=6ecbf872] -> [222.sst 69dbdf3d..=6b813cf8, 223.sst 6b813cf9..=6d269ab5, 224.sst 6d269ab6..=6ecbf872]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [193, 194]
+L2 (5): [195, 196, 208, 198, 199]
+L3 (10): [211, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+6 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 322/38=8.474x
-Maximum Space Usage: 70/38=1.842x
-Read Amplification: 2x
+Write Amplification: 224/38=5.895x
+Maximum Space Usage: 42/38=1.105x
+Read Amplification: 4x
 
 === Iteration 38 ===
 --- After Flush ---
-L0 (1): [323]
-L1 (0): []
-L2 (0): []
-L3 (32): [289, 290, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [225]
+L1 (2): [193, 194]
+L2 (5): [195, 196, 208, 198, 199]
+L3 (10): [211, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 323/39=8.282x
-Maximum Space Usage: 70/39=1.795x
-Read Amplification: 3x
+Write Amplification: 225/39=5.769x
+Maximum Space Usage: 42/39=1.077x
+Read Amplification: 5x
 
 === Iteration 39 ===
 --- After Flush ---
-L0 (2): [323, 324]
-L1 (0): []
-L2 (0): []
-L3 (32): [289, 290, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [225, 226]
+L1 (2): [193, 194]
+L2 (5): [195, 196, 208, 198, 199]
+L3 (10): [211, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [323.sst 371ad147..=6fec639e, 324.sst 4391a4ae..=7ed46a58] Lower L2 [291.sst f79ee0..=7a52e06, 292.sst 7a52e07..=e52bd2e, 293.sst e52bd2f..=15004c56, 294.sst 15004c57..=1baddb7e, 295.sst 1baddb7f..=225b6aa6, 296.sst 225b6aa7..=2908f9ce, 297.sst 2908f9cf..=2fb688f6, 298.sst 2fb688f7..=3664181e, 299.sst 3664181f..=3d11a746, 300.sst 3d11a747..=43bf366e, 301.sst 43bf366f..=4a6cc595, 302.sst 4a6cc596..=511a54bd, 303.sst 511a54be..=57c7e3e5, 304.sst 57c7e3e6..=5e75730d, 305.sst 5e75730e..=65230235, 306.sst 65230236..=6bd0915d, 307.sst 6bd0915e..=727e2085, 308.sst 727e2086..=792bafad, 309.sst 792bafae..=7fd93ed5, 310.sst 7fd93ed6..=8686cdfd, 311.sst 8686cdfe..=8d345d25, 312.sst 8d345d26..=93e1ec4c, 313.sst 93e1ec4d..=9a8f7b74, 314.sst 9a8f7b75..=a13d0a9c, 315.sst a13d0a9d..=a7ea99c4, 316.sst a7ea99c5..=ae9828ec, 317.sst ae9828ed..=b545b814, 318.sst b545b815..=bbf3473c, 319.sst bbf3473d..=c2a0d664, 320.sst c2a0d665..=c94e658c, 321.sst c94e658d..=cffbf4b4, 322.sst cffbf4b5..=d6a983dc] -> [325.sst f79ee0..=7409e13, 326.sst 7409e14..=d899d48, 327.sst d899d49..=13d29c7c, 328.sst 13d29c7d..=1a1b9bb1, 329.sst 1a1b9bb2..=20649ae6, 330.sst 20649ae7..=26ad9a1a, 331.sst 26ad9a1b..=2cf6994f, 332.sst 2cf69950..=333f9883, 333.sst 333f9884..=398897b8, 334.sst 398897b9..=3fd196ed, 335.sst 3fd196ee..=461a9621, 336.sst 461a9622..=4c639556, 337.sst 4c639557..=52ac948b, 338.sst 52ac948c..=58f593bf, 339.sst 58f593c0..=5f3e92f4, 340.sst 5f3e92f5..=65879228, 341.sst 65879229..=6bd0915d, 342.sst 6bd0915e..=72199092, 343.sst 72199093..=78628fc6, 344.sst 78628fc7..=7eab8efb, 345.sst 7eab8efc..=84f48e2f, 346.sst 84f48e30..=8b3d8d64, 347.sst 8b3d8d65..=91868c99, 348.sst 91868c9a..=97cf8bcd, 349.sst 97cf8bce..=9e188b02, 350.sst 9e188b03..=a4618a37, 351.sst a4618a38..=aaaa896b, 352.sst aaaa896c..=b0f388a0, 353.sst b0f388a1..=b73c87d4, 354.sst b73c87d5..=bd858709, 355.sst bd85870a..=c3ce863e, 356.sst c3ce863f..=ca178572, 357.sst ca178573..=d06084a7, 358.sst d06084a8..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [225.sst 5f1c9951..=bd38d41f, 226.sst 5f1c9951..=bd38d41f] Lower L0 [209.sst 8e2ab6b8..=a5b1c56b, 210.sst a5b1c56c..=bd38d41f] -> [227.sst 5f1c9951..=76a3a803, 228.sst 76a3a804..=8e2ab6b7, 229.sst 8e2ab6b8..=a5b1c56b, 230.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (34): [323, 324, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (4): [225, 226, 209, 210]
+L2 (5): [195, 196, 208, 198, 199]
+L3 (10): [211, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [227.sst 5f1c9951..=76a3a803] Lower L1 [212.sst 66f448e2..=6ecbf872, 213.sst 6ecbf873..=76a3a803] -> [231.sst 5f1c9951..=66f448e1, 232.sst 66f448e2..=6ecbf872, 233.sst 6ecbf873..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [226, 209, 210]
+L2 (6): [227, 212, 213, 208, 198, 199]
+L3 (10): [211, 151, 160, 197, 163, 164, 165, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [218.sst 76a3a804..=7e7b5794] Lower L2 [214.sst 75ca6cb8..=78a00d71, 215.sst 78a00d72..=7b75ae2c, 216.sst 7b75ae2d..=7e4b4ee6, 217.sst 7e4b4ee7..=8120efa1] -> [234.sst 75ca6cb8..=780eed4c, 235.sst 780eed4d..=7a536de1, 236.sst 7a536de2..=7c97ee76, 237.sst 7c97ee77..=7edc6f0b, 238.sst 7edc6f0c..=8120efa1]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [226, 209, 210]
+L2 (5): [227, 212, 213, 198, 199]
+L3 (11): [211, 151, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L0 [228.sst 76a3a804..=8e2ab6b7] Lower L1 [219.sst 7e7b5795..=86530725, 220.sst 86530726..=8e2ab6b7] -> [239.sst 76a3a804..=7e7b5794, 240.sst 7e7b5795..=86530725, 241.sst 86530726..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [209, 210]
+L2 (6): [227, 212, 213, 228, 219, 220]
+L3 (11): [211, 151, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [231.sst 5f1c9951..=66f448e1] Lower L2 [221.sst 5f1c9951..=66f448e1] -> [242.sst 5f1c9951..=63087118, 243.sst 63087119..=66f448e1]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [209, 210]
+L2 (5): [212, 213, 228, 219, 220]
+L3 (12): [231, 221, 151, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (21): [156, 134, 157, 158, 187, 159, 203, 204, 45, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [161.sst 6e3b6ac7..=7202ebbe] Lower L3 [224.sst 6d269ab6..=6ecbf872, 54.sst 6ecbf873..=74066d7d] -> [244.sst 6d269ab6..=6f71364d, 245.sst 6f71364e..=71bbd1e5, 246.sst 71bbd1e6..=74066d7d]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [209, 210]
+L2 (5): [212, 213, 228, 219, 220]
+L3 (11): [231, 221, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (22): [156, 134, 157, 158, 187, 159, 203, 161, 224, 54, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+6 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 358/40=8.950x
-Maximum Space Usage: 74/40=1.850x
-Read Amplification: 2x
+Write Amplification: 246/40=6.150x
+Maximum Space Usage: 45/40=1.125x
+Read Amplification: 4x
 
 === Iteration 40 ===
 --- After Flush ---
-L0 (1): [359]
-L1 (0): []
-L2 (0): []
-L3 (34): [323, 324, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [247]
+L1 (2): [209, 210]
+L2 (5): [212, 213, 228, 219, 220]
+L3 (11): [231, 221, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (22): [156, 134, 157, 158, 187, 159, 203, 161, 224, 54, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 359/41=8.756x
-Maximum Space Usage: 74/41=1.805x
-Read Amplification: 3x
+Write Amplification: 247/41=6.024x
+Maximum Space Usage: 45/41=1.098x
+Read Amplification: 5x
 
 === Iteration 41 ===
 --- After Flush ---
-L0 (2): [359, 360]
-L1 (0): []
-L2 (0): []
-L3 (34): [323, 324, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [247, 248]
+L1 (2): [209, 210]
+L2 (5): [212, 213, 228, 219, 220]
+L3 (11): [231, 221, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (22): [156, 134, 157, 158, 187, 159, 203, 161, 224, 54, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [359.sst 29cc290f..=73bbcfb3, 360.sst 29887300..=73c52fdb] Lower L2 [325.sst f79ee0..=7409e13, 326.sst 7409e14..=d899d48, 327.sst d899d49..=13d29c7c, 328.sst 13d29c7d..=1a1b9bb1, 329.sst 1a1b9bb2..=20649ae6, 330.sst 20649ae7..=26ad9a1a, 331.sst 26ad9a1b..=2cf6994f, 332.sst 2cf69950..=333f9883, 333.sst 333f9884..=398897b8, 334.sst 398897b9..=3fd196ed, 335.sst 3fd196ee..=461a9621, 336.sst 461a9622..=4c639556, 337.sst 4c639557..=52ac948b, 338.sst 52ac948c..=58f593bf, 339.sst 58f593c0..=5f3e92f4, 340.sst 5f3e92f5..=65879228, 341.sst 65879229..=6bd0915d, 342.sst 6bd0915e..=72199092, 343.sst 72199093..=78628fc6, 344.sst 78628fc7..=7eab8efb, 345.sst 7eab8efc..=84f48e2f, 346.sst 84f48e30..=8b3d8d64, 347.sst 8b3d8d65..=91868c99, 348.sst 91868c9a..=97cf8bcd, 349.sst 97cf8bce..=9e188b02, 350.sst 9e188b03..=a4618a37, 351.sst a4618a38..=aaaa896b, 352.sst aaaa896c..=b0f388a0, 353.sst b0f388a1..=b73c87d4, 354.sst b73c87d5..=bd858709, 355.sst bd85870a..=c3ce863e, 356.sst c3ce863f..=ca178572, 357.sst ca178573..=d06084a7, 358.sst d06084a8..=d6a983dc] -> [361.sst f79ee0..=6e73a90, 362.sst 6e73a91..=cd6d642, 363.sst cd6d643..=12c671f4, 364.sst 12c671f5..=18b60da5, 365.sst 18b60da6..=1ea5a957, 366.sst 1ea5a958..=24954509, 367.sst 2495450a..=2a84e0ba, 368.sst 2a84e0bb..=30747c6c, 369.sst 30747c6d..=3664181e, 370.sst 3664181f..=3c53b3cf, 371.sst 3c53b3d0..=42434f81, 372.sst 42434f82..=4832eb33, 373.sst 4832eb34..=4e2286e5, 374.sst 4e2286e6..=54122296, 375.sst 54122297..=5a01be48, 376.sst 5a01be49..=5ff159fa, 377.sst 5ff159fb..=65e0f5ab, 378.sst 65e0f5ac..=6bd0915d, 379.sst 6bd0915e..=71c02d0f, 380.sst 71c02d10..=77afc8c0, 381.sst 77afc8c1..=7d9f6472, 382.sst 7d9f6473..=838f0024, 383.sst 838f0025..=897e9bd5, 384.sst 897e9bd6..=8f6e3787, 385.sst 8f6e3788..=955dd339, 386.sst 955dd33a..=9b4d6eeb, 387.sst 9b4d6eec..=a13d0a9c, 388.sst a13d0a9d..=a72ca64e, 389.sst a72ca64f..=ad1c4200, 390.sst ad1c4201..=b30bddb1, 391.sst b30bddb2..=b8fb7963, 392.sst b8fb7964..=beeb1515, 393.sst beeb1516..=c4dab0c6, 394.sst c4dab0c7..=caca4c78, 395.sst caca4c79..=d0b9e82a, 396.sst d0b9e82b..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [247.sst 5f1c9951..=bd38d41f, 248.sst 5f1c9951..=bd38d41f] Lower L0 [229.sst 8e2ab6b8..=a5b1c56b, 230.sst a5b1c56c..=bd38d41f] -> [249.sst 5f1c9951..=76a3a803, 250.sst 76a3a804..=8e2ab6b7, 251.sst 8e2ab6b8..=a5b1c56b, 252.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (36): [359, 360, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (4): [247, 248, 229, 230]
+L2 (5): [212, 213, 228, 219, 220]
+L3 (11): [231, 221, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (22): [156, 134, 157, 158, 187, 159, 203, 161, 224, 54, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [249.sst 5f1c9951..=76a3a803] Lower L1 [232.sst 66f448e2..=6ecbf872, 233.sst 6ecbf873..=76a3a803] -> [253.sst 5f1c9951..=66f448e1, 254.sst 66f448e2..=6ecbf872, 255.sst 6ecbf873..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [248, 229, 230]
+L2 (6): [249, 232, 233, 228, 219, 220]
+L3 (11): [231, 221, 160, 218, 214, 215, 216, 217, 153, 154, 155]
+L4 (22): [156, 134, 157, 158, 187, 159, 203, 161, 224, 54, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [239.sst 76a3a804..=7e7b5794] Lower L2 [234.sst 75ca6cb8..=780eed4c, 235.sst 780eed4d..=7a536de1, 236.sst 7a536de2..=7c97ee76, 237.sst 7c97ee77..=7edc6f0b] -> [256.sst 75ca6cb8..=779ad394, 257.sst 779ad395..=796b3a72, 258.sst 796b3a73..=7b3ba14f, 259.sst 7b3ba150..=7d0c082d, 260.sst 7d0c082e..=7edc6f0b]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [248, 229, 230]
+L2 (5): [249, 232, 233, 219, 220]
+L3 (12): [231, 221, 160, 239, 234, 235, 236, 237, 217, 153, 154, 155]
+L4 (22): [156, 134, 157, 158, 187, 159, 203, 161, 224, 54, 110, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [162.sst 7202ebbf..=75ca6cb7] Lower L3 [246.sst 71bbd1e6..=74066d7d, 127.sst 74066d7e..=7782bb85] -> [261.sst 71bbd1e6..=73a8ca6f, 262.sst 73a8ca70..=7595c2fa, 263.sst 7595c2fb..=7782bb85]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [248, 229, 230]
+L2 (5): [249, 232, 233, 219, 220]
+L3 (11): [231, 221, 239, 234, 235, 236, 237, 217, 153, 154, 155]
+L4 (23): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L0 [250.sst 76a3a804..=8e2ab6b7] Lower L1 [240.sst 7e7b5795..=86530725, 241.sst 86530726..=8e2ab6b7] -> [264.sst 76a3a804..=7e7b5794, 265.sst 7e7b5795..=86530725, 266.sst 86530726..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [229, 230]
+L2 (6): [249, 232, 233, 250, 240, 241]
+L3 (11): [231, 221, 239, 234, 235, 236, 237, 217, 153, 154, 155]
+L4 (23): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [253.sst 5f1c9951..=66f448e1] Lower L2 [242.sst 5f1c9951..=63087118, 243.sst 63087119..=66f448e1] -> [267.sst 5f1c9951..=61b9d3d5, 268.sst 61b9d3d6..=64570e5b, 269.sst 64570e5c..=66f448e1]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [229, 230]
+L2 (5): [232, 233, 250, 240, 241]
+L3 (12): [253, 242, 243, 239, 234, 235, 236, 237, 217, 153, 154, 155]
+L4 (23): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 47, 16, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [184.sst 8e2ab6b8..=9dda15da] Lower L3 [70.sst 8e2ab6b8..=96026648, 71.sst 96026649..=9dda15da] -> [270.sst 8e2ab6b8..=93652bc2, 271.sst 93652bc3..=989fa0ce, 272.sst 989fa0cf..=9dda15da]
+--- After Compaction ---
+L0 (0): []
+L1 (2): [229, 230]
+L2 (5): [232, 233, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
+--- Compaction Task ---
+7 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 396/42=9.429x
-Maximum Space Usage: 78/42=1.857x
-Read Amplification: 2x
+Write Amplification: 272/42=6.476x
+Maximum Space Usage: 47/42=1.119x
+Read Amplification: 4x
 
 === Iteration 42 ===
 --- After Flush ---
-L0 (1): [397]
-L1 (0): []
-L2 (0): []
-L3 (36): [359, 360, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [273]
+L1 (2): [229, 230]
+L2 (5): [232, 233, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 397/43=9.233x
-Maximum Space Usage: 78/43=1.814x
-Read Amplification: 3x
+Write Amplification: 273/43=6.349x
+Maximum Space Usage: 47/43=1.093x
+Read Amplification: 5x
 
 === Iteration 43 ===
 --- After Flush ---
-L0 (2): [397, 398]
-L1 (0): []
-L2 (0): []
-L3 (36): [359, 360, 325, 326, 327, 328, 329, 330, 331, 332, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [273, 274]
+L1 (2): [229, 230]
+L2 (5): [232, 233, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [397.sst 689c8f1b..=a5057f98, 398.sst 677b7c36..=6cbcb549] Lower L2 [361.sst f79ee0..=6e73a90, 362.sst 6e73a91..=cd6d642, 363.sst cd6d643..=12c671f4, 364.sst 12c671f5..=18b60da5, 365.sst 18b60da6..=1ea5a957, 366.sst 1ea5a958..=24954509, 367.sst 2495450a..=2a84e0ba, 368.sst 2a84e0bb..=30747c6c, 369.sst 30747c6d..=3664181e, 370.sst 3664181f..=3c53b3cf, 371.sst 3c53b3d0..=42434f81, 372.sst 42434f82..=4832eb33, 373.sst 4832eb34..=4e2286e5, 374.sst 4e2286e6..=54122296, 375.sst 54122297..=5a01be48, 376.sst 5a01be49..=5ff159fa, 377.sst 5ff159fb..=65e0f5ab, 378.sst 65e0f5ac..=6bd0915d, 379.sst 6bd0915e..=71c02d0f, 380.sst 71c02d10..=77afc8c0, 381.sst 77afc8c1..=7d9f6472, 382.sst 7d9f6473..=838f0024, 383.sst 838f0025..=897e9bd5, 384.sst 897e9bd6..=8f6e3787, 385.sst 8f6e3788..=955dd339, 386.sst 955dd33a..=9b4d6eeb, 387.sst 9b4d6eec..=a13d0a9c, 388.sst a13d0a9d..=a72ca64e, 389.sst a72ca64f..=ad1c4200, 390.sst ad1c4201..=b30bddb1, 391.sst b30bddb2..=b8fb7963, 392.sst b8fb7964..=beeb1515, 393.sst beeb1516..=c4dab0c6, 394.sst c4dab0c7..=caca4c78, 395.sst caca4c79..=d0b9e82a, 396.sst d0b9e82b..=d6a983dc] -> [399.sst f79ee0..=6973fd8, 400.sst 6973fd9..=c36e0d1, 401.sst c36e0d2..=11d681ca, 402.sst 11d681cb..=177622c3, 403.sst 177622c4..=1d15c3bc, 404.sst 1d15c3bd..=22b564b6, 405.sst 22b564b7..=285505af, 406.sst 285505b0..=2df4a6a8, 407.sst 2df4a6a9..=339447a1, 408.sst 339447a2..=3933e89a, 409.sst 3933e89b..=3ed38994, 410.sst 3ed38995..=44732a8d, 411.sst 44732a8e..=4a12cb86, 412.sst 4a12cb87..=4fb26c7f, 413.sst 4fb26c80..=55520d78, 414.sst 55520d79..=5af1ae71, 415.sst 5af1ae72..=60914f6b, 416.sst 60914f6c..=6630f064, 417.sst 6630f065..=6bd0915d, 418.sst 6bd0915e..=71703256, 419.sst 71703257..=770fd34f, 420.sst 770fd350..=7caf7449, 421.sst 7caf744a..=824f1542, 422.sst 824f1543..=87eeb63b, 423.sst 87eeb63c..=8d8e5734, 424.sst 8d8e5735..=932df82d, 425.sst 932df82e..=98cd9926, 426.sst 98cd9927..=9e6d3a20, 427.sst 9e6d3a21..=a40cdb19, 428.sst a40cdb1a..=a9ac7c12, 429.sst a9ac7c13..=af4c1d0b, 430.sst af4c1d0c..=b4ebbe04, 431.sst b4ebbe05..=ba8b5efe, 432.sst ba8b5eff..=c02afff7, 433.sst c02afff8..=c5caa0f0, 434.sst c5caa0f1..=cb6a41e9, 435.sst cb6a41ea..=d109e2e2, 436.sst d109e2e3..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [273.sst 5f1c9951..=bd38d41f, 274.sst 5f1c9951..=bd38d41f] Lower L0 [251.sst 8e2ab6b8..=a5b1c56b, 252.sst a5b1c56c..=bd38d41f] -> [275.sst 5f1c9951..=76a3a803, 276.sst 76a3a804..=8e2ab6b7, 277.sst 8e2ab6b8..=a5b1c56b, 278.sst a5b1c56c..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (38): [397, 398, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (4): [273, 274, 251, 252]
+L2 (5): [232, 233, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [275.sst 5f1c9951..=76a3a803] Lower L1 [254.sst 66f448e2..=6ecbf872, 255.sst 6ecbf873..=76a3a803] -> [279.sst 5f1c9951..=66f448e1, 280.sst 66f448e2..=6ecbf872, 281.sst 6ecbf873..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [274, 251, 252]
+L2 (6): [275, 254, 255, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
+--- Compaction Task ---
+2 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 436/44=9.909x
-Maximum Space Usage: 82/44=1.864x
-Read Amplification: 2x
+Write Amplification: 281/44=6.386x
+Maximum Space Usage: 48/44=1.091x
+Read Amplification: 4x
 
 === Iteration 44 ===
 --- After Flush ---
-L0 (1): [437]
-L1 (0): []
-L2 (0): []
-L3 (38): [397, 398, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [282]
+L1 (3): [274, 251, 252]
+L2 (6): [275, 254, 255, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 437/45=9.711x
-Maximum Space Usage: 82/45=1.822x
-Read Amplification: 3x
+Write Amplification: 282/45=6.267x
+Maximum Space Usage: 48/45=1.067x
+Read Amplification: 5x
 
 === Iteration 45 ===
 --- After Flush ---
-L0 (2): [437, 438]
-L1 (0): []
-L2 (0): []
-L3 (38): [397, 398, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [282, 283]
+L1 (3): [274, 251, 252]
+L2 (6): [275, 254, 255, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [437.sst 280b1fd5..=71cdb73f, 438.sst 4649e0c3..=b85be739] Lower L2 [399.sst f79ee0..=6973fd8, 400.sst 6973fd9..=c36e0d1, 401.sst c36e0d2..=11d681ca, 402.sst 11d681cb..=177622c3, 403.sst 177622c4..=1d15c3bc, 404.sst 1d15c3bd..=22b564b6, 405.sst 22b564b7..=285505af, 406.sst 285505b0..=2df4a6a8, 407.sst 2df4a6a9..=339447a1, 408.sst 339447a2..=3933e89a, 409.sst 3933e89b..=3ed38994, 410.sst 3ed38995..=44732a8d, 411.sst 44732a8e..=4a12cb86, 412.sst 4a12cb87..=4fb26c7f, 413.sst 4fb26c80..=55520d78, 414.sst 55520d79..=5af1ae71, 415.sst 5af1ae72..=60914f6b, 416.sst 60914f6c..=6630f064, 417.sst 6630f065..=6bd0915d, 418.sst 6bd0915e..=71703256, 419.sst 71703257..=770fd34f, 420.sst 770fd350..=7caf7449, 421.sst 7caf744a..=824f1542, 422.sst 824f1543..=87eeb63b, 423.sst 87eeb63c..=8d8e5734, 424.sst 8d8e5735..=932df82d, 425.sst 932df82e..=98cd9926, 426.sst 98cd9927..=9e6d3a20, 427.sst 9e6d3a21..=a40cdb19, 428.sst a40cdb1a..=a9ac7c12, 429.sst a9ac7c13..=af4c1d0b, 430.sst af4c1d0c..=b4ebbe04, 431.sst b4ebbe05..=ba8b5efe, 432.sst ba8b5eff..=c02afff7, 433.sst c02afff8..=c5caa0f0, 434.sst c5caa0f1..=cb6a41e9, 435.sst cb6a41ea..=d109e2e2, 436.sst d109e2e3..=d6a983dc] -> [439.sst f79ee0..=64f4498, 440.sst 64f4499..=ba6ea52, 441.sst ba6ea53..=10fe900b, 442.sst 10fe900c..=165635c5, 443.sst 165635c6..=1baddb7e, 444.sst 1baddb7f..=21058138, 445.sst 21058139..=265d26f1, 446.sst 265d26f2..=2bb4ccab, 447.sst 2bb4ccac..=310c7264, 448.sst 310c7265..=3664181e, 449.sst 3664181f..=3bbbbdd7, 450.sst 3bbbbdd8..=41136391, 451.sst 41136392..=466b094a, 452.sst 466b094b..=4bc2af04, 453.sst 4bc2af05..=511a54bd, 454.sst 511a54be..=5671fa77, 455.sst 5671fa78..=5bc9a030, 456.sst 5bc9a031..=612145ea, 457.sst 612145eb..=6678eba3, 458.sst 6678eba4..=6bd0915d, 459.sst 6bd0915e..=71283717, 460.sst 71283718..=767fdcd0, 461.sst 767fdcd1..=7bd7828a, 462.sst 7bd7828b..=812f2843, 463.sst 812f2844..=8686cdfd, 464.sst 8686cdfe..=8bde73b6, 465.sst 8bde73b7..=91361970, 466.sst 91361971..=968dbf29, 467.sst 968dbf2a..=9be564e3, 468.sst 9be564e4..=a13d0a9c, 469.sst a13d0a9d..=a694b056, 470.sst a694b057..=abec560f, 471.sst abec5610..=b143fbc9, 472.sst b143fbca..=b69ba182, 473.sst b69ba183..=bbf3473c, 474.sst bbf3473d..=c14aecf5, 475.sst c14aecf6..=c6a292af, 476.sst c6a292b0..=cbfa3868, 477.sst cbfa3869..=d151de22, 478.sst d151de23..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [282.sst 5f1c9951..=bd38d41f, 283.sst 5f1c9951..=bd38d41f] Lower L0 [276.sst 76a3a804..=8e2ab6b7, 277.sst 8e2ab6b8..=a5b1c56b, 278.sst a5b1c56c..=bd38d41f] -> [284.sst 5f1c9951..=71ef0b79, 285.sst 71ef0b7a..=84c17da2, 286.sst 84c17da3..=9793efcc, 287.sst 9793efcd..=aa6661f5, 288.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (40): [437, 438, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (5): [282, 283, 276, 277, 278]
+L2 (6): [275, 254, 255, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [284.sst 5f1c9951..=71ef0b79] Lower L1 [279.sst 5f1c9951..=66f448e1, 280.sst 66f448e2..=6ecbf872, 281.sst 6ecbf873..=76a3a803] -> [289.sst 5f1c9951..=64fe5cfc, 290.sst 64fe5cfd..=6ae020a9, 291.sst 6ae020aa..=70c1e456, 292.sst 70c1e457..=76a3a803]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [283, 276, 277, 278]
+L2 (7): [284, 279, 280, 281, 250, 240, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L0 [285.sst 71ef0b7a..=84c17da2] Lower L1 [292.sst 70c1e457..=76a3a803, 264.sst 76a3a804..=7e7b5794, 265.sst 7e7b5795..=86530725] -> [293.sst 70c1e457..=76262d09, 294.sst 76262d0a..=7b8a75bd, 295.sst 7b8a75be..=80eebe71, 296.sst 80eebe72..=86530725]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [276, 277, 278]
+L2 (8): [284, 279, 280, 285, 292, 264, 265, 241]
+L3 (11): [253, 242, 243, 239, 234, 235, 236, 237, 217, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [266.sst 86530726..=8e2ab6b7] Lower L2 [] -> [297.sst 86530726..=8e2ab6b7]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [276, 277, 278]
+L2 (7): [284, 279, 280, 285, 292, 264, 265]
+L3 (12): [253, 242, 243, 239, 234, 235, 236, 237, 217, 266, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L1 [289.sst 5f1c9951..=64fe5cfc] Lower L2 [267.sst 5f1c9951..=61b9d3d5, 268.sst 61b9d3d6..=64570e5b, 269.sst 64570e5c..=66f448e1] -> [298.sst 5f1c9951..=61128534, 299.sst 61128535..=63087118, 300.sst 63087119..=64fe5cfc, 301.sst 64fe5cfd..=66f448e1]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [276, 277, 278]
+L2 (6): [279, 280, 285, 292, 264, 265]
+L3 (13): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 154, 155]
+L4 (24): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 48, 17, 49, 18]
+--- Compaction Task ---
+Upper L2 [185.sst 9dda15db..=ad8974fc] Lower L3 [80.sst 9dda15db..=a5b1c56b, 81.sst a5b1c56c..=ad8974fc] -> [302.sst 9dda15db..=a3148ae5, 303.sst a3148ae6..=a84efff0, 304.sst a84efff1..=ad8974fc]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [276, 277, 278]
+L2 (6): [279, 280, 285, 292, 264, 265]
+L3 (12): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
+--- Compaction Task ---
+6 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 478/46=10.391x
-Maximum Space Usage: 86/46=1.870x
-Read Amplification: 2x
+Write Amplification: 304/46=6.609x
+Maximum Space Usage: 51/46=1.109x
+Read Amplification: 4x
 
 === Iteration 46 ===
 --- After Flush ---
-L0 (1): [479]
-L1 (0): []
-L2 (0): []
-L3 (40): [437, 438, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [305]
+L1 (3): [276, 277, 278]
+L2 (6): [279, 280, 285, 292, 264, 265]
+L3 (12): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 479/47=10.191x
-Maximum Space Usage: 86/47=1.830x
-Read Amplification: 3x
+Write Amplification: 305/47=6.489x
+Maximum Space Usage: 51/47=1.085x
+Read Amplification: 5x
 
 === Iteration 47 ===
 --- After Flush ---
-L0 (2): [479, 480]
-L1 (0): []
-L2 (0): []
-L3 (40): [437, 438, 399, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422, 423, 424, 425, 426, 427, 428, 429, 430, 431, 432, 433, 434, 435, 436]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [305, 306]
+L1 (3): [276, 277, 278]
+L2 (6): [279, 280, 285, 292, 264, 265]
+L3 (12): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [479.sst 274e5d80..=72dfc533, 480.sst 66edccb2..=7905dae6] Lower L2 [439.sst f79ee0..=64f4498, 440.sst 64f4499..=ba6ea52, 441.sst ba6ea53..=10fe900b, 442.sst 10fe900c..=165635c5, 443.sst 165635c6..=1baddb7e, 444.sst 1baddb7f..=21058138, 445.sst 21058139..=265d26f1, 446.sst 265d26f2..=2bb4ccab, 447.sst 2bb4ccac..=310c7264, 448.sst 310c7265..=3664181e, 449.sst 3664181f..=3bbbbdd7, 450.sst 3bbbbdd8..=41136391, 451.sst 41136392..=466b094a, 452.sst 466b094b..=4bc2af04, 453.sst 4bc2af05..=511a54bd, 454.sst 511a54be..=5671fa77, 455.sst 5671fa78..=5bc9a030, 456.sst 5bc9a031..=612145ea, 457.sst 612145eb..=6678eba3, 458.sst 6678eba4..=6bd0915d, 459.sst 6bd0915e..=71283717, 460.sst 71283718..=767fdcd0, 461.sst 767fdcd1..=7bd7828a, 462.sst 7bd7828b..=812f2843, 463.sst 812f2844..=8686cdfd, 464.sst 8686cdfe..=8bde73b6, 465.sst 8bde73b7..=91361970, 466.sst 91361971..=968dbf29, 467.sst 968dbf2a..=9be564e3, 468.sst 9be564e4..=a13d0a9c, 469.sst a13d0a9d..=a694b056, 470.sst a694b057..=abec560f, 471.sst abec5610..=b143fbc9, 472.sst b143fbca..=b69ba182, 473.sst b69ba183..=bbf3473c, 474.sst bbf3473d..=c14aecf5, 475.sst c14aecf6..=c6a292af, 476.sst c6a292b0..=cbfa3868, 477.sst cbfa3869..=d151de22, 478.sst d151de23..=d6a983dc] -> [481.sst f79ee0..=60e2452, 482.sst 60e2453..=b24a9c6, 483.sst b24a9c7..=103b2f3a, 484.sst 103b2f3b..=1551b4ad, 485.sst 1551b4ae..=1a683a21, 486.sst 1a683a22..=1f7ebf95, 487.sst 1f7ebf96..=24954509, 488.sst 2495450a..=29abca7c, 489.sst 29abca7d..=2ec24ff0, 490.sst 2ec24ff1..=33d8d564, 491.sst 33d8d565..=38ef5ad8, 492.sst 38ef5ad9..=3e05e04b, 493.sst 3e05e04c..=431c65bf, 494.sst 431c65c0..=4832eb33, 495.sst 4832eb34..=4d4970a7, 496.sst 4d4970a8..=525ff61a, 497.sst 525ff61b..=57767b8e, 498.sst 57767b8f..=5c8d0102, 499.sst 5c8d0103..=61a38676, 500.sst 61a38677..=66ba0be9, 501.sst 66ba0bea..=6bd0915d, 502.sst 6bd0915e..=70e716d1, 503.sst 70e716d2..=75fd9c44, 504.sst 75fd9c45..=7b1421b8, 505.sst 7b1421b9..=802aa72c, 506.sst 802aa72d..=85412ca0, 507.sst 85412ca1..=8a57b213, 508.sst 8a57b214..=8f6e3787, 509.sst 8f6e3788..=9484bcfb, 510.sst 9484bcfc..=999b426f, 511.sst 999b4270..=9eb1c7e2, 512.sst 9eb1c7e3..=a3c84d56, 513.sst a3c84d57..=a8ded2ca, 514.sst a8ded2cb..=adf5583e, 515.sst adf5583f..=b30bddb1, 516.sst b30bddb2..=b8226325, 517.sst b8226326..=bd38e899, 518.sst bd38e89a..=c24f6e0d, 519.sst c24f6e0e..=c765f380, 520.sst c765f381..=cc7c78f4, 521.sst cc7c78f5..=d192fe68, 522.sst d192fe69..=d6a983dc]
+flush L0 SST to base level 1
+Upper L0 [305.sst 5f1c9951..=bd38d41f, 306.sst 5f1c9951..=bd38d41f] Lower L0 [286.sst 84c17da3..=9793efcc, 287.sst 9793efcd..=aa6661f5, 288.sst aa6661f6..=bd38d41f] -> [307.sst 5f1c9951..=71ef0b79, 308.sst 71ef0b7a..=84c17da2, 309.sst 84c17da3..=9793efcc, 310.sst 9793efcd..=aa6661f5, 311.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (42): [479, 480, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (5): [305, 306, 286, 287, 288]
+L2 (6): [279, 280, 285, 292, 264, 265]
+L3 (12): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [307.sst 5f1c9951..=71ef0b79] Lower L1 [290.sst 64fe5cfd..=6ae020a9, 291.sst 6ae020aa..=70c1e456, 293.sst 70c1e457..=76262d09] -> [312.sst 5f1c9951..=64defe3e, 313.sst 64defe3f..=6aa1632c, 314.sst 6aa1632d..=7063c81a, 315.sst 7063c81b..=76262d09]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [306, 286, 287, 288]
+L2 (7): [307, 290, 291, 293, 292, 264, 265]
+L3 (12): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
+--- Compaction Task ---
+Upper L0 [308.sst 71ef0b7a..=84c17da2] Lower L1 [315.sst 7063c81b..=76262d09, 294.sst 76262d0a..=7b8a75bd, 295.sst 7b8a75be..=80eebe71, 296.sst 80eebe72..=86530725] -> [316.sst 7063c81b..=74c6d4b5, 317.sst 74c6d4b6..=7929e151, 318.sst 7929e152..=7d8ceded, 319.sst 7d8cedee..=81effa89, 320.sst 81effa8a..=86530725]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [286, 287, 288]
+L2 (8): [307, 290, 291, 308, 315, 294, 295, 296]
+L3 (12): [289, 267, 268, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
+--- Compaction Task ---
+Upper L1 [312.sst 5f1c9951..=64defe3e] Lower L2 [298.sst 5f1c9951..=61128534, 299.sst 61128535..=63087118, 300.sst 63087119..=64fe5cfc] -> [321.sst 5f1c9951..=60950a3b, 322.sst 60950a3c..=620d7b26, 323.sst 620d7b27..=6385ec11, 324.sst 6385ec12..=64fe5cfc]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [286, 287, 288]
+L2 (7): [290, 291, 308, 315, 294, 295, 296]
+L3 (13): [312, 298, 299, 300, 269, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
+--- Compaction Task ---
+Upper L1 [313.sst 64defe3f..=6aa1632c] Lower L2 [324.sst 6385ec12..=64fe5cfc, 301.sst 64fe5cfd..=66f448e1] -> [325.sst 6385ec12..=65e4691a, 326.sst 65e4691b..=6842e623, 327.sst 6842e624..=6aa1632c]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [286, 287, 288]
+L2 (6): [291, 308, 315, 294, 295, 296]
+L3 (14): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266, 155]
+L4 (25): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 49, 18]
+--- Compaction Task ---
+Upper L2 [200.sst ad8974fd..=bd38d41f] Lower L3 [96.sst ad8974fd..=b561248d, 97.sst b561248e..=bd38d41f] -> [328.sst ad8974fd..=b2c3ea07, 329.sst b2c3ea08..=b7fe5f13, 330.sst b7fe5f14..=bd38d41f]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [286, 287, 288]
+L2 (6): [291, 308, 315, 294, 295, 296]
+L3 (13): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+6 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 522/48=10.875x
-Maximum Space Usage: 90/48=1.875x
-Read Amplification: 2x
+Write Amplification: 330/48=6.875x
+Maximum Space Usage: 53/48=1.104x
+Read Amplification: 4x
 
 === Iteration 48 ===
 --- After Flush ---
-L0 (1): [523]
-L1 (0): []
-L2 (0): []
-L3 (42): [479, 480, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (1): [331]
+L1 (3): [286, 287, 288]
+L2 (6): [291, 308, 315, 294, 295, 296]
+L3 (13): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
 --- Compaction Task ---
 no compaction triggered
 --- Statistics ---
-Write Amplification: 523/49=10.673x
-Maximum Space Usage: 90/49=1.837x
-Read Amplification: 3x
+Write Amplification: 331/49=6.755x
+Maximum Space Usage: 53/49=1.082x
+Read Amplification: 5x
 
 === Iteration 49 ===
 --- After Flush ---
-L0 (2): [523, 524]
-L1 (0): []
-L2 (0): []
-L3 (42): [479, 480, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453, 454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L0 (2): [331, 332]
+L1 (3): [286, 287, 288]
+L2 (6): [291, 308, 315, 294, 295, 296]
+L3 (13): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
 --- Compaction Task ---
-flush L0 SST to base level 3
-Upper L0 [523.sst 171ac1a..=553d959e, 524.sst 7a34cba5..=f512e435] Lower L2 [481.sst f79ee0..=60e2452, 482.sst 60e2453..=b24a9c6, 483.sst b24a9c7..=103b2f3a, 484.sst 103b2f3b..=1551b4ad, 485.sst 1551b4ae..=1a683a21, 486.sst 1a683a22..=1f7ebf95, 487.sst 1f7ebf96..=24954509, 488.sst 2495450a..=29abca7c, 489.sst 29abca7d..=2ec24ff0, 490.sst 2ec24ff1..=33d8d564, 491.sst 33d8d565..=38ef5ad8, 492.sst 38ef5ad9..=3e05e04b, 493.sst 3e05e04c..=431c65bf, 494.sst 431c65c0..=4832eb33, 495.sst 4832eb34..=4d4970a7, 496.sst 4d4970a8..=525ff61a, 497.sst 525ff61b..=57767b8e, 498.sst 57767b8f..=5c8d0102, 499.sst 5c8d0103..=61a38676, 500.sst 61a38677..=66ba0be9, 501.sst 66ba0bea..=6bd0915d, 502.sst 6bd0915e..=70e716d1, 503.sst 70e716d2..=75fd9c44, 504.sst 75fd9c45..=7b1421b8, 505.sst 7b1421b9..=802aa72c, 506.sst 802aa72d..=85412ca0, 507.sst 85412ca1..=8a57b213, 508.sst 8a57b214..=8f6e3787, 509.sst 8f6e3788..=9484bcfb, 510.sst 9484bcfc..=999b426f, 511.sst 999b4270..=9eb1c7e2, 512.sst 9eb1c7e3..=a3c84d56, 513.sst a3c84d57..=a8ded2ca, 514.sst a8ded2cb..=adf5583e, 515.sst adf5583f..=b30bddb1, 516.sst b30bddb2..=b8226325, 517.sst b8226326..=bd38e899, 518.sst bd38e89a..=c24f6e0d, 519.sst c24f6e0e..=c765f380, 520.sst c765f381..=cc7c78f4, 521.sst cc7c78f5..=d192fe68, 522.sst d192fe69..=d6a983dc] -> [525.sst f79ee0..=683e072, 526.sst 683e073..=c102205, 527.sst c102206..=119c6399, 528.sst 119c639a..=1728a52c, 529.sst 1728a52d..=1cb4e6c0, 530.sst 1cb4e6c1..=22412853, 531.sst 22412854..=27cd69e6, 532.sst 27cd69e7..=2d59ab7a, 533.sst 2d59ab7b..=32e5ed0d, 534.sst 32e5ed0e..=38722ea1, 535.sst 38722ea2..=3dfe7034, 536.sst 3dfe7035..=438ab1c7, 537.sst 438ab1c8..=4916f35b, 538.sst 4916f35c..=4ea334ee, 539.sst 4ea334ef..=542f7682, 540.sst 542f7683..=59bbb815, 541.sst 59bbb816..=5f47f9a8, 542.sst 5f47f9a9..=64d43b3c, 543.sst 64d43b3d..=6a607ccf, 544.sst 6a607cd0..=6fecbe63, 545.sst 6fecbe64..=7578fff6, 546.sst 7578fff7..=7b05418a, 547.sst 7b05418b..=8091831d, 548.sst 8091831e..=861dc4b0, 549.sst 861dc4b1..=8baa0644, 550.sst 8baa0645..=913647d7, 551.sst 913647d8..=96c2896b, 552.sst 96c2896c..=9c4ecafe, 553.sst 9c4ecaff..=a1db0c91, 554.sst a1db0c92..=a7674e25, 555.sst a7674e26..=acf38fb8, 556.sst acf38fb9..=b27fd14c, 557.sst b27fd14d..=b80c12df, 558.sst b80c12e0..=bd985472, 559.sst bd985473..=c3249606, 560.sst c3249607..=c8b0d799, 561.sst c8b0d79a..=ce3d192d, 562.sst ce3d192e..=d3c95ac0, 563.sst d3c95ac1..=d9559c53, 564.sst d9559c54..=dee1dde7, 565.sst dee1dde8..=e46e1f7a, 566.sst e46e1f7b..=e9fa610e, 567.sst e9fa610f..=ef86a2a1, 568.sst ef86a2a2..=f512e435]
+flush L0 SST to base level 1
+Upper L0 [331.sst 5f1c9951..=bd38d41f, 332.sst 5f1c9951..=bd38d41f] Lower L0 [309.sst 84c17da3..=9793efcc, 310.sst 9793efcd..=aa6661f5, 311.sst aa6661f6..=bd38d41f] -> [333.sst 5f1c9951..=71ef0b79, 334.sst 71ef0b7a..=84c17da2, 335.sst 84c17da3..=9793efcc, 336.sst 9793efcd..=aa6661f5, 337.sst aa6661f6..=bd38d41f]
 --- After Compaction ---
 L0 (0): []
-L1 (0): []
-L2 (0): []
-L3 (44): [523, 524, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522]
-L4 (6): [11, 12, 7, 8, 9, 10]
+L1 (5): [331, 332, 309, 310, 311]
+L2 (6): [291, 308, 315, 294, 295, 296]
+L3 (13): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
 --- Compaction Task ---
-1 compaction triggered in this iteration
+Upper L0 [333.sst 5f1c9951..=71ef0b79] Lower L1 [314.sst 6aa1632d..=7063c81a, 316.sst 7063c81b..=74c6d4b5] -> [338.sst 5f1c9951..=665557c7, 339.sst 665557c8..=6d8e163e, 340.sst 6d8e163f..=74c6d4b5]
+--- After Compaction ---
+L0 (0): []
+L1 (4): [332, 309, 310, 311]
+L2 (7): [333, 314, 316, 315, 294, 295, 296]
+L3 (13): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+Upper L0 [334.sst 71ef0b7a..=84c17da2] Lower L1 [340.sst 6d8e163f..=74c6d4b5, 317.sst 74c6d4b6..=7929e151, 318.sst 7929e152..=7d8ceded, 319.sst 7d8cedee..=81effa89, 320.sst 81effa8a..=86530725] -> [341.sst 6d8e163f..=71aee90f, 342.sst 71aee910..=75cfbbe0, 343.sst 75cfbbe1..=79f08eb1, 344.sst 79f08eb2..=7e116182, 345.sst 7e116183..=82323453, 346.sst 82323454..=86530725]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [309, 310, 311]
+L2 (8): [333, 314, 334, 340, 317, 318, 319, 320]
+L3 (13): [312, 298, 299, 313, 324, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+Upper L1 [338.sst 5f1c9951..=665557c7] Lower L2 [321.sst 5f1c9951..=60950a3b, 322.sst 60950a3c..=620d7b26, 323.sst 620d7b27..=6385ec11, 325.sst 6385ec12..=65e4691a, 326.sst 65e4691b..=6842e623] -> [347.sst 5f1c9951..=60a2fb73, 348.sst 60a2fb74..=62295d96, 349.sst 62295d97..=63afbfb9, 350.sst 63afbfba..=653621dc, 351.sst 653621dd..=66bc83ff, 352.sst 66bc8400..=6842e623]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [309, 310, 311]
+L2 (7): [314, 334, 340, 317, 318, 319, 320]
+L3 (14): [338, 321, 322, 323, 325, 326, 301, 239, 234, 235, 236, 237, 217, 266]
+L4 (26): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 133, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+Upper L2 [238.sst 7edc6f0c..=8120efa1] Lower L3 [166.sst 7e7b5796..=82672f5d] -> [353.sst 7e7b5796..=80714379, 354.sst 8071437a..=82672f5d]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [309, 310, 311]
+L2 (7): [314, 334, 340, 317, 318, 319, 320]
+L3 (13): [338, 321, 322, 323, 325, 326, 301, 239, 234, 235, 236, 237, 266]
+L4 (27): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 238, 166, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+Upper L1 [339.sst 665557c8..=6d8e163e] Lower L2 [351.sst 653621dd..=66bc83ff, 352.sst 66bc8400..=6842e623, 327.sst 6842e624..=6aa1632c] -> [355.sst 653621dd..=674c1ef4, 356.sst 674c1ef5..=69621c0d, 357.sst 69621c0e..=6b781925, 358.sst 6b781926..=6d8e163e]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [309, 310, 311]
+L2 (6): [334, 340, 317, 318, 319, 320]
+L3 (14): [338, 321, 322, 323, 339, 351, 352, 327, 239, 234, 235, 236, 237, 266]
+L4 (27): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 127, 55, 56, 238, 166, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+Upper L2 [256.sst 75ca6cb8..=779ad394] Lower L3 [263.sst 7595c2fb..=7782bb85, 128.sst 7782bb86..=7aff098d] -> [359.sst 7595c2fb..=7763852b, 360.sst 7763852c..=7931475c, 361.sst 7931475d..=7aff098d]
+--- After Compaction ---
+L0 (0): []
+L1 (3): [309, 310, 311]
+L2 (6): [334, 340, 317, 318, 319, 320]
+L3 (13): [338, 321, 322, 323, 339, 351, 352, 327, 234, 235, 236, 237, 266]
+L4 (28): [156, 134, 157, 158, 187, 159, 203, 161, 224, 162, 246, 256, 263, 128, 56, 238, 166, 113, 15, 184, 70, 71, 185, 80, 81, 200, 96, 97]
+--- Compaction Task ---
+7 compaction triggered in this iteration
 --- Statistics ---
-Write Amplification: 568/50=11.360x
-Maximum Space Usage: 94/50=1.880x
-Read Amplification: 2x
+Write Amplification: 361/50=7.220x
+Maximum Space Usage: 56/50=1.120x
+Read Amplification: 4x
 
