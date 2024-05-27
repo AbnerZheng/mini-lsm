@@ -1,11 +1,6 @@
-use log::warn;
-use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::process::id;
-use std::sync::Arc;
-
-use crate::lsm_storage::{range_overlap, LsmStorageState};
-use crate::table::SsTable;
+use serde::{Deserialize, Serialize};
+use crate::lsm_storage::LsmStorageState;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LeveledCompactionTask {
@@ -185,7 +180,7 @@ impl LeveledCompactionController {
 
         files_to_remove.extend_from_slice(upper_level_sst_ids);
         files_to_remove.extend_from_slice(lower_level_sst_ids);
-        
+
         let (level_id, sst_ids) = &snapshot.levels[*lower_level];
         let mut lower_level_kept = if lower_level_sst_ids.is_empty() {
             // no need to remove
