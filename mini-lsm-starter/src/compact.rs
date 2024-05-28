@@ -327,6 +327,9 @@ impl LsmStorageInner {
             return Ok(());
         };
 
+        self.dump_structure();
+        println!("running compaction task: {:?}", compaction_task);
+
         let sst_to_add = self.compact(&compaction_task)?;
         let sst_to_add_ids = sst_to_add
             .iter()
@@ -356,16 +359,23 @@ impl LsmStorageInner {
             if let Some(manifest) = &self.manifest {
                 manifest.add_record(
                     &state_lock,
-                    ManifestRecord::Compaction(compaction_task, sst_to_add_ids),
+                    ManifestRecord::Compaction(compaction_task, sst_to_add_ids.clone()),
                 )?;
             }
             *self.state.write() = Arc::new(new_state);
+            println!(
+                "compaction finished: {} files removed, {} files added, output={:?}",
+                sst_to_remove.len(),
+                sst_to_add_ids.len(),
+                sst_to_add_ids
+            );
             sst_to_remove
         };
 
         for sst_id in &sst_to_remove {
             fs::remove_file(self.path_of_sst(*sst_id))?
         }
+        self.sync_dir()?;
         Ok(())
     }
 
@@ -399,7 +409,7 @@ impl LsmStorageInner {
             let snapshot = self.state.read();
             snapshot.imm_memtables.len()
         };
-        if imm_memtable_len + 1 >= self.options.num_memtable_limit {
+        if imm_memtable_len >= self.options.num_memtable_limit {
             self.force_flush_next_imm_memtable()
         } else {
             Ok(())

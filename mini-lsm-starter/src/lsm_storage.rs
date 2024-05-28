@@ -583,6 +583,7 @@ impl LsmStorageInner {
         if let Some(manifest) = &self.manifest {
             manifest.add_record(state_lock_observer, ManifestRecord::NewMemtable(sst_id))?;
         }
+        self.sync_dir()?;
 
         Ok(())
     }
@@ -617,10 +618,6 @@ impl LsmStorageInner {
             self.path_of_sst(sst_id),
         )?;
 
-        if let Some(manifest) = &self.manifest {
-            manifest.add_record(&_state_lock, ManifestRecord::Flush(sst_id))?;
-        }
-
         {
             let mut guard = self.state.write();
             let mut snapshot = guard.as_ref().clone();
@@ -634,10 +631,22 @@ impl LsmStorageInner {
             } else {
                 snapshot.levels.insert(0, (sst_id, vec![sst_id]));
             }
+
+            println!("flushed {}.sst with size={}", sst_id, sstable.table_size());
             snapshot.sstables.insert(sst_id, Arc::new(sstable));
 
             *guard = Arc::new(snapshot);
         }
+
+        if self.options.enable_wal {
+            fs::remove_file(self.path_of_wal(sst_id))?;
+        }
+
+        if let Some(manifest) = &self.manifest {
+            manifest.add_record(&_state_lock, ManifestRecord::Flush(sst_id))?;
+        }
+
+        self.sync_dir()?;
 
         Ok(())
     }
@@ -684,7 +693,9 @@ impl LsmStorageInner {
                         sstable,
                         KeySlice::from_slice(key),
                     )?;
-                    iter.next()?;
+                    if iter.is_valid() && iter.key().raw_ref() == key {
+                        iter.next()?;
+                    }
                     iter
                 }
 
@@ -714,7 +725,9 @@ impl LsmStorageInner {
                         levels_sst,
                         KeySlice::from_slice(key),
                     )?;
-                    iter.next()?;
+                    if iter.is_valid() && iter.key().raw_ref() == key {
+                        iter.next()?;
+                    }
                     iter
                 }
                 Bound::Unbounded => SstConcatIterator::create_and_seek_to_first(levels_sst)?,

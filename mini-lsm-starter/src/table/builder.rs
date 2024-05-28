@@ -23,8 +23,6 @@ pub struct SsTableBuilder {
     pub(crate) key_hashes: Vec<u32>,
 }
 
-impl SsTableBuilder {}
-
 impl SsTableBuilder {
     /// Create a builder based on target block size.
     pub fn new(block_size: usize) -> Self {
@@ -40,37 +38,34 @@ impl SsTableBuilder {
     }
 
     /// Adds a key-value pair to SSTable.
-    ///
-    /// Note: You should split a new block when the current block is full.(`std::mem::replace` may
-    /// be helpful here)
     pub fn add(&mut self, key: KeySlice, value: &[u8]) {
         if self.first_key.is_empty() {
             self.first_key.set_from_slice(key);
         }
 
         self.key_hashes.push(fingerprint32(key.raw_ref()));
-        let added = self.builder.add(key, value);
-        if !added {
-            // split a new block
-            let mut new_builder = BlockBuilder::new(self.block_size);
-            let added = new_builder.add(key, value);
-            assert!(added, "Not able to add key pair to a new created block");
-
-            let old_builder = mem::replace(&mut self.builder, new_builder);
-            let block = old_builder.build().encode();
-            let old_first_key = mem::replace(&mut self.first_key, key.to_key_vec());
-            let old_last_key = mem::replace(&mut self.last_key, key.to_key_vec());
-
-            self.meta.push(BlockMeta {
-                offset: self.data.len(),
-                first_key: old_first_key.into_key_bytes(),
-                last_key: old_last_key.into_key_bytes(),
-            });
-
-            self.data.extend_from_slice(&block);
-        } else {
+        if self.builder.add(key, value) {
             self.last_key.set_from_slice(key);
+            return;
         }
+
+        // split a new block
+        let mut new_builder = BlockBuilder::new(self.block_size);
+        let added = new_builder.add(key, value);
+        assert!(added, "Not able to add key pair to a new created block");
+
+        let old_builder = mem::replace(&mut self.builder, new_builder);
+        let block = old_builder.build().encode();
+        let old_first_key = mem::replace(&mut self.first_key, key.to_key_vec());
+        let old_last_key = mem::replace(&mut self.last_key, key.to_key_vec());
+
+        self.meta.push(BlockMeta {
+            offset: self.data.len(),
+            first_key: old_first_key.into_key_bytes(),
+            last_key: old_last_key.into_key_bytes(),
+        });
+
+        self.data.extend_from_slice(&block);
     }
 
     /// Get the estimated size of the SSTable.

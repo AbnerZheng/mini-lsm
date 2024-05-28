@@ -77,17 +77,25 @@ Starter code for Mini-LSM.
 ### day 4
 #### Test Your Understanding
 * What is the time complexity of seeking a key in the SST?
-  - 
+  - it takes O(1) to seek utilizing bloom filter, and if the SST may contains the key, we find the table by using binary search over BlockMeta. And as discussed in above, seeing a key in the block takes O(n) time complexity on average.
 * Where does the cursor stop when you seek a non-existent key in your implementation?
+  - Stop at the first key that is `>=` the provided key.
 * Is it possible (or necessary) to do in-place updates of SST files?
+  - It is unnecessary to do in-place updates of SST table, because LSM utilize append operation.
 * An SST is usually large (i.e., 256MB). In this case, the cost of copying/expanding the Vec would be significant. Does your implementation allocate enough space for your SST builder in advance? How did you implement it? 
+  - 
 * Looking at the moka block cache, why does it return Arc<Error> instead of the original Error? Does the usage of a block cache guarantee that there will be at most a fixed number of blocks in memory? For example, if you have a moka block cache of 4GB and block size of 4KB, will there be more than 4GB/4KB number of blocks in memory at the same time?
 * Is it possible to store columnar data (i.e., a table of 100 integer columns) in an LSM engine? Is the current SST format still a good choice?
+ - It is possible to support columnar data in current SST format, but it is not a good choice, because each update to a single columns will have to write a record of whole 100 integer columns, the write/read/space amplification is very large. 
 * Consider the case that the LSM engine is built on object store services (i.e., S3). How would you optimize/change the SST format/parameters and the block cache to make it suitable for such services?
 
 ### day 5
 #### Test Your Understanding
 * Consider the case that a user has an iterator that iterates the whole storage engine, and the storage engine is 1TB large, so that it takes ~1 hour to scan all the data. What would be the problems if the user does so? (This is a good question and we will ask it several times at different points of the tutorial...)
+  - 
+* Another popular interface provided by some LSM-tree storage engines is multi-get (or vectored get). The user can pass a list of keys that they want to retrieve. The interface returns the value of each of the key. For example, multi_get(vec!["a", "b", "c", "d"]) -> a=1,b=2,c=3,d=4. Obviously, an easy implementation is to simply doing a single get for each of the key. How will you implement the multi-get interface, and what optimizations you can do to make it more efficient? (Hint: some operations during the get process will only need to be done once for all keys, and besides that, you can think of an improved disk I/O interface to better support this multi-get interface).
+  - When searching on unsorted run level, like memtables and l0, we have to search for each key
+  - When searching on sorted run level, we can sort the key of multi-get interface firstly, and iterator only one run of the level for all these keys, because they are both sorted.
 
 ### day 6
 #### Test Your Understanding

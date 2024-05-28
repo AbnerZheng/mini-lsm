@@ -1,6 +1,3 @@
-#![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
-#![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
-
 use std::sync::Arc;
 
 use anyhow::Result;
@@ -20,7 +17,19 @@ pub struct SstConcatIterator {
 }
 
 impl SstConcatIterator {
+    fn check_sst_valid(sstables: &[Arc<SsTable>]) {
+        for sst in sstables {
+            assert!(sst.first_key() <= sst.last_key());
+        }
+        if !sstables.is_empty() {
+            for i in 0..(sstables.len() - 1) {
+                assert!(sstables[i].last_key() < sstables[i + 1].first_key());
+            }
+        }
+    }
+
     pub fn create_and_seek_to_first(sstables: Vec<Arc<SsTable>>) -> Result<Self> {
+        Self::check_sst_valid(&sstables);
         let current = match sstables.get(0) {
             None => None,
             Some(sst) => Some(SsTableIterator::create_and_seek_to_first(sst.clone())?),
@@ -35,7 +44,7 @@ impl SstConcatIterator {
     }
 
     pub fn create_and_seek_to_key(sstables: Vec<Arc<SsTable>>, key: KeySlice) -> Result<Self> {
-        let sst_idx = 0;
+        Self::check_sst_valid(&sstables);
         for (idx, sst) in sstables.iter().enumerate() {
             if sst.last_key().as_key_slice() >= key {
                 let mut iter = Self {

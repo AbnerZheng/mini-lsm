@@ -41,7 +41,7 @@ impl SimpleLeveledCompactionController {
                 < self.options.size_ratio_percent * snapshot.l0_sstables.len()
             {
                 println!(
-                    "compaction triggered at level 0 and 1 with size ratio {}",
+                    "compaction triggered at level l0 and 0 with size ratio {}",
                     snapshot.levels[0].1.len() / snapshot.l0_sstables.len()
                 );
                 return Some(SimpleLeveledCompactionTask {
@@ -73,7 +73,7 @@ impl SimpleLeveledCompactionController {
                     upper_level_sst_ids: upper_level_sst.clone(),
                     lower_level,
                     lower_level_sst_ids: lower_level_sst.clone(),
-                    is_lower_level_bottom_level: lower_level == self.options.max_levels,
+                    is_lower_level_bottom_level: lower_level == self.options.max_levels - 1,
                 });
             }
         }

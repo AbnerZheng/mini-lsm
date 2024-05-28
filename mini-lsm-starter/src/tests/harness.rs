@@ -276,7 +276,6 @@ pub fn compaction_bench(storage: Arc<MiniLsm>) {
     let mut expected_key_value_pairs = Vec::new();
     for i in 0..(max_key + 40000) {
         let key = gen_key(i);
-        // println!("{i}, key={key}");
         let value = storage.get(key.as_bytes()).unwrap();
         if let Some(val) = key_map.get(&i) {
             let expected_value = gen_value(*val);
