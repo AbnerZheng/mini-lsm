@@ -483,7 +483,7 @@ impl LsmStorageInner {
                         }
 
                         for (level, idxs) in &snapshot.levels {
-                            println!("try fetching key from l{level}");
+                            // println!("try fetching key from l{level}");
                             for idx in idxs {
                                 // those sstable in each levels are sorted
                                 let sst = snapshot.sstables[idx].clone();

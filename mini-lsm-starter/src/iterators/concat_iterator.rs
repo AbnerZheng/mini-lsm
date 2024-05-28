@@ -25,22 +25,26 @@ impl SstConcatIterator {
             None => None,
             Some(sst) => Some(SsTableIterator::create_and_seek_to_first(sst.clone())?),
         };
-        Ok(SstConcatIterator {
+        let mut iter = SstConcatIterator {
             current,
             next_sst_idx: 1,
             sstables,
-        })
+        };
+        iter.move_until_valid()?;
+        Ok(iter)
     }
 
     pub fn create_and_seek_to_key(sstables: Vec<Arc<SsTable>>, key: KeySlice) -> Result<Self> {
         let sst_idx = 0;
         for (idx, sst) in sstables.iter().enumerate() {
             if sst.last_key().as_key_slice() >= key {
-                return Ok(Self {
+                let mut iter = Self {
                     current: Some(SsTableIterator::create_and_seek_to_key(sst.clone(), key)?),
                     next_sst_idx: idx + 1,
                     sstables,
-                });
+                };
+                iter.move_until_valid()?;
+                return Ok(iter);
             }
         }
 
@@ -49,6 +53,23 @@ impl SstConcatIterator {
             next_sst_idx: sstables.len(),
             sstables,
         })
+    }
+
+    fn move_until_valid(&mut self) -> Result<()> {
+        while let Some(iter) = self.current.as_mut() {
+            if iter.is_valid() {
+                break;
+            }
+            if self.next_sst_idx >= self.sstables.len() {
+                self.current = None;
+            } else {
+                self.current = Some(SsTableIterator::create_and_seek_to_first(
+                    self.sstables[self.next_sst_idx].clone(),
+                )?);
+                self.next_sst_idx += 1;
+            }
+        }
+        Ok(())
     }
 }
 
@@ -69,17 +90,10 @@ impl StorageIterator for SstConcatIterator {
 
     fn next(&mut self) -> Result<()> {
         match &mut self.current {
-            None => return Ok(()),
+            None => Ok(()),
             Some(iter) => {
                 iter.next()?;
-                if !iter.is_valid() && self.next_sst_idx < self.sstables.len() {
-                    self.current = match self.sstables.get(self.next_sst_idx) {
-                        None => None,
-                        Some(sst) => Some(SsTableIterator::create_and_seek_to_first(sst.clone())?),
-                    };
-                    self.next_sst_idx += 1;
-                    self.current.as_mut().unwrap().next()?;
-                }
+                self.move_until_valid()?;
                 Ok(())
             }
         }
