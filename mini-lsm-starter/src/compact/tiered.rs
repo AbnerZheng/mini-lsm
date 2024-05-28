@@ -99,6 +99,9 @@ impl TieredCompactionController {
             if let Some(to_remove) = tiers_to_remove.remove(&tier_id) {
                 assert_eq!(*to_remove, sst_ids, "state changed during compaction");
                 files_to_remove.extend_from_slice(to_remove);
+                if tiers_to_remove.is_empty() {
+                    level_kept.push((output[0], output.to_vec()));
+                }
             } else {
                 level_kept.push((tier_id, sst_ids));
             }
@@ -108,7 +111,6 @@ impl TieredCompactionController {
             "Should be able to remove all compacted tiers"
         );
 
-        level_kept.insert(0, (output[0], output.to_vec()));
         snapshot.levels = level_kept;
         (snapshot, files_to_remove)
     }
