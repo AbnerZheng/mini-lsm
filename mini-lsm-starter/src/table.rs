@@ -37,10 +37,12 @@ impl BlockMeta {
         let meta_offset = buf.len() as u32;
         for meta in block_meta {
             buf.put_u32(meta.offset as u32);
-            buf.put_u16(meta.first_key.len() as u16);
-            buf.put(meta.first_key.raw_ref());
-            buf.put_u16(meta.last_key.len() as u16);
-            buf.put(meta.last_key.raw_ref());
+            buf.put_u16(meta.first_key.key_len() as u16);
+            buf.put(meta.first_key.key_ref());
+            buf.put_u64(meta.first_key.ts());
+            buf.put_u16(meta.last_key.key_len() as u16);
+            buf.put(meta.last_key.key_ref());
+            buf.put_u64(meta.last_key.ts());
         }
         let crc = crc32fast::hash(&buf[meta_offset as usize..]);
         buf.put_u32(crc);
@@ -57,9 +59,15 @@ impl BlockMeta {
         while buf.has_remaining() {
             let offset = buf.get_u32() as usize;
             let first_key_len = buf.get_u16();
-            let first_key = KeyBytes::from_bytes(buf.copy_to_bytes(first_key_len as usize));
+            let first_key_ts = buf.get_u64();
+            let first_key = KeyBytes::from_bytes_with_ts(
+                buf.copy_to_bytes(first_key_len as usize),
+                first_key_ts,
+            );
             let last_key_len = buf.get_u16();
-            let last_key = KeyBytes::from_bytes(buf.copy_to_bytes(last_key_len as usize));
+            let last_key_ts = buf.get_u64();
+            let last_key =
+                KeyBytes::from_bytes_with_ts(buf.copy_to_bytes(last_key_len as usize), last_key_ts);
 
             res.push(BlockMeta {
                 offset,
@@ -247,7 +255,7 @@ impl SsTable {
     pub fn may_contain_key(&self, key: KeySlice) -> bool {
         self.bloom
             .as_ref()
-            .map(|k| k.may_contain(fingerprint32(key.raw_ref())))
+            .map(|k| k.may_contain(fingerprint32(key.key_ref())))
             .unwrap_or(true)
     }
 
