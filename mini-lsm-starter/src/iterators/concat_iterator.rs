@@ -30,7 +30,7 @@ impl SstConcatIterator {
 
     pub fn create_and_seek_to_first(sstables: Vec<Arc<SsTable>>) -> Result<Self> {
         Self::check_sst_valid(&sstables);
-        let current = match sstables.get(0) {
+        let current = match sstables.first() {
             None => None,
             Some(sst) => Some(SsTableIterator::create_and_seek_to_first(sst.clone())?),
         };

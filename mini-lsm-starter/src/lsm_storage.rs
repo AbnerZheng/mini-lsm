@@ -169,6 +169,7 @@ pub(crate) struct LsmStorageInner {
     pub(crate) options: Arc<LsmStorageOptions>,
     pub(crate) compaction_controller: CompactionController,
     pub(crate) manifest: Option<Manifest>,
+    #[allow(dead_code)]
     pub(crate) mvcc: Option<LsmMvccInner>,
     pub(crate) compaction_filters: Arc<Mutex<Vec<CompactionFilter>>>,
 }
@@ -389,7 +390,7 @@ impl LsmStorageInner {
                 let ss_table = SsTable::open(
                     sst_id,
                     Some(block_cache.clone()),
-                    FileObject::open(Self::path_of_sst_static(&path, sst_id).as_path())?,
+                    FileObject::open(Self::path_of_sst_static(path, sst_id).as_path())?,
                 )?;
                 state.sstables.insert(sst_id, Arc::new(ss_table));
             }
@@ -488,7 +489,7 @@ impl LsmStorageInner {
                             }
                         }
 
-                        for (level, idxs) in &snapshot.levels {
+                        for (_level, idxs) in &snapshot.levels {
                             // println!("try fetching key from l{level}");
                             for idx in idxs {
                                 // those sstable in each levels are sorted

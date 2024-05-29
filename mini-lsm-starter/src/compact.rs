@@ -180,16 +180,16 @@ impl LsmStorageInner {
             CompactionTask::Leveled(LeveledCompactionTask {
                 upper_level,
                 upper_level_sst_ids,
-                lower_level,
+                lower_level: _,
                 lower_level_sst_ids,
-                is_lower_level_bottom_level,
+                is_lower_level_bottom_level: _,
             })
             | CompactionTask::Simple(SimpleLeveledCompactionTask {
                 upper_level,
                 upper_level_sst_ids,
-                lower_level,
+                lower_level: _,
                 lower_level_sst_ids,
-                is_lower_level_bottom_level,
+                is_lower_level_bottom_level: _,
             }) => {
                 let lower_tables = lower_level_sst_ids
                     .iter()
@@ -314,7 +314,7 @@ impl LsmStorageInner {
             fs::remove_file(self.path_of_sst(*sst_id))?;
         }
 
-        return Ok(());
+        Ok(())
     }
 
     fn trigger_compaction(&self) -> Result<()> {

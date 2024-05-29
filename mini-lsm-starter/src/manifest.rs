@@ -24,7 +24,11 @@ pub enum ManifestRecord {
 
 impl Manifest {
     pub fn create(path: impl AsRef<Path>) -> Result<Self> {
-        let file = fs::OpenOptions::new().create(true).write(true).open(path)?;
+        let file = fs::OpenOptions::new()
+            .create(true)
+            .truncate(false)
+            .write(true)
+            .open(path)?;
         Ok(Self {
             file: Arc::new(Mutex::new(file)),
         })

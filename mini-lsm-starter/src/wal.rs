@@ -14,7 +14,11 @@ pub struct Wal {
 
 impl Wal {
     pub fn create(path: impl AsRef<Path>) -> Result<Self> {
-        let file = OpenOptions::new().write(true).create(true).open(path)?;
+        let file = OpenOptions::new()
+            .write(true)
+            .create(true)
+            .truncate(false)
+            .open(path)?;
         let writer = BufWriter::new(file);
         Ok(Self {
             file: Arc::new(Mutex::new(writer)),
