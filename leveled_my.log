@@ -1,0 +1,24 @@
+=== Iteration 0 ===
+--- After Flush ---
+L0 (1): [1]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (0): []
+--- Compaction Task ---
+no compaction triggered
+--- Statistics ---
+Write Amplification: 1/1=1.000x
+Maximum Space Usage: 1/1=1.000x
+Read Amplification: 1x
+
+=== Iteration 1 ===
+--- After Flush ---
+L0 (2): [1, 2]
+L1 (0): []
+L2 (0): []
+L3 (0): []
+L4 (0): []
+--- Compaction Task ---
+flush L0 SST to base level 3
+Upper L0 [1.sst 626b347a..=70b1698c, 2.sst 697bce6a..=7a145c78] Lower L3 [] -> [3.sst 626b347a..=6e3fc878, 4.sst 6e3fc879..=7a145c78]
