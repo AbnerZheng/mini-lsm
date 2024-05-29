@@ -9,7 +9,6 @@ use crate::table::{FileObject, SsTable, SsTableBuilder, SsTableIterator};
 use super::harness::{check_iter_result_by_key_and_ts, generate_sst_with_ts};
 
 #[test]
-#[ignore]
 fn test_sst_build_multi_version_simple() {
     let mut builder = SsTableBuilder::new(16);
     builder.add(
@@ -36,7 +35,6 @@ fn generate_test_data() -> Vec<((Bytes, u64), Bytes)> {
 }
 
 #[test]
-#[ignore]
 fn test_sst_build_multi_version_hard() {
     let dir = tempdir().unwrap();
     let data = generate_test_data();
