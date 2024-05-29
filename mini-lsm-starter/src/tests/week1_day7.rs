@@ -95,8 +95,8 @@ fn test_task3_block_key_compression() {
 
 #[test]
 fn test_task3_prefix_key() {
-    let first_key = KeyVec::from_vec(key_of(5));
-    let key = KeyVec::from_vec(key_of(10));
+    let first_key = KeyVec::for_testing_from_vec_no_ts(key_of(5));
+    let key = KeyVec::for_testing_from_vec_no_ts(key_of(10));
     let raw = prefix_encoding(&first_key, &key);
     let (key2, _) = prefix_decoding(&first_key, raw.as_slice());
     println!(

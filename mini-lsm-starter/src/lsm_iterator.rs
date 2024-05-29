@@ -5,7 +5,7 @@ use bytes::Bytes;
 
 use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
-use crate::key::KeySlice;
+use crate::key::{KeySlice, TS_DEFAULT};
 use crate::table::SsTableIterator;
 use crate::{
     iterators::{merge_iterator::MergeIterator, StorageIterator},
@@ -33,10 +33,10 @@ impl LsmIterator {
 
         let is_valid = match upper_bound.as_ref() {
             Bound::Included(key) => {
-                inner.is_valid() && inner.key() <= KeySlice::from_slice(key.as_ref())
+                inner.is_valid() && inner.key() <= KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
             }
             Bound::Excluded(key) => {
-                inner.is_valid() && inner.key() < KeySlice::from_slice(key.as_ref())
+                inner.is_valid() && inner.key() < KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
             }
             Bound::Unbounded => inner.is_valid(),
         };
@@ -56,7 +56,7 @@ impl StorageIterator for LsmIterator {
     }
 
     fn key(&self) -> &[u8] {
-        self.inner.key().raw_ref()
+        self.inner.key().key_ref()
     }
 
     fn value(&self) -> &[u8] {
@@ -76,8 +76,12 @@ impl StorageIterator for LsmIterator {
             return Ok(());
         }
         self.is_valid = match self.upper_bound.as_ref() {
-            Bound::Included(key) => self.inner.key() <= KeySlice::from_slice(key.as_ref()),
-            Bound::Excluded(key) => self.inner.key() < KeySlice::from_slice(key.as_ref()),
+            Bound::Included(key) => {
+                self.inner.key() <= KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
+            }
+            Bound::Excluded(key) => {
+                self.inner.key() < KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
+            }
             Bound::Unbounded => self.inner.is_valid(),
         };
         Ok(())

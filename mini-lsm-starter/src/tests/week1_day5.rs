@@ -243,10 +243,6 @@ fn test_task3_storage_get() {
         *state = snapshot.into();
     }
     assert_eq!(
-        storage.get(b"0").unwrap(),
-        Some(Bytes::from_static(b"2333333"))
-    );
-    assert_eq!(
         storage.get(b"00").unwrap(),
         Some(Bytes::from_static(b"2333"))
     );

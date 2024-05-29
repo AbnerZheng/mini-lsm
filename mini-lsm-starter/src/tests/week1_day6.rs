@@ -96,6 +96,8 @@ fn test_task1_storage_get() {
         assert_eq!(state.imm_memtables.len(), 2);
     }
 
+    storage.dump_structure();
+
     assert_eq!(
         storage.get(b"0").unwrap(),
         Some(Bytes::from_static(b"2333333"))
