@@ -1,3 +1,5 @@
+use std::thread::sleep;
+use std::time::Duration;
 use tempfile::tempdir;
 
 use crate::{
@@ -62,6 +64,7 @@ fn test_integration(compaction_options: CompactionOptions) {
             .force_freeze_memtable(&storage.inner.state_lock.lock())
             .unwrap();
     }
+    sleep(Duration::from_secs(1));
     storage.close().unwrap();
     // ensure all SSTs are flushed
     assert!(storage.inner.state.read().memtable.is_empty());

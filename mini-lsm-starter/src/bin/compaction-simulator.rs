@@ -14,8 +14,9 @@ use mini_lsm_wrapper::key::KeyBytes;
 use mini_lsm_wrapper::lsm_storage::LsmStorageState;
 use mini_lsm_wrapper::mem_table::MemTable;
 use mini_lsm_wrapper::table::SsTable;
-use rand::SeedableRng;
-use rand_chacha::{ChaCha12Rng, ChaCha8Rng};
+use rand::Rng;
+use rand_chacha::rand_core::SeedableRng;
+use rand_chacha::ChaCha12Rng;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -188,7 +189,6 @@ impl MockStorage {
 }
 
 fn generate_random_key_range() -> (KeyBytes, KeyBytes) {
-    use rand::Rng;
     let mut rng = ChaCha12Rng::seed_from_u64(10086);
     let begin: usize = rng.gen_range(0..(1 << 31));
     let end: usize = begin + rng.gen_range((1 << 10)..(1 << 31));

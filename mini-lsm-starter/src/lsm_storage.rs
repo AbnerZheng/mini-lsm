@@ -346,7 +346,13 @@ impl LsmStorageInner {
             for record in records {
                 match record {
                     ManifestRecord::Flush(sst_id) => {
-                        state.l0_sstables.insert(0, sst_id);
+                        if compaction_controller.flush_to_l0() {
+                            println!("flush memtable{sst_id} to l0");
+                            state.l0_sstables.insert(0, sst_id);
+                        } else {
+                            println!("flush memtable{sst_id} to new tier");
+                            state.levels.insert(0, (sst_id, vec![sst_id]));
+                        }
                         let option = memtable_to_recover.pop();
                         assert_eq!(option, Some(sst_id), "failed to flush memtable");
                         sst_need_load.insert(sst_id);

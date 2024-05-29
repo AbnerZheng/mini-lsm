@@ -104,20 +104,20 @@ where
         //     as_bytes(iter.key().for_testing_key_ref())
         // );
         assert!(iter.is_valid());
-        // assert_eq!(
-        //     k,
-        //     iter.key().for_testing_key_ref(),
-        //     "expected key: {:?}, actual key: {:?}",
-        //     k,
-        //     as_bytes(iter.key().for_testing_key_ref()),
-        // );
-        // assert_eq!(
-        //     v,
-        //     iter.value(),
-        //     "expected value: {:?}, actual value: {:?}",
-        //     v,
-        //     as_bytes(iter.value()),
-        // );
+        assert_eq!(
+            k,
+            iter.key().for_testing_key_ref(),
+            "expected key: {:?}, actual key: {:?}",
+            k,
+            as_bytes(iter.key().for_testing_key_ref()),
+        );
+        assert_eq!(
+            v,
+            iter.value(),
+            "expected value: {:?}, actual value: {:?}",
+            v,
+            as_bytes(iter.value()),
+        );
         iter.next().unwrap();
     }
     assert!(!iter.is_valid());

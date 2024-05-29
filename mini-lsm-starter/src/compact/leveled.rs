@@ -209,11 +209,11 @@ impl LeveledCompactionController {
             }
             res
         };
-        // find the right place to insert compacted SsTable
-        let first_key = snapshot.sstables[&output[0]].first_key();
         if lower_level_kept.is_empty() {
             snapshot.levels[*lower_level] = (*level_id, output.to_vec());
         } else {
+            // find the right place to insert compacted SsTable
+            let first_key = snapshot.sstables[&output[0]].first_key();
             let insert_idx = lower_level_kept
                 .iter()
                 .position(|sst_id| snapshot.sstables[sst_id].last_key() > first_key);
