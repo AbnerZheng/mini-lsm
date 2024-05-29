@@ -493,6 +493,7 @@ dependencies = [
  "ouroboros",
  "parking_lot",
  "rand",
+ "rand_chacha",
  "rustyline",
  "serde",
  "serde_json",
