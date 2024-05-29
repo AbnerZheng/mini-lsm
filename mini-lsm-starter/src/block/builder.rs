@@ -14,35 +14,37 @@ pub struct BlockBuilder {
     first_key: KeyVec,
 }
 
-/// key_overlap_len (u16) | rest_key_len (u16) | key (rest_key_len)
+/// key_overlap_len (u16) | rest_key_len (u16) | key (rest_key_len) | timestamp (u64)
 pub fn prefix_encoding(first_key: &KeyVec, key: &KeyVec) -> Vec<u8> {
     let same_prefix = first_key
-        .raw_ref()
+        .key_ref()
         .iter()
-        .zip(key.raw_ref().iter())
+        .zip(key.key_ref().iter())
         .take_while(|(a, b)| **a == **b)
         .map(|(a, _b)| *a)
         .collect::<Vec<_>>();
 
     let mut res = vec![];
     let key_overlap_len = same_prefix.len() as u16;
-    let rest_key_len = key.len() as u16 - key_overlap_len;
+    let rest_key_len = key.key_len() as u16 - key_overlap_len;
     res.put_u16(key_overlap_len);
     res.put_u16(rest_key_len);
-    res.put_slice(&key.raw_ref()[key_overlap_len as usize..]);
+    res.put_slice(&key.key_ref()[key_overlap_len as usize..]);
+    res.put_u64(key.ts());
     res
 }
 
 pub fn prefix_decoding(first_key: &KeyVec, mut entry_raw: &[u8]) -> (KeyVec, Vec<u8>) {
     let overlap_len = entry_raw.get_u16();
     let rest_key_len = entry_raw.get_u16();
-    let (rest_key_raw, remaining) = entry_raw.split_at(rest_key_len as usize);
-    assert!(overlap_len <= first_key.len() as u16);
+    let (rest_key_raw, mut remaining) = entry_raw.split_at(rest_key_len as usize);
+    assert!(overlap_len <= first_key.key_len() as u16);
 
-    let mut key = first_key.raw_ref()[..overlap_len as usize].to_vec();
+    let mut key = first_key.key_ref()[..overlap_len as usize].to_vec();
     key.extend_from_slice(rest_key_raw);
+    let ts = remaining.get_u64();
 
-    (KeyVec::from_vec(key), remaining.to_vec())
+    (KeyVec::from_vec_with_ts(key, ts), remaining.to_vec())
 }
 
 impl BlockBuilder {
