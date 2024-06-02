@@ -8,6 +8,7 @@ pub use iterator::BlockIterator;
 
 pub(crate) const SIZE_OF_U16: usize = std::mem::size_of::<u16>();
 pub(crate) const SIZE_OF_U32: usize = std::mem::size_of::<u32>();
+pub(crate) const SIZE_OF_U64: usize = std::mem::size_of::<u64>();
 
 /// A block is the smallest unit of read and caching in LSM tree. It is a collection of sorted key-value pairs.
 #[derive(Default)]

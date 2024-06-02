@@ -150,7 +150,7 @@ impl<'a> Key<&'a [u8]> {
         self.0
     }
 
-    pub fn for_testing_from_slice_no_ts(slice: &'a [u8]) -> Self {
+    pub fn for_testing_from_slice_default_ts(slice: &'a [u8]) -> Self {
         Self(slice, TS_DEFAULT)
     }
 

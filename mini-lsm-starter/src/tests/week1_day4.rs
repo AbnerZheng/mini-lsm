@@ -10,7 +10,10 @@ use crate::table::{SsTable, SsTableBuilder, SsTableIterator};
 #[test]
 fn test_sst_build_single_key() {
     let mut builder = SsTableBuilder::new(16);
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"233"), b"233333");
+    builder.add(
+        KeySlice::for_testing_from_slice_default_ts(b"233"),
+        b"233333",
+    );
     let dir = tempdir().unwrap();
     builder.build_for_test(dir.path().join("1.sst")).unwrap();
 }
@@ -18,12 +21,12 @@ fn test_sst_build_single_key() {
 #[test]
 fn test_sst_build_two_blocks() {
     let mut builder = SsTableBuilder::new(16);
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"11"), b"11");
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"22"), b"22");
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"33"), b"11");
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"44"), b"22");
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"55"), b"11");
-    builder.add(KeySlice::for_testing_from_slice_no_ts(b"66"), b"22");
+    builder.add(KeySlice::for_testing_from_slice_default_ts(b"11"), b"11");
+    builder.add(KeySlice::for_testing_from_slice_default_ts(b"22"), b"22");
+    builder.add(KeySlice::for_testing_from_slice_default_ts(b"33"), b"11");
+    builder.add(KeySlice::for_testing_from_slice_default_ts(b"44"), b"22");
+    builder.add(KeySlice::for_testing_from_slice_default_ts(b"55"), b"11");
+    builder.add(KeySlice::for_testing_from_slice_default_ts(b"66"), b"22");
     assert!(builder.meta.len() >= 2);
     let dir = tempdir().unwrap();
     builder.build_for_test(dir.path().join("1.sst")).unwrap();
@@ -140,12 +143,12 @@ fn test_sst_seek_key() {
                 as_bytes(&value_of(i)),
                 as_bytes(value)
             );
-            iter.seek_to_key(KeySlice::for_testing_from_slice_no_ts(
+            iter.seek_to_key(KeySlice::for_testing_from_slice_default_ts(
                 &format!("key_{:03}", i * 5 + offset).into_bytes(),
             ))
             .unwrap();
         }
-        iter.seek_to_key(KeySlice::for_testing_from_slice_no_ts(b"k"))
+        iter.seek_to_key(KeySlice::for_testing_from_slice_default_ts(b"k"))
             .unwrap();
     }
 }

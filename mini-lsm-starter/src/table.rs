@@ -252,10 +252,14 @@ impl SsTable {
         }
     }
 
-    pub fn may_contain_key(&self, key: KeySlice) -> bool {
+    pub fn key_in_range(&self, key: &[u8]) -> bool {
+        self.first_key.key_ref() <= key && key <= self.last_key.key_ref()
+    }
+
+    pub fn may_contain_key(&self, key: &[u8]) -> bool {
         self.bloom
             .as_ref()
-            .map(|k| k.may_contain(fingerprint32(key.key_ref())))
+            .map(|k| k.may_contain(fingerprint32(key)))
             .unwrap_or(true)
     }
 

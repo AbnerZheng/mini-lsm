@@ -1,11 +1,10 @@
 use std::collections::Bound;
 
 use anyhow::{bail, Result};
-use bytes::Bytes;
 
 use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
-use crate::key::{KeySlice, TS_DEFAULT};
+use crate::key::{KeyBytes, KeySlice};
 use crate::table::SsTableIterator;
 use crate::{
     iterators::{merge_iterator::MergeIterator, StorageIterator},
@@ -20,24 +19,33 @@ type LsmIteratorInner = TwoMergeIterator<
 
 pub struct LsmIterator {
     inner: LsmIteratorInner,
-    upper_bound: Bound<Bytes>,
+    upper_bound: Bound<KeyBytes>,
     is_valid: bool,
 }
 
 impl LsmIterator {
-    pub(crate) fn new(iter: LsmIteratorInner, upper_bound: Bound<Bytes>) -> Result<Self> {
+    pub(crate) fn new(iter: LsmIteratorInner, upper_bound: Bound<KeyBytes>) -> Result<Self> {
         let mut inner = iter;
-        while inner.is_valid() && inner.value().is_empty() {
-            inner.next()?
+        if inner.is_valid() && inner.value().is_empty() {
+            let mut prev_key = inner.key().key_ref().to_vec();
+            inner.next()?;
+
+            while inner.is_valid() {
+                if inner.key().key_ref() == prev_key {
+                    inner.next()?;
+                } else if inner.value().is_empty() {
+                    // delete key
+                    prev_key = inner.key().key_ref().to_vec();
+                    inner.next()?;
+                } else {
+                    break;
+                }
+            }
         }
 
         let is_valid = match upper_bound.as_ref() {
-            Bound::Included(key) => {
-                inner.is_valid() && inner.key() <= KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
-            }
-            Bound::Excluded(key) => {
-                inner.is_valid() && inner.key() < KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
-            }
+            Bound::Included(key) => inner.is_valid() && inner.key() <= key.as_key_slice(),
+            Bound::Excluded(key) => inner.is_valid() && inner.key() < key.as_key_slice(),
             Bound::Unbounded => inner.is_valid(),
         };
         Ok(Self {
@@ -67,21 +75,26 @@ impl StorageIterator for LsmIterator {
         if !self.is_valid {
             return Ok(());
         }
+        let mut prev_key = self.inner.key().key_ref().to_vec();
         self.inner.next()?;
-        while self.inner.is_valid() && self.inner.value().is_empty() {
-            self.inner.next()?;
+        while self.inner.is_valid() {
+            if self.inner.key().key_ref() == prev_key {
+                self.inner.next()?;
+            } else if self.inner.value().is_empty() {
+                // delete key
+                prev_key = self.inner.key().key_ref().to_vec();
+                self.inner.next()?;
+            } else {
+                break;
+            }
         }
         if !self.inner.is_valid() {
             self.is_valid = false;
             return Ok(());
         }
         self.is_valid = match self.upper_bound.as_ref() {
-            Bound::Included(key) => {
-                self.inner.key() <= KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
-            }
-            Bound::Excluded(key) => {
-                self.inner.key() < KeySlice::from_slice(key.as_ref(), TS_DEFAULT)
-            }
+            Bound::Included(key) => self.inner.key().key_ref() <= key.as_key_slice().key_ref(),
+            Bound::Excluded(key) => self.inner.key().key_ref() < key.as_key_slice().key_ref(),
             Bound::Unbounded => self.inner.is_valid(),
         };
         Ok(())

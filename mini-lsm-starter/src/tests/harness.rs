@@ -63,7 +63,7 @@ impl StorageIterator for MockIterator {
                 panic!("invalid access after next returns an error!");
             }
         }
-        KeySlice::for_testing_from_slice_no_ts(self.data[self.index].0.as_ref())
+        KeySlice::for_testing_from_slice_default_ts(self.data[self.index].0.as_ref())
     }
 
     fn value(&self) -> &[u8] {
@@ -159,13 +159,13 @@ where
     I: for<'a> StorageIterator<KeyType<'a> = &'a [u8]>,
 {
     for (k, v) in expected {
-        // println!(
-        //     "expected: {:?}/{:?}, actual: {:?}/{:?}",
-        //     k,
-        //     v,
-        //     as_bytes(iter.key()),
-        //     as_bytes(iter.value()),
-        // );
+        println!(
+            "expected: {:?}/{:?}, actual: {:?}/{:?}",
+            k,
+            v,
+            as_bytes(iter.key()),
+            as_bytes(iter.value()),
+        );
         assert!(iter.is_valid());
         assert_eq!(
             k,
@@ -205,7 +205,10 @@ pub fn generate_sst(
 ) -> SsTable {
     let mut builder = SsTableBuilder::new(128);
     for (key, value) in data {
-        builder.add(KeySlice::for_testing_from_slice_no_ts(&key[..]), &value[..]);
+        builder.add(
+            KeySlice::for_testing_from_slice_default_ts(&key[..]),
+            &value[..],
+        );
     }
     builder.build(id, block_cache, path.as_ref()).unwrap()
 }
