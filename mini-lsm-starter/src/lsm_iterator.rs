@@ -77,6 +77,9 @@ impl StorageIterator for LsmIterator {
         }
         let mut prev_key = self.inner.key().key_ref().to_vec();
         self.inner.next()?;
+        // while self.inner.is_valid() && self.inner.value().is_empty() {
+        //     self.inner.next()?;
+        // }
         while self.inner.is_valid() {
             if self.inner.key().key_ref() == prev_key {
                 self.inner.next()?;

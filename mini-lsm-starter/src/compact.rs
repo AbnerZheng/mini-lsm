@@ -122,21 +122,34 @@ impl LsmStorageInner {
         let mut sst_builder = SsTableBuilder::new(self.options.block_size);
         let mut sst_to_add = vec![];
 
+        let mut prev_key = None;
+
         while iter.is_valid() {
-            if !(compact_to_bottom_level && iter.value().is_empty()) {
-                sst_builder.add(iter.key(), iter.value());
-                if sst_builder.estimated_size() > self.options.target_sst_size {
-                    // split a new sst file
-                    let sst_id = self.next_sst_id();
-                    let sst_table = sst_builder.build(
-                        sst_id,
-                        Some(self.block_cache.clone()),
-                        self.path_of_sst(sst_id),
-                    )?;
-                    sst_to_add.push(Arc::new(sst_table));
-                    sst_builder = SsTableBuilder::new(self.options.block_size);
+            // todo (deal with compact_to_bottom_level
+            // println!("merging {:?}/{:?}", iter.key(), iter.value());
+            sst_builder.add(iter.key(), iter.value());
+            let cur_key = iter.key().key_ref().to_vec();
+            match &prev_key {
+                None => prev_key = Some(cur_key),
+                Some(key) if *key != cur_key => {
+                    prev_key = Some(cur_key);
+                    if sst_builder.estimated_size() > self.options.target_sst_size {
+                        // split a new sst file
+                        let sst_id = self.next_sst_id();
+                        let sst_table = sst_builder.build(
+                            sst_id,
+                            Some(self.block_cache.clone()),
+                            self.path_of_sst(sst_id),
+                        )?;
+                        sst_to_add.push(Arc::new(sst_table));
+                        sst_builder = SsTableBuilder::new(self.options.block_size);
+                    }
+                }
+                _ => {
+                    // do nothing
                 }
             }
+
             iter.next()?;
         }
 
