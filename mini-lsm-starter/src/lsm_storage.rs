@@ -2,7 +2,7 @@ use std::collections::{BTreeSet, HashMap};
 use std::fs;
 use std::fs::File;
 use std::ops::Bound;
-use std::ops::Bound::Included;
+use std::ops::Bound::{Included, Unbounded};
 use std::path::{Path, PathBuf};
 use std::sync::atomic::AtomicUsize;
 use std::sync::Arc;
@@ -24,6 +24,7 @@ use crate::key::{KeyBytes, KeySlice, TS_RANGE_BEGIN, TS_RANGE_END};
 use crate::lsm_iterator::{FusedIterator, LsmIterator};
 use crate::manifest::{Manifest, ManifestRecord};
 use crate::mem_table::{map_bound, MemTable};
+use crate::mvcc::txn::{Transaction, TxnIterator};
 use crate::mvcc::LsmMvccInner;
 use crate::table::{FileObject, SsTable, SsTableBuilder, SsTableIterator};
 
@@ -252,7 +253,7 @@ impl MiniLsm {
         }))
     }
 
-    pub fn new_txn(&self) -> Result<()> {
+    pub fn new_txn(&self) -> Result<Arc<Transaction>> {
         self.inner.new_txn()
     }
 
@@ -280,11 +281,7 @@ impl MiniLsm {
         self.inner.sync()
     }
 
-    pub fn scan(
-        &self,
-        lower: Bound<&[u8]>,
-        upper: Bound<&[u8]>,
-    ) -> Result<FusedIterator<LsmIterator>> {
+    pub fn scan(&self, lower: Bound<&[u8]>, upper: Bound<&[u8]>) -> Result<TxnIterator> {
         self.inner.scan(lower, upper)
     }
 
@@ -339,6 +336,7 @@ impl LsmStorageInner {
 
         let manifest_file_path = path.join("MANIFEST");
         let mut max_sst_id = 0;
+        let mut max_ts = 0;
 
         let manifest = if manifest_file_path.exists() {
             // recover from file
@@ -384,6 +382,14 @@ impl LsmStorageInner {
                 for sst_id in memtable_to_recover {
                     let mem_table =
                         MemTable::recover_from_wal(sst_id, Self::path_of_wal_static(path, sst_id))?;
+                    let mut iterator = mem_table.scan(Unbounded, Unbounded);
+                    while iterator.is_valid() {
+                        let ts = iterator.key().ts();
+                        if max_ts < ts {
+                            max_ts = ts;
+                        }
+                        iterator.next()?;
+                    }
                     state.imm_memtables.push(Arc::new(mem_table));
                 }
             }
@@ -393,6 +399,9 @@ impl LsmStorageInner {
                     Some(block_cache.clone()),
                     FileObject::open(Self::path_of_sst_static(path, sst_id).as_path())?,
                 )?;
+                if ss_table.max_ts() > max_ts {
+                    max_ts = ss_table.max_ts();
+                }
                 state.sstables.insert(sst_id, Arc::new(ss_table));
             }
             max_sst_id += 1;
@@ -421,7 +430,7 @@ impl LsmStorageInner {
             compaction_controller,
             manifest: Some(manifest),
             options: options.into(),
-            mvcc: Some(LsmMvccInner::new(0)),
+            mvcc: Some(LsmMvccInner::new(max_ts)),
             compaction_filters: Arc::new(Mutex::new(Vec::new())),
         };
 
@@ -443,8 +452,7 @@ impl LsmStorageInner {
         compaction_filters.push(compaction_filter);
     }
 
-    /// Get a key from the storage. In day 7, this can be further optimized by using a bloom filter.
-    pub fn get(&self, key: &[u8]) -> Result<Option<Bytes>> {
+    pub(crate) fn get_with_ts(self: &Arc<Self>, key: &[u8], read_ts: u64) -> Result<Option<Bytes>> {
         let snapshot = {
             let guard = self.state.read();
             Arc::clone(&guard)
@@ -508,6 +516,7 @@ impl LsmStorageInner {
         let iterator = LsmIterator::new(
             TwoMergeIterator::create(two_merge_iters, levels_iter)?,
             map_bound(Included(key_upper)),
+            read_ts,
         )?;
         if iterator.is_valid() && iterator.key() == key && !iterator.value().is_empty() {
             Ok(Some(Bytes::copy_from_slice(iterator.value())))
@@ -515,9 +524,20 @@ impl LsmStorageInner {
             Ok(None)
         }
     }
+
+    /// Get a key from the storage. In day 7, this can be further optimized by using a bloom filter.
+    pub fn get(self: &Arc<Self>, key: &[u8]) -> Result<Option<Bytes>> {
+        let txn = self
+            .mvcc
+            .as_ref()
+            .map(|mvcc| mvcc.new_txn(self.clone(), true))
+            .ok_or(anyhow!("not support mvcc"))?;
+        txn.get(key)
+    }
+
     /// Write a batch of data into the storage. Implement in week 2 day 7.
     pub fn write_batch<T: AsRef<[u8]>>(&self, batch: &[WriteBatchRecord<T>]) -> Result<()> {
-        let mvcc = self.mvcc.as_ref().unwrap();
+        let mvcc = self.mvcc();
         let _guard = mvcc.write_lock.lock();
         for x in batch {
             let ts = mvcc.latest_commit_ts() + 1;
@@ -660,16 +680,19 @@ impl LsmStorageInner {
         Ok(())
     }
 
-    pub fn new_txn(&self) -> Result<()> {
-        // no-op
-        Ok(())
+    pub fn mvcc(&self) -> &LsmMvccInner {
+        self.mvcc.as_ref().unwrap()
     }
 
-    /// Create an iterator over a range of keys.
-    pub fn scan(
-        &self,
+    pub fn new_txn(self: &Arc<LsmStorageInner>) -> Result<Arc<Transaction>> {
+        Ok(self.mvcc().new_txn(self.clone(), true))
+    }
+
+    pub(crate) fn scan_with_ts(
+        self: &Arc<Self>,
         lower: Bound<&[u8]>,
         upper: Bound<&[u8]>,
+        read_ts: u64,
     ) -> Result<FusedIterator<LsmIterator>> {
         let snapshot = {
             let guard = self.state.read();
@@ -760,6 +783,18 @@ impl LsmStorageInner {
         Ok(FusedIterator::new(LsmIterator::new(
             two_merge_iter,
             map_bound(upper_bound_slice),
+            read_ts,
         )?))
+    }
+
+    /// Create an iterator over a range of keys.
+    pub fn scan(self: &Arc<Self>, lower: Bound<&[u8]>, upper: Bound<&[u8]>) -> Result<TxnIterator> {
+        let txn = self
+            .mvcc
+            .as_ref()
+            .map(|mvcc| mvcc.new_txn(self.clone(), true))
+            .ok_or(anyhow!("not support mvcc"))?;
+
+        txn.scan(lower, upper)
     }
 }

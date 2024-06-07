@@ -21,6 +21,7 @@ pub struct SsTableBuilder {
     pub(crate) meta: Vec<BlockMeta>,
     block_size: usize,
     pub(crate) key_hashes: Vec<u32>,
+    max_ts: u64,
 }
 
 impl SsTableBuilder {
@@ -33,12 +34,17 @@ impl SsTableBuilder {
             data: vec![],
             meta: vec![],
             key_hashes: vec![],
+            max_ts: 0,
             block_size,
         }
     }
 
     /// Adds a key-value pair to SSTable.
     pub fn add(&mut self, key: KeySlice, value: &[u8]) {
+        if self.max_ts < key.ts() {
+            self.max_ts = key.ts();
+        }
+
         if self.first_key.is_empty() {
             self.first_key.set_from_slice(key);
         }
@@ -97,6 +103,7 @@ impl SsTableBuilder {
         let block_meta_offset = self.data.len() as u64;
         BlockMeta::encode_block_meta(&self.meta, &mut self.data);
         self.data.put_u32(block_meta_offset as u32);
+        self.data.put_u64(self.max_ts);
 
         let bits_per_key = Bloom::bloom_bits_per_key(self.key_hashes.len(), 0.01);
         let bloom = Bloom::build_from_key_hashes(self.key_hashes.as_slice(), bits_per_key);
@@ -125,7 +132,7 @@ impl SsTableBuilder {
                 .unwrap_or_default(),
             block_meta: self.meta,
             bloom: Some(bloom),
-            max_ts: 0,
+            max_ts: self.max_ts,
         })
     }
     pub(crate) fn is_empty(&self) -> bool {

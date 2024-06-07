@@ -9,7 +9,7 @@ use farmhash::fingerprint32;
 pub use builder::SsTableBuilder;
 pub use iterator::SsTableIterator;
 
-use crate::block::{Block, SIZE_OF_U32};
+use crate::block::{Block, SIZE_OF_U32, SIZE_OF_U64};
 use crate::key::{KeyBytes, KeySlice};
 use crate::lsm_storage::BlockCache;
 
@@ -150,13 +150,18 @@ impl SsTable {
 
         let bloom = Bloom::decode(bloom_filter_raw.as_slice())?;
 
-        let block_meta_offset_raw =
-            file.read(bloom_filter_offset - SIZE_OF_U32 as u64, SIZE_OF_U32 as u64)?;
-        let block_meta_offset = block_meta_offset_raw.as_slice().get_u32() as u64;
+        let block_meta_offset_and_ts_raw = file.read(
+            bloom_filter_offset - SIZE_OF_U32 as u64 - SIZE_OF_U64 as u64,
+            SIZE_OF_U32 as u64 + SIZE_OF_U64 as u64,
+        )?;
+        let mut raw = block_meta_offset_and_ts_raw.as_slice();
+
+        let block_meta_offset = raw.get_u32() as u64;
+        let max_ts = raw.get_u64();
 
         let meta_block_raw = file.read(
             block_meta_offset,
-            bloom_filter_offset - SIZE_OF_U32 as u64 - block_meta_offset,
+            bloom_filter_offset - SIZE_OF_U32 as u64 - SIZE_OF_U64 as u64 - block_meta_offset,
         )?;
 
         let block_meta = BlockMeta::decode_block_meta(meta_block_raw.as_slice());
@@ -176,7 +181,7 @@ impl SsTable {
             id,
             block_cache,
             bloom: Some(bloom),
-            max_ts: 0,
+            max_ts,
         })
     }
 

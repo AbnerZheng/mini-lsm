@@ -21,10 +21,15 @@ pub struct LsmIterator {
     inner: LsmIteratorInner,
     upper_bound: Bound<KeyBytes>,
     is_valid: bool,
+    read_ts: u64,
 }
 
 impl LsmIterator {
-    pub(crate) fn new(iter: LsmIteratorInner, upper_bound: Bound<KeyBytes>) -> Result<Self> {
+    pub(crate) fn new(
+        iter: LsmIteratorInner,
+        upper_bound: Bound<KeyBytes>,
+        read_ts: u64,
+    ) -> Result<Self> {
         let mut inner = iter;
         if inner.is_valid() && inner.value().is_empty() {
             let mut prev_key = inner.key().key_ref().to_vec();
@@ -52,6 +57,7 @@ impl LsmIterator {
             inner,
             upper_bound,
             is_valid,
+            read_ts,
         })
     }
 }
@@ -77,11 +83,9 @@ impl StorageIterator for LsmIterator {
         }
         let mut prev_key = self.inner.key().key_ref().to_vec();
         self.inner.next()?;
-        // while self.inner.is_valid() && self.inner.value().is_empty() {
-        //     self.inner.next()?;
-        // }
         while self.inner.is_valid() {
-            if self.inner.key().key_ref() == prev_key {
+            if self.inner.key().ts() > self.read_ts || prev_key == self.inner.key().key_ref() {
+                // we will only read the latest versions of the keys below or equal to the read timestamp.
                 self.inner.next()?;
             } else if self.inner.value().is_empty() {
                 // delete key
