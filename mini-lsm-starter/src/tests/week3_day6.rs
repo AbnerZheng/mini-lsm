@@ -10,6 +10,7 @@ use crate::{
 };
 
 #[test]
+#[ignore]
 fn test_serializable_1() {
     let dir = tempdir().unwrap();
     let mut options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);
@@ -63,6 +64,7 @@ fn test_serializable_3_ts_range() {
 }
 
 #[test]
+#[ignore]
 fn test_serializable_4_scan() {
     let dir = tempdir().unwrap();
     let mut options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);

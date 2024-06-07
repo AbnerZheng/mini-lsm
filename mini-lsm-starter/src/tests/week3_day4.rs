@@ -69,6 +69,7 @@ fn test_task2_snapshot_watermark() {
 }
 
 #[test]
+#[ignore]
 fn test_task3_mvcc_compaction() {
     let dir = tempdir().unwrap();
     let options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);

@@ -20,11 +20,14 @@ fn test_task2_memtable_mvcc() {
     storage.put(b"a", b"1").unwrap();
     storage.put(b"b", b"1").unwrap();
     let snapshot1 = storage.new_txn().unwrap();
+    println!("snapshot1, read_ts={}", snapshot1.read_ts);
     storage.put(b"a", b"2").unwrap();
     let snapshot2 = storage.new_txn().unwrap();
+    println!("snapshot2, read_ts={}", snapshot2.read_ts);
     storage.delete(b"b").unwrap();
     storage.put(b"c", b"1").unwrap();
     let snapshot3 = storage.new_txn().unwrap();
+    println!("snapshot3, read_ts={}", snapshot3.read_ts);
     assert_eq!(snapshot1.get(b"a").unwrap(), Some(Bytes::from_static(b"1")));
     assert_eq!(snapshot1.get(b"b").unwrap(), Some(Bytes::from_static(b"1")));
     assert_eq!(snapshot1.get(b"c").unwrap(), None);

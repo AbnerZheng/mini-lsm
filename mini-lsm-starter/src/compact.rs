@@ -19,6 +19,7 @@ use crate::iterators::StorageIterator;
 use crate::key::KeySlice;
 use crate::lsm_storage::{LsmStorageInner, LsmStorageState};
 use crate::manifest::ManifestRecord;
+use crate::mvcc::watermark;
 use crate::table::{SsTable, SsTableBuilder, SsTableIterator};
 
 mod leveled;
@@ -123,16 +124,32 @@ impl LsmStorageInner {
         let mut sst_to_add = vec![];
 
         let mut prev_key = None;
+        let watermark = {
+            let guard = self.mvcc().ts.lock();
+            guard.1.watermark().unwrap_or(u64::MAX)
+        };
 
         while iter.is_valid() {
-            // todo (deal with compact_to_bottom_level
+            // todo (deal with compact_to_bottom_level)
             // println!("merging {:?}/{:?}", iter.key(), iter.value());
-            sst_builder.add(iter.key(), iter.value());
             let cur_key = iter.key().key_ref().to_vec();
+            let cur_ts = iter.key().ts();
+            let mut latest_version_leq_added = false;
+
+            // If a version of a key is above watermark, keep it.
+            // For all versions of a key below or equal to the watermark, keep the latest version.
+
             match &prev_key {
-                None => prev_key = Some(cur_key),
+                None => {
+                    prev_key = Some(cur_key);
+                    latest_version_leq_added = cur_ts <= watermark;
+                    sst_builder.add(iter.key(), iter.value());
+                }
                 Some(key) if *key != cur_key => {
                     prev_key = Some(cur_key);
+                    latest_version_leq_added = cur_ts <= watermark;
+                    sst_builder.add(iter.key(), iter.value());
+
                     if sst_builder.estimated_size() > self.options.target_sst_size {
                         // split a new sst file
                         let sst_id = self.next_sst_id();
@@ -143,6 +160,17 @@ impl LsmStorageInner {
                         )?;
                         sst_to_add.push(Arc::new(sst_table));
                         sst_builder = SsTableBuilder::new(self.options.block_size);
+                    }
+                }
+                Some(key) if *key == cur_key => {
+                    if cur_ts > watermark {
+                        sst_builder.add(iter.key(), iter.value());
+                    } else if !latest_version_leq_added {
+                        // keep the latest version for all version below or equal to the watermark
+                        latest_version_leq_added = true;
+                        sst_builder.add(iter.key(), iter.value());
+                    } else {
+                        println!("remove version@{cur_ts} of {key:?}");
                     }
                 }
                 _ => {

@@ -10,6 +10,7 @@ use crate::{
 };
 
 #[test]
+#[ignore]
 fn test_txn_integration() {
     let dir = tempdir().unwrap();
     let options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);

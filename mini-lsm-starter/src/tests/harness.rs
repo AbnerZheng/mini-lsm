@@ -159,13 +159,13 @@ where
     I: for<'a> StorageIterator<KeyType<'a> = &'a [u8]>,
 {
     for (k, v) in expected {
-        // println!(
-        //     "expected: {:?}/{:?}, actual: {:?}/{:?}",
-        //     k,
-        //     v,
-        //     as_bytes(iter.key()),
-        //     as_bytes(iter.value()),
-        // );
+        println!(
+            "expected: {:?}/{:?}, actual: {:?}/{:?}",
+            k,
+            v,
+            as_bytes(iter.key()),
+            as_bytes(iter.value()),
+        );
         assert!(iter.is_valid());
         assert_eq!(
             k,

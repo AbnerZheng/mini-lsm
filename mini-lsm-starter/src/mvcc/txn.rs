@@ -33,6 +33,7 @@ pub struct Transaction {
 impl Transaction {
     pub fn get(&self, key: &[u8]) -> Result<Option<Bytes>> {
         self.check_committed();
+        println!("get {key:?}, read_ts = {}", self.read_ts);
         match self.local_storage.get(key) {
             Some(entry) => {
                 return if entry.value().is_empty() {
@@ -56,11 +57,17 @@ impl Transaction {
         }
         .build();
 
+        println!(
+            "local_iter is valid? {}, outer_iter is valid? {}",
+            local_iter.is_valid(),
+            iter.is_valid()
+        );
+
         TxnIterator::create(self.clone(), TwoMergeIterator::create(local_iter, iter)?)
     }
 
     fn check_committed(&self) {
-        if !self.committed.load(Ordering::SeqCst) {
+        if self.committed.load(Ordering::SeqCst) {
             panic!("can't operate on a committed txn");
         }
     }
@@ -91,10 +98,10 @@ impl Transaction {
 
 impl Drop for Transaction {
     fn drop(&mut self) {
-        // match self.inner.clone().mvcc {
-        //     None => {}
-        //     Some(mvcc) => mvcc.ts,
-        // }
+        // remove read_ts from watermark
+        let x = self.inner.mvcc();
+        let mut guard = x.ts.lock();
+        guard.1.remove_reader(self.read_ts);
     }
 }
 
@@ -152,7 +159,7 @@ impl TxnIterator {
         txn: Arc<Transaction>,
         iter: TwoMergeIterator<TxnLocalIterator, FusedIterator<LsmIterator>>,
     ) -> Result<Self> {
-        unimplemented!()
+        Ok(Self { _txn: txn, iter })
     }
 }
 
@@ -172,7 +179,7 @@ impl StorageIterator for TxnIterator {
     }
 
     fn next(&mut self) -> Result<()> {
-        unimplemented!()
+        self.iter.next()
     }
 
     fn num_active_iterators(&self) -> usize {

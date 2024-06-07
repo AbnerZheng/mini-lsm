@@ -4,6 +4,7 @@
 pub mod txn;
 pub(crate) mod watermark;
 
+use std::sync::atomic::AtomicBool;
 use std::{
     collections::{BTreeMap, HashSet},
     sync::Arc,
@@ -63,7 +64,7 @@ impl LsmMvccInner {
             read_ts,
             inner,
             local_storage: Arc::new(Default::default()),
-            committed: Arc::new(Default::default()),
+            committed: Arc::new(AtomicBool::new(false)),
             key_hashes: None,
         })
     }
