@@ -50,12 +50,13 @@ impl Transaction {
         let iter = self.inner.scan_with_ts(lower, upper, self.read_ts)?;
         let lower = lower.map(|l| Bytes::copy_from_slice(l));
         let upper = upper.map(|u| Bytes::copy_from_slice(u));
-        let local_iter = TxnLocalIteratorBuilder {
+        let mut local_iter = TxnLocalIteratorBuilder {
             map: self.local_storage.clone(),
             iter_builder: |map| map.range((lower, upper)),
             item: (Default::default(), Default::default()),
         }
         .build();
+        local_iter.next()?;
 
         println!(
             "local_iter is valid? {}, outer_iter is valid? {}",
@@ -160,7 +161,16 @@ impl TxnIterator {
         txn: Arc<Transaction>,
         iter: TwoMergeIterator<TxnLocalIterator, FusedIterator<LsmIterator>>,
     ) -> Result<Self> {
-        Ok(Self { _txn: txn, iter })
+        let mut iter = Self { _txn: txn, iter };
+        iter.skip_delete()?;
+        Ok(iter)
+    }
+
+    fn skip_delete(&mut self) -> Result<()> {
+        while self.iter.is_valid() && self.iter.value().is_empty() {
+            self.iter.next()?;
+        }
+        Ok(())
     }
 }
 
@@ -180,7 +190,8 @@ impl StorageIterator for TxnIterator {
     }
 
     fn next(&mut self) -> Result<()> {
-        self.iter.next()
+        self.iter.next()?;
+        self.skip_delete()
     }
 
     fn num_active_iterators(&self) -> usize {
