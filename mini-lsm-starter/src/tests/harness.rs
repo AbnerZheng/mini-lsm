@@ -98,11 +98,13 @@ where
     I: for<'a> StorageIterator<KeyType<'a> = KeySlice<'a>>,
 {
     for (k, v) in expected {
-        // println!(
-        //     "expected key: {:?}, actual key: {:?}",
-        //     k,
-        //     as_bytes(iter.key().for_testing_key_ref())
-        // );
+        println!(
+            "expected {:?}/{:?}, actual: {:?}/{:?}",
+            k,
+            v,
+            as_bytes(iter.key().for_testing_key_ref()),
+            as_bytes(iter.value()),
+        );
         assert!(iter.is_valid());
         assert_eq!(
             k,

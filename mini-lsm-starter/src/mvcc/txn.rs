@@ -102,6 +102,7 @@ impl Drop for Transaction {
         let x = self.inner.mvcc();
         let mut guard = x.ts.lock();
         guard.1.remove_reader(self.read_ts);
+        println!("watermark changed, {:?}", guard.1.watermark());
     }
 }
 

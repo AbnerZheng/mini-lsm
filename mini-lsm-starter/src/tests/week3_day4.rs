@@ -69,12 +69,12 @@ fn test_task2_snapshot_watermark() {
 }
 
 #[test]
-#[ignore]
 fn test_task3_mvcc_compaction() {
     let dir = tempdir().unwrap();
     let options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);
     let storage = MiniLsm::open(&dir, options.clone()).unwrap();
     let snapshot0 = storage.new_txn().unwrap();
+    println!("snapshot0: {}", snapshot0.read_ts);
     storage
         .write_batch(&[
             WriteBatchRecord::Put(b"a", b"1"),
@@ -82,6 +82,7 @@ fn test_task3_mvcc_compaction() {
         ])
         .unwrap();
     let snapshot1 = storage.new_txn().unwrap();
+    println!("snapshot1: {}", snapshot1.read_ts);
     storage
         .write_batch(&[
             WriteBatchRecord::Put(b"a", b"2"),
@@ -89,6 +90,7 @@ fn test_task3_mvcc_compaction() {
         ])
         .unwrap();
     let snapshot2 = storage.new_txn().unwrap();
+    println!("snapshot2: {}", snapshot2.read_ts);
     storage
         .write_batch(&[
             WriteBatchRecord::Put(b"a", b"3"),
@@ -96,6 +98,7 @@ fn test_task3_mvcc_compaction() {
         ])
         .unwrap();
     let snapshot3 = storage.new_txn().unwrap();
+    println!("snapshot3: {}", snapshot3.read_ts);
     storage
         .write_batch(&[
             WriteBatchRecord::Put(b"c", b"4"),

@@ -129,12 +129,11 @@ impl LsmStorageInner {
             guard.1.watermark().unwrap_or(u64::MAX)
         };
 
+        let mut latest_version_leq_added = false;
         while iter.is_valid() {
-            // todo (deal with compact_to_bottom_level)
             // println!("merging {:?}/{:?}", iter.key(), iter.value());
             let cur_key = iter.key().key_ref().to_vec();
             let cur_ts = iter.key().ts();
-            let mut latest_version_leq_added = false;
 
             // If a version of a key is above watermark, keep it.
             // For all versions of a key below or equal to the watermark, keep the latest version.
@@ -143,23 +142,31 @@ impl LsmStorageInner {
                 None => {
                     prev_key = Some(cur_key);
                     latest_version_leq_added = cur_ts <= watermark;
-                    sst_builder.add(iter.key(), iter.value());
+                    if !(latest_version_leq_added
+                        && compact_to_bottom_level
+                        && iter.value().is_empty())
+                    {
+                        sst_builder.add(iter.key(), iter.value());
+                    }
                 }
                 Some(key) if *key != cur_key => {
                     prev_key = Some(cur_key);
                     latest_version_leq_added = cur_ts <= watermark;
-                    sst_builder.add(iter.key(), iter.value());
+                    if !(cur_ts <= watermark && compact_to_bottom_level && iter.value().is_empty())
+                    {
+                        sst_builder.add(iter.key(), iter.value());
 
-                    if sst_builder.estimated_size() > self.options.target_sst_size {
-                        // split a new sst file
-                        let sst_id = self.next_sst_id();
-                        let sst_table = sst_builder.build(
-                            sst_id,
-                            Some(self.block_cache.clone()),
-                            self.path_of_sst(sst_id),
-                        )?;
-                        sst_to_add.push(Arc::new(sst_table));
-                        sst_builder = SsTableBuilder::new(self.options.block_size);
+                        if sst_builder.estimated_size() > self.options.target_sst_size {
+                            // split a new sst file
+                            let sst_id = self.next_sst_id();
+                            let sst_table = sst_builder.build(
+                                sst_id,
+                                Some(self.block_cache.clone()),
+                                self.path_of_sst(sst_id),
+                            )?;
+                            sst_to_add.push(Arc::new(sst_table));
+                            sst_builder = SsTableBuilder::new(self.options.block_size);
+                        }
                     }
                 }
                 Some(key) if *key == cur_key => {
@@ -168,7 +175,10 @@ impl LsmStorageInner {
                     } else if !latest_version_leq_added {
                         // keep the latest version for all version below or equal to the watermark
                         latest_version_leq_added = true;
-                        sst_builder.add(iter.key(), iter.value());
+
+                        if !(compact_to_bottom_level && iter.value().is_empty()) {
+                            sst_builder.add(iter.key(), iter.value());
+                        }
                     } else {
                         println!("remove version@{cur_ts} of {key:?}");
                     }
