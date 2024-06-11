@@ -1,7 +1,7 @@
 #![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
 #![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
 
-use std::ops::Bound::Excluded;
+use std::ops::Bound::{Excluded, Unbounded};
 use std::sync::atomic::Ordering;
 use std::{
     collections::HashSet,
@@ -101,57 +101,53 @@ impl Transaction {
     }
 
     pub fn commit(&self) -> Result<()> {
-        match &self.inner.mvcc {
-            Some(mvcc) => {
-                let _guard = mvcc.commit_lock.lock();
+        let mvcc = self.inner.mvcc();
+        let _guard = mvcc.commit_lock.lock();
 
-                let (write_set, read_set) = self
-                    .key_hashes
-                    .as_ref()
-                    .map(|k| k.lock())
-                    .map(|g| (g.0.clone(), g.1.clone()))
-                    .unwrap_or_default();
-                if !write_set.is_empty() {
-                    let expected_commit_ts = mvcc.latest_commit_ts() + 1;
-                    let committed_txs_guard = mvcc.committed_txns.lock();
-                    let mut range = committed_txs_guard
-                        .range((Excluded(self.read_ts), Excluded(expected_commit_ts)));
-                    let overlapped = range.any(|(ts, commited_data)| {
-                        !commited_data.key_hashes.is_disjoint(&read_set)
-                    });
-                    if overlapped {
-                        anyhow::bail!(
-                            "abort transaction because failing the validation of isolation"
-                        );
-                    }
-                }
-
-                self.committed.store(true, Ordering::SeqCst);
-                // batch write
-                let mut write_batch_record = Vec::with_capacity(self.local_storage.len());
-                let mut commited_hashes = HashSet::with_capacity(self.local_storage.len());
-
-                for entry in self.local_storage.iter() {
-                    let record =
-                        WriteBatchRecord::Put(entry.key().to_vec(), entry.value().to_vec());
-                    write_batch_record.push(record);
-                    let key = farmhash::hash32(entry.key());
-                    commited_hashes.insert(key);
-                }
-                let commit_ts = self.inner.write_batch_inner(&write_batch_record)?;
-                let mut committed_txs_guard = mvcc.committed_txns.lock();
-                committed_txs_guard.insert(
-                    commit_ts,
-                    CommittedTxnData {
-                        key_hashes: commited_hashes,
-                        read_ts: self.read_ts,
-                        commit_ts,
-                    },
-                );
-                Ok(())
+        let (write_set, read_set) = self
+            .key_hashes
+            .as_ref()
+            .map(|k| k.lock())
+            .map(|g| (g.0.clone(), g.1.clone()))
+            .unwrap_or_default();
+        if !write_set.is_empty() {
+            let expected_commit_ts = mvcc.latest_commit_ts() + 1;
+            let committed_txs_guard = mvcc.committed_txns.lock();
+            let mut range =
+                committed_txs_guard.range((Excluded(self.read_ts), Excluded(expected_commit_ts)));
+            let overlapped =
+                range.any(|(ts, commited_data)| !commited_data.key_hashes.is_disjoint(&read_set));
+            if overlapped {
+                anyhow::bail!("abort transaction because failing the validation of isolation");
             }
-            _ => Ok(()),
         }
+
+        self.committed.store(true, Ordering::SeqCst);
+        // batch write
+        let mut write_batch_record = Vec::with_capacity(self.local_storage.len());
+        let mut commited_hashes = HashSet::with_capacity(self.local_storage.len());
+
+        for entry in self.local_storage.iter() {
+            let record = WriteBatchRecord::Put(entry.key().to_vec(), entry.value().to_vec());
+            write_batch_record.push(record);
+            let key = farmhash::hash32(entry.key());
+            commited_hashes.insert(key);
+        }
+        let commit_ts = self.inner.write_batch_inner(&write_batch_record)?;
+        let mut committed_txs_guard = mvcc.committed_txns.lock();
+        committed_txs_guard.insert(
+            commit_ts,
+            CommittedTxnData {
+                key_hashes: commited_hashes,
+                read_ts: self.read_ts,
+                commit_ts,
+            },
+        );
+
+        let watermark = mvcc.watermark();
+        committed_txs_guard.retain(|entry, _| *entry >= watermark);
+
+        Ok(())
     }
 }
 
