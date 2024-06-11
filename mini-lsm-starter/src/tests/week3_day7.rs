@@ -1,12 +1,13 @@
 use bytes::Bytes;
 use tempfile::tempdir;
 
+use crate::iterators::StorageIterator;
 use crate::{
     compact::CompactionOptions,
     lsm_storage::{CompactionFilter, LsmStorageOptions, MiniLsm, WriteBatchRecord},
 };
 
-use super::harness::{check_iter_result_by_key, construct_merge_iterator_over_storage};
+use super::harness::{as_bytes, check_iter_result_by_key, construct_merge_iterator_over_storage};
 
 #[test]
 fn test_task3_mvcc_compaction() {
@@ -60,6 +61,14 @@ fn test_task3_mvcc_compaction() {
     storage.force_full_compaction().unwrap();
 
     let mut iter = construct_merge_iterator_over_storage(&storage.inner.state.read());
+    // while iter.is_valid() {
+    //     println!(
+    //         "actual: {:?}/{:?}",
+    //         as_bytes(iter.key().for_testing_key_ref()),
+    //         as_bytes(iter.value()),
+    //     );
+    //     iter.next().unwrap();
+    // }
     check_iter_result_by_key(
         &mut iter,
         vec![

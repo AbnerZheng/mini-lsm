@@ -17,7 +17,7 @@ use crate::iterators::merge_iterator::MergeIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
 use crate::iterators::StorageIterator;
 use crate::key::KeySlice;
-use crate::lsm_storage::{LsmStorageInner, LsmStorageState};
+use crate::lsm_storage::{CompactionFilter, LsmStorageInner, LsmStorageState};
 use crate::manifest::ManifestRecord;
 use crate::mvcc::watermark;
 use crate::table::{SsTable, SsTableBuilder, SsTableIterator};
@@ -128,6 +128,13 @@ impl LsmStorageInner {
             let guard = self.mvcc().ts.lock();
             guard.1.watermark().unwrap_or(u64::MAX)
         };
+        let compaction_filter_guard = self.compaction_filters.lock();
+        let mut prefixs = Vec::with_capacity(compaction_filter_guard.len());
+        for f in compaction_filter_guard.iter() {
+            match f {
+                CompactionFilter::Prefix(p) => prefixs.push(p.to_vec()),
+            }
+        }
 
         let mut latest_version_leq_added = false;
         while iter.is_valid() {
@@ -140,34 +147,58 @@ impl LsmStorageInner {
 
             match &prev_key {
                 None => {
-                    prev_key = Some(cur_key);
                     latest_version_leq_added = cur_ts <= watermark;
                     if !(latest_version_leq_added
                         && compact_to_bottom_level
                         && iter.value().is_empty())
                     {
-                        sst_builder.add(iter.key(), iter.value());
+                        if latest_version_leq_added {
+                            let mut removed = false;
+                            for p in &prefixs {
+                                if cur_key.starts_with(p) {
+                                    removed = true;
+                                    break;
+                                }
+                            }
+                            if !removed {
+                                sst_builder.add(iter.key(), iter.value());
+                            }
+                        } else {
+                            sst_builder.add(iter.key(), iter.value());
+                        }
                     }
+                    prev_key = Some(cur_key);
                 }
                 Some(key) if *key != cur_key => {
-                    prev_key = Some(cur_key);
                     latest_version_leq_added = cur_ts <= watermark;
                     if !(cur_ts <= watermark && compact_to_bottom_level && iter.value().is_empty())
                     {
-                        sst_builder.add(iter.key(), iter.value());
+                        let mut removed = false;
+                        if latest_version_leq_added {
+                            for p in &prefixs {
+                                if cur_key.starts_with(p) {
+                                    removed = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if !removed {
+                            sst_builder.add(iter.key(), iter.value());
 
-                        if sst_builder.estimated_size() > self.options.target_sst_size {
-                            // split a new sst file
-                            let sst_id = self.next_sst_id();
-                            let sst_table = sst_builder.build(
-                                sst_id,
-                                Some(self.block_cache.clone()),
-                                self.path_of_sst(sst_id),
-                            )?;
-                            sst_to_add.push(Arc::new(sst_table));
-                            sst_builder = SsTableBuilder::new(self.options.block_size);
+                            if sst_builder.estimated_size() > self.options.target_sst_size {
+                                // split a new sst file
+                                let sst_id = self.next_sst_id();
+                                let sst_table = sst_builder.build(
+                                    sst_id,
+                                    Some(self.block_cache.clone()),
+                                    self.path_of_sst(sst_id),
+                                )?;
+                                sst_to_add.push(Arc::new(sst_table));
+                                sst_builder = SsTableBuilder::new(self.options.block_size);
+                            }
                         }
                     }
+                    prev_key = Some(cur_key);
                 }
                 Some(key) if *key == cur_key => {
                     if cur_ts > watermark {
@@ -177,7 +208,16 @@ impl LsmStorageInner {
                         latest_version_leq_added = true;
 
                         if !(compact_to_bottom_level && iter.value().is_empty()) {
-                            sst_builder.add(iter.key(), iter.value());
+                            let mut removed = false;
+                            for p in &prefixs {
+                                if key.starts_with(p) {
+                                    removed = true;
+                                    break;
+                                }
+                            }
+                            if !removed {
+                                sst_builder.add(iter.key(), iter.value());
+                            }
                         }
                     } else {
                         println!("remove version@{cur_ts} of {key:?}");
