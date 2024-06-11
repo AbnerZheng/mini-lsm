@@ -171,7 +171,6 @@ pub(crate) struct LsmStorageInner {
     pub(crate) options: Arc<LsmStorageOptions>,
     pub(crate) compaction_controller: CompactionController,
     pub(crate) manifest: Option<Manifest>,
-    #[allow(dead_code)]
     pub(crate) mvcc: Option<LsmMvccInner>,
     pub(crate) compaction_filters: Arc<Mutex<Vec<CompactionFilter>>>,
 }
@@ -535,12 +534,15 @@ impl LsmStorageInner {
         txn.get(key)
     }
 
-    /// Write a batch of data into the storage. Implement in week 2 day 7.
-    pub fn write_batch<T: AsRef<[u8]>>(&self, batch: &[WriteBatchRecord<T>]) -> Result<()> {
+    pub(crate) fn write_batch_inner<T: AsRef<[u8]>>(
+        &self,
+        batch: &[WriteBatchRecord<T>],
+    ) -> Result<u64> {
         let mvcc = self.mvcc();
         let _guard = mvcc.write_lock.lock();
+        let ts = mvcc.latest_commit_ts() + 1;
+
         for x in batch {
-            let ts = mvcc.latest_commit_ts() + 1;
             match x {
                 WriteBatchRecord::Put(key, value) => {
                     let state = self.state.read();
@@ -555,21 +557,58 @@ impl LsmStorageInner {
                         .put(KeySlice::from_slice(key.as_ref(), ts), &[])?;
                 }
             }
-            mvcc.update_commit_ts(ts);
             self.try_freeze_memtable()?;
         }
+        mvcc.update_commit_ts(ts);
 
+        Ok(ts)
+    }
+
+    pub fn write_batch<T: AsRef<[u8]>>(
+        self: &Arc<LsmStorageInner>,
+        batch: &[WriteBatchRecord<T>],
+    ) -> Result<()> {
+        if self.options.serializable {
+            let tx = self.new_txn()?;
+            for x in batch {
+                match x {
+                    WriteBatchRecord::Put(key, value) => {
+                        tx.put(key.as_ref(), value.as_ref());
+                    }
+                    WriteBatchRecord::Del(key) => {
+                        tx.delete(key.as_ref());
+                    }
+                }
+            }
+            tx.commit()?;
+        } else {
+            self.write_batch_inner(batch)?;
+        }
         Ok(())
     }
 
     /// Put a key-value pair into the storage by writing into the current memtable.
-    pub fn put(&self, key: &[u8], value: &[u8]) -> Result<()> {
-        self.write_batch(&[WriteBatchRecord::Put(key, value)])
+    pub fn put(self: &Arc<Self>, key: &[u8], value: &[u8]) -> Result<()> {
+        if self.options.serializable {
+            let tx = self.new_txn()?;
+            tx.put(key, value);
+            tx.commit()?;
+        } else {
+            self.write_batch_inner(&[WriteBatchRecord::Put(key, value)])?;
+        }
+        Ok(())
     }
 
     /// Remove a key from the storage by writing an empty value.
-    pub fn delete(&self, key: &[u8]) -> Result<()> {
-        self.write_batch(&[WriteBatchRecord::Del(key)])
+    pub fn delete(self: &Arc<Self>, key: &[u8]) -> Result<()> {
+        if self.options.serializable {
+            let tx = self.new_txn()?;
+            tx.delete(key);
+            tx.commit()?;
+        } else {
+            self.write_batch_inner(&[WriteBatchRecord::Del(key)])?;
+        }
+        Ok(())
     }
 
     pub(crate) fn path_of_sst_static(path: impl AsRef<Path>, id: usize) -> PathBuf {
@@ -685,7 +724,7 @@ impl LsmStorageInner {
     }
 
     pub fn new_txn(self: &Arc<LsmStorageInner>) -> Result<Arc<Transaction>> {
-        Ok(self.mvcc().new_txn(self.clone(), true))
+        Ok(self.mvcc().new_txn(self.clone(), self.options.serializable))
     }
 
     pub(crate) fn scan_with_ts(

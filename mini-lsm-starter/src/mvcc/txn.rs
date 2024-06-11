@@ -1,6 +1,7 @@
 #![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
 #![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
 
+use std::ops::Bound::Excluded;
 use std::sync::atomic::Ordering;
 use std::{
     collections::HashSet,
@@ -11,10 +12,12 @@ use std::{
 use anyhow::Result;
 use bytes::{Buf, Bytes};
 use crossbeam_skiplist::SkipMap;
+use log::warn;
 use ouroboros::self_referencing;
 use parking_lot::Mutex;
 
 use crate::lsm_storage::WriteBatchRecord;
+use crate::mvcc::CommittedTxnData;
 use crate::{
     iterators::{two_merge_iterator::TwoMergeIterator, StorageIterator},
     lsm_iterator::{FusedIterator, LsmIterator},
@@ -34,6 +37,10 @@ impl Transaction {
     pub fn get(&self, key: &[u8]) -> Result<Option<Bytes>> {
         self.check_committed();
         println!("get {key:?}, read_ts = {}", self.read_ts);
+        if let Some(key_hashes) = &self.key_hashes {
+            let mut guard = key_hashes.lock();
+            guard.1.insert(farmhash::hash32(key));
+        }
         match self.local_storage.get(key) {
             Some(entry) => {
                 return if entry.value().is_empty() {
@@ -48,8 +55,8 @@ impl Transaction {
 
     pub fn scan(self: &Arc<Self>, lower: Bound<&[u8]>, upper: Bound<&[u8]>) -> Result<TxnIterator> {
         let iter = self.inner.scan_with_ts(lower, upper, self.read_ts)?;
-        let lower = lower.map(|l| Bytes::copy_from_slice(l));
-        let upper = upper.map(|u| Bytes::copy_from_slice(u));
+        let lower = lower.map(Bytes::copy_from_slice);
+        let upper = upper.map(Bytes::copy_from_slice);
         let mut local_iter = TxnLocalIteratorBuilder {
             map: self.local_storage.clone(),
             iter_builder: |map| map.range((lower, upper)),
@@ -77,23 +84,74 @@ impl Transaction {
         self.check_committed();
         self.local_storage
             .insert(Bytes::copy_from_slice(key), Bytes::copy_from_slice(value));
+        if let Some(key_hash) = &self.key_hashes {
+            let mut guard = key_hash.lock();
+            guard.0.insert(farmhash::hash32(key));
+        }
     }
 
     pub fn delete(&self, key: &[u8]) {
         self.check_committed();
         self.local_storage
             .insert(Bytes::copy_from_slice(key), Bytes::from_static(b""));
+        if let Some(key_hash) = &self.key_hashes {
+            let mut guard = key_hash.lock();
+            guard.0.insert(farmhash::hash32(key));
+        }
     }
 
     pub fn commit(&self) -> Result<()> {
-        self.committed.store(true, Ordering::SeqCst);
-        // batch write
-        let write_batch = self
-            .local_storage
-            .iter()
-            .map(|entry| WriteBatchRecord::Put(entry.key().to_vec(), entry.value().to_vec()))
-            .collect::<Vec<_>>();
-        self.inner.write_batch(&write_batch)
+        match &self.inner.mvcc {
+            Some(mvcc) => {
+                let _guard = mvcc.commit_lock.lock();
+
+                let (write_set, read_set) = self
+                    .key_hashes
+                    .as_ref()
+                    .map(|k| k.lock())
+                    .map(|g| (g.0.clone(), g.1.clone()))
+                    .unwrap_or_default();
+                if !write_set.is_empty() {
+                    let expected_commit_ts = mvcc.latest_commit_ts() + 1;
+                    let committed_txs_guard = mvcc.committed_txns.lock();
+                    let mut range = committed_txs_guard
+                        .range((Excluded(self.read_ts), Excluded(expected_commit_ts)));
+                    let overlapped = range.any(|(ts, commited_data)| {
+                        !commited_data.key_hashes.is_disjoint(&read_set)
+                    });
+                    if overlapped {
+                        anyhow::bail!(
+                            "abort transaction because failing the validation of isolation"
+                        );
+                    }
+                }
+
+                self.committed.store(true, Ordering::SeqCst);
+                // batch write
+                let mut write_batch_record = Vec::with_capacity(self.local_storage.len());
+                let mut commited_hashes = HashSet::with_capacity(self.local_storage.len());
+
+                for entry in self.local_storage.iter() {
+                    let record =
+                        WriteBatchRecord::Put(entry.key().to_vec(), entry.value().to_vec());
+                    write_batch_record.push(record);
+                    let key = farmhash::hash32(entry.key());
+                    commited_hashes.insert(key);
+                }
+                let commit_ts = self.inner.write_batch_inner(&write_batch_record)?;
+                let mut committed_txs_guard = mvcc.committed_txns.lock();
+                committed_txs_guard.insert(
+                    commit_ts,
+                    CommittedTxnData {
+                        key_hashes: commited_hashes,
+                        read_ts: self.read_ts,
+                        commit_ts,
+                    },
+                );
+                Ok(())
+            }
+            _ => Ok(()),
+        }
     }
 }
 
@@ -152,7 +210,7 @@ impl StorageIterator for TxnLocalIterator {
 }
 
 pub struct TxnIterator {
-    _txn: Arc<Transaction>,
+    txn: Arc<Transaction>,
     iter: TwoMergeIterator<TxnLocalIterator, FusedIterator<LsmIterator>>,
 }
 
@@ -161,8 +219,16 @@ impl TxnIterator {
         txn: Arc<Transaction>,
         iter: TwoMergeIterator<TxnLocalIterator, FusedIterator<LsmIterator>>,
     ) -> Result<Self> {
-        let mut iter = Self { _txn: txn, iter };
+        let mut iter = Self { txn, iter };
         iter.skip_delete()?;
+
+        if iter.is_valid() {
+            if let Some(key_hashes) = &iter.txn.key_hashes {
+                let mut guard = key_hashes.lock();
+                guard.1.insert(farmhash::hash32(iter.key()));
+            }
+        }
+
         Ok(iter)
     }
 
@@ -191,7 +257,15 @@ impl StorageIterator for TxnIterator {
 
     fn next(&mut self) -> Result<()> {
         self.iter.next()?;
-        self.skip_delete()
+        self.skip_delete()?;
+
+        if self.is_valid() {
+            if let Some(key_hashes) = &self.txn.key_hashes {
+                let mut guard = key_hashes.lock();
+                guard.1.insert(farmhash::hash32(self.key()));
+            }
+        }
+        Ok(())
     }
 
     fn num_active_iterators(&self) -> usize {

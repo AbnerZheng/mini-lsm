@@ -3,6 +3,7 @@ use std::ops::Bound;
 use bytes::Bytes;
 use tempfile::tempdir;
 
+use crate::tests::harness::as_bytes;
 use crate::{
     compact::CompactionOptions,
     iterators::StorageIterator,
@@ -10,7 +11,6 @@ use crate::{
 };
 
 #[test]
-#[ignore]
 fn test_serializable_1() {
     let dir = tempdir().unwrap();
     let mut options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);
@@ -64,7 +64,6 @@ fn test_serializable_3_ts_range() {
 }
 
 #[test]
-#[ignore]
 fn test_serializable_4_scan() {
     let dir = tempdir().unwrap();
     let mut options = LsmStorageOptions::default_for_week2_test(CompactionOptions::NoCompaction);
@@ -78,6 +77,7 @@ fn test_serializable_4_scan() {
     txn1.commit().unwrap();
     let mut iter = txn2.scan(Bound::Unbounded, Bound::Unbounded).unwrap();
     while iter.is_valid() {
+        println!("{:?}", as_bytes(iter.key()));
         iter.next().unwrap();
     }
     txn2.put(b"key2", b"1");
