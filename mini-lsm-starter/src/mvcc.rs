@@ -18,9 +18,7 @@ use self::{txn::Transaction, watermark::Watermark};
 
 pub(crate) struct CommittedTxnData {
     pub(crate) key_hashes: HashSet<u32>,
-    #[allow(dead_code)]
     pub(crate) read_ts: u64,
-    #[allow(dead_code)]
     pub(crate) commit_ts: u64,
 }
 

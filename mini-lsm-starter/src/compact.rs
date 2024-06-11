@@ -19,7 +19,6 @@ use crate::iterators::StorageIterator;
 use crate::key::KeySlice;
 use crate::lsm_storage::{CompactionFilter, LsmStorageInner, LsmStorageState};
 use crate::manifest::ManifestRecord;
-use crate::mvcc::watermark;
 use crate::table::{SsTable, SsTableBuilder, SsTableIterator};
 
 mod leveled;

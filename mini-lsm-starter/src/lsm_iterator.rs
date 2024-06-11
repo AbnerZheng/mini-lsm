@@ -1,11 +1,10 @@
 use std::collections::Bound;
 
 use anyhow::{bail, Result};
-use log::warn;
 
 use crate::iterators::concat_iterator::SstConcatIterator;
 use crate::iterators::two_merge_iterator::TwoMergeIterator;
-use crate::key::{KeyBytes, KeySlice};
+use crate::key::KeyBytes;
 use crate::table::SsTableIterator;
 use crate::{
     iterators::{merge_iterator::MergeIterator, StorageIterator},

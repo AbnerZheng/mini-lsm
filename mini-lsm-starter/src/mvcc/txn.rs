@@ -1,7 +1,4 @@
-#![allow(unused_variables)] // TODO(you): remove this lint after implementing this mod
-#![allow(dead_code)] // TODO(you): remove this lint after implementing this mod
-
-use std::ops::Bound::{Excluded, Unbounded};
+use std::ops::Bound::Excluded;
 use std::sync::atomic::Ordering;
 use std::{
     collections::HashSet,
@@ -10,9 +7,8 @@ use std::{
 };
 
 use anyhow::Result;
-use bytes::{Buf, Bytes};
+use bytes::Bytes;
 use crossbeam_skiplist::SkipMap;
-use log::warn;
 use ouroboros::self_referencing;
 use parking_lot::Mutex;
 

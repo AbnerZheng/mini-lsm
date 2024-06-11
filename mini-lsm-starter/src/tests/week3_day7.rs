@@ -1,13 +1,12 @@
 use bytes::Bytes;
 use tempfile::tempdir;
 
-use crate::iterators::StorageIterator;
 use crate::{
     compact::CompactionOptions,
     lsm_storage::{CompactionFilter, LsmStorageOptions, MiniLsm, WriteBatchRecord},
 };
 
-use super::harness::{as_bytes, check_iter_result_by_key, construct_merge_iterator_over_storage};
+use super::harness::{check_iter_result_by_key, construct_merge_iterator_over_storage};
 
 #[test]
 fn test_task3_mvcc_compaction() {
